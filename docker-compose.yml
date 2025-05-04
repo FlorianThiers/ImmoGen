@@ -1,0 +1,54 @@
+version: "3.8"
+services:
+  db:
+    image: mysql:8.0
+    container_name: immogen_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: immogen
+      MYSQL_USER: immogen_user
+      MYSQL_PASSWORD: immogen_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - immogen_network
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u immogen_user --password=immogen_password"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    container_name: immogen_backend
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: mysql+pymysql://immogen_user:immogen_password@db:3306/immogen
+    networks:
+      - immogen_network
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: immogen_frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - immogen_network
+
+networks:
+  immogen_network:
+    driver: bridge
+
+volumes:
+  db_data:

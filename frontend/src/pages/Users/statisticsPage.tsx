@@ -1,0 +1,65 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const StatisticsPage = () => {
+  const [featureImportance, setFeatureImportance] = useState([]);
+  const [correlations, setCorrelations] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    // Haal statistieken op van de backend
+    const fetchStatistics = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/statistics");
+        setFeatureImportance(response.data.feature_importance);
+        setCorrelations(response.data.correlations);
+      } catch (error) {
+        console.error("Fout bij het ophalen van statistieken:", error);
+      }
+    };
+    fetchStatistics();
+  }, []);
+
+  return (
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Statistieken</h1>
+
+      <h2 className="text-xl font-bold mt-4">Belangrijkste Eigenschappen</h2>
+      <table className="table-auto border-collapse border border-gray-400 w-full mt-2">
+        <thead>
+          <tr>
+            <th className="border border-gray-400 px-4 py-2">Eigenschap</th>
+            <th className="border border-gray-400 px-4 py-2">Belang</th>
+          </tr>
+        </thead>
+        <tbody>
+          {featureImportance.map((item: any, index: number) => (
+            <tr key={index}>
+              <td className="border border-gray-400 px-4 py-2">{item.feature}</td>
+              <td className="border border-gray-400 px-4 py-2">{item.importance.toFixed(2)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h2 className="text-xl font-bold mt-4">Correlaties met Prijs</h2>
+      <table className="table-auto border-collapse border border-gray-400 w-full mt-2">
+        <thead>
+          <tr>
+            <th className="border border-gray-400 px-4 py-2">Eigenschap</th>
+            <th className="border border-gray-400 px-4 py-2">Correlatie</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.entries(correlations).map(([key, value], index: number) => (
+            <tr key={index}>
+              <td className="border border-gray-400 px-4 py-2">{key}</td>
+              <td className="border border-gray-400 px-4 py-2">{value.toFixed(2)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default StatisticsPage;
