@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/Users/homePage";
 import PriceCalculator from "./pages/Users/priceCalculator";
 import StatisticsPage from "./pages/Users/statisticsPage";
-import AdminPanel from "./pages/Admin/AdminPanel";
+import AdminPanel from "./pages/Admin/adminPage";
 
 import './App.css'
 
