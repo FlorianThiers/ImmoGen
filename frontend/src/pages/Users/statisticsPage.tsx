@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 const StatisticsPage = () => {
   const [featureImportance, setFeatureImportance] = useState([]);
   const [correlations, setCorrelations] = useState<Record<string, number>>({});
 
   useEffect(() => {
-    // Haal statistieken op van de backend
     const fetchStatistics = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/statistics");
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/statistics`);
         setFeatureImportance(response.data.feature_importance);
         setCorrelations(response.data.correlations);
       } catch (error) {

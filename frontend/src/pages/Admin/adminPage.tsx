@@ -9,7 +9,7 @@ const AdminPanel = () => {
   const handleScrape = async () => {
     setScrapingStatus("Bezig met scrapen...");
     try {
-      const response = await axios.post("http://localhost:8000/scrape");
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/scrape`);
       setScrapingStatus(`✅ Scraping voltooid: ${response.data.message}`);
     } catch (error) {
       console.error("Fout bij het scrapen:", error);
@@ -21,7 +21,7 @@ const AdminPanel = () => {
   const handleTraining = async () => {
     setTrainingStatus("Bezig met trainen...");
     try {
-      const response = await axios.post("http://localhost:8000/train");
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/train`);
       setTrainingStatus(`✅ Training voltooid: ${response.data.message}`);
     } catch (error) {
       console.error("Fout bij het trainen:", error);
