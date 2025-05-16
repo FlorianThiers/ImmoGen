@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import HouseMap from "../../components/HouseMap";
 
 
 
@@ -55,8 +56,6 @@ const HomePage = () => {
         </div>
       </div>
 
-
-
      {/* Lijst van titels */}
       <h2 className="text-xl font-bold mt-6">Beschikbare Woningtypes</h2>
       <ul>
@@ -69,6 +68,12 @@ const HomePage = () => {
           <li key={index}>{title}</li>
         ))}
       </ul>
+
+
+      <HouseMap />
+
+
+
     </div>
   );
 };

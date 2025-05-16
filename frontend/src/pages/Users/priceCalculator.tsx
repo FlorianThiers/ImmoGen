@@ -22,7 +22,8 @@ const PriceCalculator = () => {
   const [formData, setFormData] = useState<FormDataType>({
     title: "Project:",
     property_condition: "",
-    construction_year: 1980,
+    construction_year: 1860,
+    renovation_year: 1970,
     area: 50,
     price_per_m2: 80.68,
     build_price: 1660,
@@ -164,7 +165,7 @@ const PriceCalculator = () => {
         buildCostPerM2: formData.build_price,
         finishQuality: formData.grade_of_finish,
         abexCurrent: 1048, // Dit moet worden aangepast op basis van je logica
-        abexAtConstruction: 304, // Dit moet worden aangepast op basis van je logica
+        abexAtConstruction: 102, // Dit moet worden aangepast op basis van je logica
         correctionPercentage: 0.30, // Dit moet worden aangepast op basis van je logica
         houseUnusable: false, // Dit moet worden aangepast op basis van je logica
       };

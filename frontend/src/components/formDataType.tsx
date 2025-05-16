@@ -3,6 +3,7 @@ type FormDataType = {
     title: string;
     property_condition: string;
     construction_year: number;
+    renovation_year: number;
     area: number;
     price_per_m2: number;
     build_price: number;
