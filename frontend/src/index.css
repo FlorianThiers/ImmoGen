@@ -29,6 +29,73 @@
   --button-border-hover-color: #000dff;
 }
 
+
+/* Login Page */
+.login-bg {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e0e7ff 0%, #fff 100%);
+}
+
+.login-form {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 16px rgba(0,0,0,0.08);
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-form h2 {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.login-field label {
+  font-weight: 500;
+}
+
+.login-field input {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.login-error {
+  color: red;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: none;
+  background: #000dff;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.login-form button:disabled {
+  background: #7ea6fd;
+  cursor: not-allowed;
+}
+
+
+
 a {
   font-weight: 500;
   color: var(--link-color);
@@ -198,6 +265,7 @@ button:focus-visible {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: linear-gradient(135deg, #7ea6fd00, #000dff53);
+  padding: 0.5rem;
 }
 
 .map-title {
@@ -208,17 +276,93 @@ button:focus-visible {
   font-size: 1em;
 }
 
+.map-buttons {
+  position: absolute;
+  top: 19rem;
+  left: 1.5rem;
+  margin: 0; /* Verwijder de huidige margin */
+  z-index: 10; /* Zorg dat de knoppen boven de kaart liggen */
+  display: flex;
+  gap: 1rem;
+}
+
 
 .map{
   height: 500px;
-  margin: 2rem 0 2rem 0;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 2rem 0 0 0;
+
+}
+
+.map canvas {
+  border-radius: 10px;
 }
 
 
 
+/* Profile page */
+.profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
 
+.profile-header {
+  margin-bottom: 0.5rem;
+}
+
+.profile-info {
+  margin-bottom: 1.5rem;
+}
+
+.profile-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.profile-stats {
+  flex: 1;
+  min-width: 220px;
+}
+
+.profile-stats ul {
+  padding-left: 1.2rem;
+}
+
+.profile-map {
+  flex: 2;
+  min-width: 320px;
+}
+
+.profile-table-container {
+  margin-top: 2rem;
+}
+
+.profile-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.profile-table th,
+.profile-table td {
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem 0.25rem;
+  text-align: left;
+}
+
+.profile-table th {
+  background: #f6f8fa;
+}
+
+.profile-table td.value,
+.profile-table td.center {
+  text-align: center;
+}
+
+.profile-table td.right {
+  text-align: right;
+}
 
 
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import HouseMap from "../../components/HouseMap";
+import HouseMapLandingPage from "../../components/HouseMapLandingPage";
 
 
 
@@ -70,7 +70,7 @@ const HomePage = () => {
       </ul>
 
 
-      <HouseMap />
+      <HouseMapLandingPage />
 
 
 

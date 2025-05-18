@@ -20,16 +20,17 @@ const PriceCalculator = () => {
   const [formulaPrice, setFormulaPrice] = useState<number | null>(null);
 
   const [formData, setFormData] = useState<FormDataType>({
-    title: "Project:",
-    property_condition: "",
-    construction_year: 1860,
-    renovation_year: 1970,
-    area: 50,
-    price_per_m2: 80.68,
+    title: "",
+    property_condition: "Goed",
+    construction_year: 1950,
+    renovation: true,
+    renovation_year: 2004,
+    area: 3500,
+    price_per_m2: 100,
     build_price: 1660,
-    renovation_price: 2500,
+    renovation_price: 0,
     demolition_price: 0,
-    grade_of_finish: 0.6,
+    grade_of_finish: 1.1,
 
     
     // Location
@@ -44,15 +45,15 @@ const PriceCalculator = () => {
 
 
     // Interior
-    livable_area: 50,
-    bedrooms: 1,
+    livable_area: 165,
+    bedrooms: 2,
     bedroom_1_area: 0,
     bedroom_2_area: 0,
     bedroom_3_area: 0,
     bedroom_4_area: 0,
     bedroom_5_area: 0,
     bedroom_6_area: 0,
-    living_room_area: 80,
+    living_room_area: 40,
     attic: false,
     attic_area: 0,
     basement: false,
@@ -64,15 +65,15 @@ const PriceCalculator = () => {
     furnished: false,
 
     // Kitchen and sanitary
-    kitchen_area: 0,
+    kitchen_area: 24,
     kitchen_equipment: "",
-    bathrooms: 0,
-    number_of_shower_cabins: 0,
-    number_of_baths: 0,
-    number_of_toilets: 0,
+    bathrooms: 2,
+    number_of_shower_cabins: 2,
+    number_of_baths: 1,
+    number_of_toilets: 2,
 
     // Energy and environment
-    epc: "",
+    epc: "C",
     heating_type: "",
     gas_connection: false,
     glass_type: "",
@@ -165,8 +166,8 @@ const PriceCalculator = () => {
         buildCostPerM2: formData.build_price,
         finishQuality: formData.grade_of_finish,
         abexCurrent: 1048, // Dit moet worden aangepast op basis van je logica
-        abexAtConstruction: 102, // Dit moet worden aangepast op basis van je logica
-        correctionPercentage: 0.30, // Dit moet worden aangepast op basis van je logica
+        abexAtConstruction: 570, // Dit moet worden aangepast op basis van je logica
+        correctionPercentage: 0.00, // Dit moet worden aangepast op basis van je logica
         houseUnusable: false, // Dit moet worden aangepast op basis van je logica
       };
 

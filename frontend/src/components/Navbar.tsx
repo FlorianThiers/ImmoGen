@@ -51,7 +51,9 @@ const Navbar = () => {
         <li onClick={closeMenu} className="close-icon">X</li>
         <li><Link to="/price-calculator" onClick={closeMenu}>Calculator</Link></li>
         <li><Link to="/statistics" onClick={closeMenu}>Statistics</Link></li>
+        <li><Link to="/profile" onClick={closeMenu}>Profiel</Link></li>
         <li><Link to="/admin-panel" onClick={closeMenu}>Admin</Link></li>
+        
         <li>
           <button id="theme-toggle" onClick={toggleTheme}  className="theme-toggle-button">
             {isLightTheme ? "Dark Mode" : "Light Mode"}
