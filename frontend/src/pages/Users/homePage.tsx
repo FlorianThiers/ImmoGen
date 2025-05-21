@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import HouseMapLandingPage from "../../components/HouseMapLandingPage";
 
 
-
-
 const HomePage = () => {
   const [titles, setTitles] = useState<string[]>([]);
   const [niuewbouw, setNiuewbouw] = useState<string[]>([]);
@@ -35,23 +33,15 @@ const HomePage = () => {
     };
     fetchStatistics();
   }, []);
-  
-
-
 
   return (
     <div className="p-4 text-center">
-
       <div className="hero">
         <h1>The AI House price calculator</h1>
         <p>ImmoGen is een AI-gebaseerde woningprijs calculator die gebruik maakt van machine learning om nauwkeurige schattingen te geven.</p>
         <div className="buttons">
           <Link to="/price-calculator">
-            <button className="bg-blue-500 text-white p-2 rounded ml-4">Bereken woningprijs</button>
-          </Link>
-
-          <Link to="/statistics">
-            <button className="bg-blue-500 text-white p-2 rounded ml-4">Statistieken</button>
+            <button className="calculate-button">Bereken woningprijs</button>
           </Link>
         </div>
       </div>
@@ -69,11 +59,7 @@ const HomePage = () => {
         ))}
       </ul>
 
-
       <HouseMapLandingPage />
-
-
-
     </div>
   );
 };

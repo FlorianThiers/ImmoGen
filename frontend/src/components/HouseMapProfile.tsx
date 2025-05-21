@@ -63,7 +63,7 @@ const HouseMapProfile: React.FC<HouseMapProfileProps> = ({ houses }) => {
     };
   }, [centerCoords, houses]);
 
-  return <div ref={mapContainer} style={{ width: "100%", height: 300, borderRadius: 8, marginTop: 16 }} />;
+  return <div ref={mapContainer} className="houseMap"/>;
 };
 
 export default HouseMapProfile;

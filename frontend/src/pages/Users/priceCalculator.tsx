@@ -212,13 +212,12 @@ const PriceCalculator = () => {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="form">
       <h1 className="text-2xl font-bold mb-4">Bereken Woningprijs</h1>
 
       <form onSubmit={handleSubmit}>
         {/* Algemene Informatie */}
         <h2 className="text-xl font-bold mt-4">Type</h2>
-        <label>Type: </label>
         {/* <select
           name="title"
           value={formData.title}

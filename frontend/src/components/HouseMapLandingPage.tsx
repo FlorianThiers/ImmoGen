@@ -178,7 +178,6 @@ const HouseMapLandingPage: React.FC = () => {
         <div
           ref={mapContainer}
           className="map"
-          style={{ overflow: "visible" }}
         />
     </div>
 
