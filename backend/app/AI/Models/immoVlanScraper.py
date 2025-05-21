@@ -55,12 +55,12 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                         active_link = active_page.find("a", class_="page-link")
                         if active_link and active_link.text.strip():
                             page_verified = True
-                            print(f"Bevestigd: we zijn op pagina {active_link.text.strip()}")
+                            # print(f"Bevestigd: we zijn op pagina {active_link.text.strip()}")
                 
                 woningen = soup.find_all("article", class_="list-view-item")
                 
                 if not woningen:
-                    print(f"Geen woningen gevonden op pagina {current_page} met class 'list-view-item'")
+                    # print(f"Geen woningen gevonden op pagina {current_page} met class 'list-view-item'")
                     # Probeer alternatieve klassen te vinden
                     alternative_classes = ["grid-view-item", "property-item", "result-item"]
                     for alt_class in alternative_classes:
@@ -70,10 +70,10 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                             break
                 
                 if not woningen:
-                    print(f"Geen woningen gevonden op pagina {current_page}. Proberen door te gaan naar volgende pagina.")
+                    # print(f"Geen woningen gevonden op pagina {current_page}. Proberen door te gaan naar volgende pagina.")
                     continue  # Probeer door te gaan naar de volgende pagina in plaats van te stoppen
                     
-                print(f"Gevonden: {len(woningen)} woningen op pagina {current_page}")
+                # print(f"Gevonden: {len(woningen)} woningen op pagina {current_page}")
                 
                 for woning in woningen:
                     try:
@@ -315,7 +315,7 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                             garden_area=clean_area(50),
 
                             # Source
-                            source="ImmoGen",
+                            source="ImmoVlan",
                         )
                         db.add(house)
 

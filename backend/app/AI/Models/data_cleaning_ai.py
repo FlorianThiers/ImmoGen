@@ -92,7 +92,7 @@ def clean_surface_area_m2(raw_text):
         match = re.search(r'(\d+(?:[.,]\d+)?)', raw_text)
         if match:
             return float(match.group(1).replace(',', '.'))
-    return 'None'
+    return 0
 
 def clean_street_name(full_address):
     if full_address == "None" or not full_address:
@@ -110,14 +110,14 @@ def clean_street_name(full_address):
 
 def clean_house_number(full_address):
     if full_address == "None" or not full_address:
-        return "None"
+        return 0
 
     match = re.search(r'(\d+[A-Za-z]*)$', full_address)
 
     if match:
         return match.group(1)
     else:
-        return "None"
+        return 0
 
 def clean_city(postal_city_text):
     if postal_city_text == "None" or not postal_city_text:

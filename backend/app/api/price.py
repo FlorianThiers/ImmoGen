@@ -13,8 +13,8 @@ router = APIRouter()
 def calculate_price(house_data: dict, db: Session = Depends(get_db)):
     try:
         model, scaler, features, dummy_columns = load_model()
-        print(f"✅ Schaalverhouding geladen: {scaler}")  # Log de scaler
-        print(f"✅ Features geladen: {features}")  # Log de features
+        # print(f"✅ Schaalverhouding geladen: {scaler}")  # Log de scaler
+        # print(f"✅ Features geladen: {features}")  # Log de features
         result = ai_price(house_data, model, scaler, features, dummy_columns)  # Bereken de prijs
         print(f"✅ Berekeningsresultaat: {result}")  # Log het resultaat
 

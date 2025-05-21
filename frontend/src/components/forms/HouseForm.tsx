@@ -364,9 +364,9 @@ const HouseForm: React.FC<HouseFormProps> = ({ formData, handleChange }) => {
               onChange={handleChange}
               title="Voer de graad van afwerking in"
               placeholder=""
-              min={0}
-              max={100}
-              step={1}
+              min={0.5}
+              max={1.5}
+              step={0.1}
             />
           </FormField>
         </div>

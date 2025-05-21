@@ -21,8 +21,8 @@ const PriceCalculator = () => {
 
   const [formData, setFormData] = useState<FormDataType>({
     title: "",
-    property_condition: "Goed",
-    construction_year: 1950,
+    property_condition: "Nieuw",
+    construction_year: 1850,
     renovation: true,
     renovation_year: 2004,
     area: 3500,
@@ -36,47 +36,49 @@ const PriceCalculator = () => {
     // Location
     country: "België",
     province: "Oost-Vlaanderen",
-    city: "Gent",
-    postal_code: 9000,
-    street: "Sint-Lievenspoortstraat",
-    street_number: 168,
-    distance_to_center: 1,
+    city: "Haaltert",
+    postal_code: 9450,
+    street: "Knipperhoek",
+    street_number: 7,
+    distance_to_center: 10,
     neighborhood_safety: 6,
 
 
     // Interior
     livable_area: 165,
-    bedrooms: 2,
-    bedroom_1_area: 0,
-    bedroom_2_area: 0,
-    bedroom_3_area: 0,
+    bedrooms: 3,
+    bedroom_1_area: 15,
+    bedroom_2_area: 14,
+    bedroom_3_area: 12,
     bedroom_4_area: 0,
     bedroom_5_area: 0,
     bedroom_6_area: 0,
     living_room_area: 40,
+    veranda: true,
+    veranda_area: 0,
     attic: false,
     attic_area: 0,
     basement: false,
     basement_area: 0,
-    garage: false,
+    garage: true,
     garage_area: 0,
-    number_of_garages: 0,
-    number_of_parking_spaces: 0,
+    number_of_garages: 1,
+    number_of_parking_spaces: 5,
     furnished: false,
 
     // Kitchen and sanitary
     kitchen_area: 24,
-    kitchen_equipment: "",
+    kitchen_equipment: "Super uitgerust",
     bathrooms: 2,
     number_of_shower_cabins: 2,
     number_of_baths: 1,
     number_of_toilets: 2,
 
     // Energy and environment
-    epc: "C",
-    heating_type: "",
-    gas_connection: false,
-    glass_type: "",
+    epc: "B",
+    heating_type: "Gas",
+    gas_connection: true,
+    glass_type: "Dubbel glas",
     solar_panels: false,
     solar_panel_area: 0,
 
@@ -85,18 +87,18 @@ const PriceCalculator = () => {
     wheelchair_accessible: false,
 
     // Outdoor space
-    number_of_facades: 0,
-    facade_width: 0,
+    number_of_facades: 3,
+    facade_width: 13,
     plot_depth: 0,
     floor: 0,
-    number_of_floors: 0,
-    terrace: false,
+    number_of_floors: 1,
+    terrace: true,
     terrace_area: 0,
     terrace_front_width: 0,
-    sewer_connection: false,
-    water_connection: false,
-    garden: false,
-    garden_area: 0,
+    sewer_connection: true,
+    water_connection: true,
+    garden: true,
+    garden_area: 1320,
     swimming_pool: false,
     swimming_pool_area: 0,
 
@@ -153,8 +155,8 @@ const PriceCalculator = () => {
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
-      // const response = await axios.post(`${import.meta.env.VITE_API_URL}/calculate-price`, formData);
-      // setResult(response.data);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/calculate-price`, formData);
+      setResult(response.data);
 
       // Formuleprijs berekenen
       const priceInput: PriceInput = {
@@ -256,7 +258,6 @@ const PriceCalculator = () => {
         </button>
       </form>
     
-      <p>Formule Prijs: €{formulaPrice?.toFixed(2)}</p>
 
       {result && (
         <div className="mt-4">

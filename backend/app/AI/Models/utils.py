@@ -48,6 +48,8 @@ def fetch_data_from_db(db: Session):
             "area": house.area,
             "livable_area": house.livable_area,
             "living_room_area": house.living_room_area,
+            "veranda": house.veranda,
+            "veranda_area": house.veranda_area,
             "attic": house.attic,
             "attic_area": house.attic_area,
             "basement": house.basement,
