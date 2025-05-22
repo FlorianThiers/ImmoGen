@@ -10,6 +10,7 @@ from app.models.house import ScrapeHouse
 from app.AI.Models.data_cleaning_ai import clean_price, clean_area, clean_rooms, clean_title, clean_none, clean_surface_area_m2, clean_street_name, clean_city, clean_house_number, clean_postal_code, clean_boolean
 from app.AI.Models.predict_element_ai import estimate_distance_to_center, estimate_neighborhood_safety
 from app.AI.Models.immoVlanDetailScraper import scrape_property_details
+from app.AI.Models.geoLocation import geocode_address
 
 
 
@@ -144,8 +145,6 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                         oppervlakte_zwembad = 0
                         tuin = False
                         oppervlakte_tuin = 0
-
-                        source = "immovlan"
                         
                         # for span in property_spans:
                         #     span_text = span.text.strip()
@@ -177,6 +176,16 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                                 titel = property_details["header"]["title"]
                                 straat_nr = property_details["header"]["straat_nr"]
                                 dorp_postcode = property_details["header"]["dorp_postcode"]
+                                
+                                full_address = f"{straat_nr}, {dorp_postcode}, België"
+                                geo = geocode_address(full_address)
+                                if geo:
+                                    latitude = geo["lat"]
+                                    longitude = geo["lon"]
+                                else:
+                                    latitude = None
+                                    longitude = None
+
                                 prijs_tekst = property_details["header"]["prijs"]
                                 staat_pand = property_details["basisinfo"]["staat_pand"]
                                 bouwjaar = property_details["basisinfo"]["bouwjaar"]
@@ -200,6 +209,7 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                                 kelder = property_details["interieur"]["kelder"]
                                 oppervlakte_kelder = property_details["interieur"]["oppervlakte_kelder"]
                                 garage = property_details["interieur"]["garage"]
+                                oppervlakte_garage = property_details["interieur"]["oppervlakte_garage"]
                                 aantal_garages = property_details["interieur"]["aantal_garages"]
                                 aantal_parkeerplaatsen = property_details["interieur"]["aantal_parkeerplaatsen"]
                                 bemeubeld = property_details["interieur"]["bemeubeld"]
@@ -212,8 +222,11 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                                 aantal_baden = property_details["keuken_sanitair"]["aantal_baden"]
 
                                 # # Energie en milieu
+                                epc = property_details["energie_milieu"]["epc"]
                                 type_verwarming = property_details["energie_milieu"]["type_verwarming"]
                                 type_glas = property_details["energie_milieu"]["type_glas"]
+                                zonnepanelen = property_details["energie_milieu"]["zonnepaneler"]
+                                oppervlakte_zonnepanelen = property_details["energie_milieu"]["oppervlakte_zonnepanelen"]
 
                                 # # Uitrusting
                                 lift = property_details["uitrusting"]["lift"]
@@ -222,15 +235,18 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                                 # # buitenruimte
                                 aantal_gevels = property_details["buitenruimte"]["aantal_gevels"]
                                 breedte_voorgevel = property_details["buitenruimte"]["breedte_voorgevel"]
+                                verdieping = property_details["buitenruimte"]["verdieping"]
                                 aantal_verdiepingen = property_details["buitenruimte"]["aantal_verdiepingen"]
                                 terras = property_details["buitenruimte"]["terras"]
                                 oppervlakte_terras = property_details["buitenruimte"]["oppervlakte_terras"]
-                                tuin = property_details["buitenruimte"]["tuin"]
                                 oppervlakte = property_details["buitenruimte"]["totale_opp"]
-                                zwembad = property_details["buitenruimte"]["zwembad"]
                                 aansluiting_riolering = property_details["buitenruimte"]["aansluiting_riolering"]
                                 aansluiting_waterleiding = property_details["buitenruimte"]["aansluiting_waterleiding"]
                                 aansluiting_gasleiding = property_details["buitenruimte"]["aansluiting_gasleiding"]
+                                zwembad = property_details["buitenruimte"]["zwembad"]
+                                oppervlakte_zwembad = property_details["buitenruimte"]["oppervlakte_zwembad"]
+                                tuin = property_details["buitenruimte"]["tuin"]
+                                oppervlakte_tuin = property_details["buitenruimte"]["oppervlakte_tuin"]
                                 # Voorkomen dat we te snel requests sturen (tegen blokkades)
                                 time.sleep(1)
 
@@ -252,6 +268,8 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                             postal_code=clean_postal_code(dorp_postcode),
                             street=clean_street_name(straat_nr),
                             street_number=clean_house_number(straat_nr),
+                            latitude=latitude,
+                            longitude=longitude,
                             distance_to_center=7,
                             neighborhood_safety=7,
 
@@ -273,7 +291,7 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                             basement=clean_boolean(kelder),
                             basement_area=clean_area(oppervlakte_kelder),
                             garage=clean_boolean(garage),
-                            garage_area=clean_area(2),  # Assuming this is the garage area
+                            garage_area=clean_area(oppervlakte_garage),
                             number_of_garages=clean_rooms(aantal_garages),
                             number_of_parking_spaces=clean_rooms(aantal_parkeerplaatsen),
                             furnished=clean_boolean(bemeubeld),
@@ -287,11 +305,11 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                             number_of_toilets=clean_rooms(aantal_toiletten),
 
                             # Energy and environment
-                            epc="a",
+                            epc=epc,
                             heating_type=type_verwarming,
                             glass_type=type_glas,
-                            solar_panels=clean_boolean(True),  
-                            solar_panel_area=clean_area(50),  
+                            solar_panels=clean_boolean(zonnepanelen),  
+                            solar_panel_area=clean_area(oppervlakte_zonnepanelen),  
 
                             # Equipment
                             elevator=clean_boolean(lift),
@@ -300,7 +318,7 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                             # Outdoor space
                             number_of_facades=clean_none(aantal_gevels),
                             facade_width=clean_area(breedte_voorgevel),
-                            floor=0,
+                            floor=verdieping,
                             number_of_floors=clean_rooms(aantal_verdiepingen),
                             terrace=clean_boolean(terras),
                             terrace_area=clean_area(oppervlakte_terras),
@@ -310,9 +328,9 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                             water_connection=clean_boolean(aansluiting_waterleiding),
                             gas_connection=clean_boolean(aansluiting_gasleiding),
                             swimming_pool=clean_boolean(zwembad),
-                            swimming_pool_area=clean_area(0),  
+                            swimming_pool_area=clean_area(oppervlakte_zwembad),  
                             garden=clean_boolean(tuin),
-                            garden_area=clean_area(50),
+                            garden_area=clean_area(oppervlakte_tuin),
 
                             # Source
                             source="ImmoVlan",

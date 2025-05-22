@@ -19,6 +19,8 @@ class ScrapeHouse(Base):
     postal_code = Column(String(255), nullable=False)
     street = Column(String(255), nullable=False)
     street_number = Column(String(255), nullable=False)
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
     distance_to_center = Column(Float, nullable=False)
     neighborhood_safety = Column(Integer, nullable=False)
 
@@ -87,9 +89,10 @@ class EstimatedHouse(Base):
     __tablename__ = "estimated_houses"
 
     # General
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(255), nullable=False)
-    price = Column(Integer, nullable=True, default=None)
+    price = Column(Float, nullable=True, default=None)
+    ai_price = Column(Float, nullable=True, default=None)
     property_condition = Column(String(255), nullable=True)
     construction_year = Column(Integer, nullable=True)
 
@@ -100,6 +103,8 @@ class EstimatedHouse(Base):
     postal_code = Column(String(255), nullable=False)
     street = Column(String(255), nullable=False)
     street_number = Column(String(255), nullable=False)
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
     distance_to_center = Column(Float, nullable=False)
     neighborhood_safety = Column(Integer, nullable=False)
 

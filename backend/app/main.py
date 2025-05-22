@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api import scrape_houses
+from app.api import adresses
 from app.api import scraper
 from app.api import trainer
 from app.api import price
@@ -18,6 +19,7 @@ app.add_middleware(
 
 # API-routes registreren
 app.include_router(scrape_houses.router)
+app.include_router(adresses.router)
 app.include_router(scraper.router)
 app.include_router(trainer.router)
 app.include_router(price.router)

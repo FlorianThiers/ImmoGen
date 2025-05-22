@@ -3,9 +3,10 @@ import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import "../index.css";
 
+
 const MAP_TILER_KEY = import.meta.env.VITE_MAP_TILER_KEY;
 
-const BaseMaps ={
+const BaseMaps = {
   STREETS: {
     img: "/streets.png",
     style: maptilersdk.MapStyle.STREETS,
@@ -15,25 +16,6 @@ const BaseMaps ={
     style: maptilersdk.MapStyle.SATELLITE,
   }
 }
-
-const dummyHouses = [
-  {
-    id: 1,
-    lat: 51.0543,
-    lon: 3.7174,
-    address: "Dummylaan 2, Gent",
-    value: 450000,
-    ownEstimate: true,
-  },
-  {
-    id: 2,
-    lat: 51.2194,
-    lon: 4.4025,
-    address: "Dummystraat 1, Antwerpen",
-    value: 350000,
-    ownEstimate: false,
-  },
-];
 
 type BaseMapKey = keyof typeof BaseMaps;
 
@@ -45,19 +27,55 @@ const HouseMapLandingPage: React.FC = () => {
   const [selectedBaseMap, setSelectedBaseMap] = useState<BaseMapKey>("STREETS");
   const [search, setSearch] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
+  const [houses, setHouses] = useState<any[]>([]);
+  const [mapLoaded, setMapLoaded] = useState(false); // Nieuwe state
+
   
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setUserLocation([longitude, latitude]); // Stel de locatie in
+          setUserLocation([longitude, latitude]);
         },
         () => setUserLocation([3.7, 51.06])
       );
     } else {
       setUserLocation([4.4, 51.2]);
     }
+
+    const fetchHouses = async () => {
+      try {
+        const apiUrl = `${import.meta.env.VITE_API_URL}/scrape_addresses`;
+        console.log('🔄 Fetching from:', apiUrl);
+        
+        const res = await fetch(apiUrl); 
+        console.log('📡 Response status:', res.status, res.statusText);
+        
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        
+        const data = await res.json();
+        console.log('📋 Raw API response:', data);
+        console.log('📊 Houses count:', Array.isArray(data) ? data.length : 'Not an array');
+        
+        if (Array.isArray(data) && data.length > 0) {
+          console.log('🏠 First house example:', data[0]);
+          setHouses(data);
+        } else {
+          console.warn('⚠️ No houses returned or invalid format');
+          setHouses([]);
+        }
+      } catch (error) {
+        console.error("❌ Failed to fetch houses:", error);
+        console.error("❌ Error details:", {
+          // message: error.message,
+          // stack: error.stack
+        });
+      }
+    };
+    fetchHouses();
   }, []);
 
   useEffect(() => {
@@ -65,52 +83,125 @@ const HouseMapLandingPage: React.FC = () => {
 
     maptilersdk.config.apiKey = MAP_TILER_KEY;
 
+    // Verwijder oude map instance
+    if (mapRef.current) {
+      mapRef.current.remove();
+    }
+
     mapRef.current = new maptilersdk.Map({
       container: mapContainer.current,
       style: BaseMaps[selectedBaseMap].style,
-      center: userLocation, // Gebruik de locatie van de gebruiker
+      center: userLocation,
       zoom: 9,
     });
 
-    return () => mapRef.current?.remove();
-  }, [userLocation, selectedBaseMap]); // Wacht tot de locatie van de gebruiker beschikbaar is
+    // Wacht tot de map volledig geladen is
+    mapRef.current.on('load', () => {
+      console.log('Map loaded');
+      setMapLoaded(true);
+    });
+
+    // Reset mapLoaded bij style change
+    mapRef.current.on('styledata', () => {
+      setMapLoaded(true);
+    });
+
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+      setMapLoaded(false);
+    };
+  }, [userLocation, selectedBaseMap]);
 
   
-  // MARKERS TOEVOEGEN
+  // MARKERS TOEVOEGEN - alleen als map geladen is
   useEffect(() => {
-    if (!mapRef.current) return;
+    if (!mapRef.current || !mapLoaded || houses.length === 0) {
+      console.log('Cannot add markers:', { 
+        hasMap: !!mapRef.current, 
+        mapLoaded, 
+        housesCount: houses.length 
+      });
+      return;
+    }
+
+    console.log('Adding markers for houses:', houses);
 
     // Verwijder oude markers
     markersRef.current.forEach(marker => marker.remove());
     markersRef.current = [];
     
     // Voeg markers toe
-    dummyHouses.forEach((house) => {
-      const el = document.createElement("img");
-      el.src = house.ownEstimate ? "/red-marker.png" : "/blue-marker.png";
+    houses.forEach((house, index) => {
+      if (!house.lat || !house.lon) {
+        console.log(`Skipping house ${index} - no coordinates:`, house);
+        return;
+      }
+
+      console.log(`Adding marker for house ${index}:`, { 
+        lat: house.lat, 
+        lon: house.lon, 
+        address: house.address 
+      });
+
+      const el = document.createElement("div");
       el.style.width = "32px";
       el.style.height = "32px";
-      el.style.transform = "translate(-50%, -100%)";
+      el.style.backgroundImage = house.ownEstimate ? "url('/red-marker.png')" : "url('/blue-marker.png')";
+      el.style.backgroundSize = "contain";
+      el.style.backgroundRepeat = "no-repeat";
       el.style.cursor = "pointer";
-      
-      const marker = new maptilersdk.Marker({ element: el })
-        .setLngLat([house.lon, house.lat])
-        .setPopup(
-          new maptilersdk.Popup().setHTML(
-            `<strong>${house.address}</strong><br/>Geschatte waarde: €${house.value.toLocaleString()}`
-          )
-        )
-        .addTo(mapRef.current!);
 
-        markersRef.current.push(marker)
-      });
-    }, [selectedBaseMap, userLocation]);
+      try {
+        const marker = new maptilersdk.Marker({ element: el })
+          .setLngLat([house.lon, house.lat])
+          .setPopup(
+            new maptilersdk.Popup().setHTML(
+              `<strong>${house.address || "Onbekend adres"}</strong><br/>Geschatte waarde: €${house.ai_price?.toLocaleString() || "?"}`
+            )
+          )
+          .addTo(mapRef.current!);
+
+        markersRef.current.push(marker);
+        console.log(`Marker ${index} added successfully`);
+      } catch (error) {
+        console.error(`Failed to add marker ${index}:`, error);
+      }
+    });
+
+    console.log(`Total markers added: ${markersRef.current.length}`);
+  }, [houses, mapLoaded]); // Afhankelijk van mapLoaded
     
   const handleBaseMapSwitch = (key: keyof typeof BaseMaps) => {
     setSelectedBaseMap(key);
+    setMapLoaded(false); // Reset map loaded state
     if (mapRef.current) {
       mapRef.current.setStyle(BaseMaps[key].style);
     }
+  };
+
+  const addTestMarkers = () => {
+    const testHouses = [
+      {
+        id: 1,
+        address: "Test Address 1, Amsterdam",
+        lat: 52.3676,
+        lon: 4.9041,
+        ai_price: 500000
+      },
+      {
+        id: 2, 
+        address: "Test Address 2, Rotterdam",
+        lat: 51.9244,
+        lon: 4.4777,
+        ai_price: 350000
+      }
+    ];
+    
+    console.log('🧪 Adding test markers');
+    setHouses(testHouses);
   };
 
   const handleSearch = async (e: React.FormEvent) => {
@@ -118,7 +209,6 @@ const HouseMapLandingPage: React.FC = () => {
     if (!search) return;
     setSearchLoading(true);
     try {
-      // Gebruik Nominatim voor gratis geocoding
       const res = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(search)}`
       );
@@ -144,6 +234,20 @@ const HouseMapLandingPage: React.FC = () => {
     <div className="map-container">
         <h1 className="map-title">Map</h1>
         <p className="map-text">Hier is een kaart met huisgegevens van de voorbije schattingen.</p>
+        
+        {/* Debug info
+        <div style={{ fontSize: '12px', color: '#666', marginBottom: '10px' }}>
+          Houses loaded: {houses.length} | Map loaded: {mapLoaded ? 'Yes' : 'No'} | Markers: {markersRef.current.length}
+          <br />
+          API URL: {import.meta.env.VITE_API_URL}
+          <button 
+            onClick={addTestMarkers}
+            style={{ marginLeft: '10px', padding: '4px 8px', fontSize: '10px' }}
+          >
+            🧪 Test Markers
+          </button>
+        </div> */}
+        
         <form onSubmit={handleSearch} style={{ marginBottom: "1rem", display: "flex", gap: "0.5rem" }}>
           <input
             type="text"
@@ -180,7 +284,6 @@ const HouseMapLandingPage: React.FC = () => {
           className="map"
         />
     </div>
-
   );
 };
 

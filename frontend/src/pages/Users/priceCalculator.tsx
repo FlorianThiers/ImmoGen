@@ -21,6 +21,7 @@ const PriceCalculator = () => {
 
   const [formData, setFormData] = useState<FormDataType>({
     title: "",
+    price: 0,
     property_condition: "Nieuw",
     construction_year: 1850,
     renovation: true,
@@ -155,9 +156,7 @@ const PriceCalculator = () => {
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/calculate-price`, formData);
-      setResult(response.data);
-
+      
       // Formuleprijs berekenen
       const priceInput: PriceInput = {
         constructionYear: formData.construction_year,
@@ -172,9 +171,12 @@ const PriceCalculator = () => {
         correctionPercentage: 0.00, // Dit moet worden aangepast op basis van je logica
         houseUnusable: false, // Dit moet worden aangepast op basis van je logica
       };
-
+      
       const formulaResult = calculatePrice(priceInput);
       setFormulaPrice(formulaResult.totalCorrected);
+      formData.price = formulaResult;
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/calculate-price`, formData);
+      setResult(response.data);
     } catch (error) {
       console.error("Fout bij het berekenen van de prijs:", error);
     }

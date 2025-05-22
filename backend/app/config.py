@@ -10,6 +10,8 @@ SCRAPE_FEATURES = [
     "postal_code",
     "street",
     "street_number",
+    "latitude",
+    "longitude",
     "distance_to_center",
     "neighborhood_safety",
 
@@ -80,6 +82,8 @@ APP_FEATURES = [
     "postal_code",
     "street",
     "street_number",
+    "latitude",
+    "longitude",
     "distance_to_center",
     "neighborhood_safety",
 

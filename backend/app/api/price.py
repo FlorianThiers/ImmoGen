@@ -18,10 +18,8 @@ def calculate_price(house_data: dict, db: Session = Depends(get_db)):
         result = ai_price(house_data, model, scaler, features, dummy_columns)  # Bereken de prijs
         print(f"✅ Berekeningsresultaat: {result}")  # Log het resultaat
 
-        # Update de geschatte prijs in de database
-        house_id = house_data.get("id")  # Zorg ervoor dat het ID wordt meegegeven
-        if house_id and result:
-            update_estimated_price(db, house_id, result["estimated_price"])
+        if result:
+            update_estimated_price(db, house_data, result)
 
         return result
     except Exception as e:
@@ -30,11 +28,17 @@ def calculate_price(house_data: dict, db: Session = Depends(get_db)):
         traceback.print_exc()  # Print de volledige traceback voor debugging
         raise HTTPException(status_code=500, detail=f"Fout bij het berekenen van de prijs: {str(e)}")
     
-def update_estimated_price(db: Session, house_id: int, estimated_price: float):
-    """Update de geschatte prijs van een huis in de database."""
-    house = db.query(EstimatedHouse).filter(EstimatedHouse.id == house_id).first()
-    if house:
-        house.price = estimated_price
-        db.commit()
-        return True
-    return False
+def update_estimated_price(db: Session, house_data, estimated_price: float):
+    """Update or insert the estimated price for a house in the database."""
+
+    flat_data = {
+        key: val for key, val in house_data.items()
+        if key in EstimatedHouse.__table__.columns.keys() and not isinstance(val, dict)
+    }
+    house = EstimatedHouse(**flat_data, ai_price=estimated_price)
+
+    db.add(house)
+    print("🆕 New EstimatedHouse added")
+    
+    db.commit()
+    return True
