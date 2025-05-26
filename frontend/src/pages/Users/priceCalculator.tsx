@@ -11,7 +11,7 @@ import OfficeForm from "../../components/forms/OfficeForm";
 import VillaForm from "../../components/forms/VillaForm";
 
 import { calculatePrice, PriceInput } from "../../utils/calculator"; // Pas het pad aan naar waar je de functie opslaat
-
+import { getAbexValue } from "../../utils/abexCalculator"; // Zorg ervoor dat je deze functie hebt geïmplementeerd
 
 const PriceCalculator = () => {
   const [result, setResult] = useState(null);
@@ -23,15 +23,20 @@ const PriceCalculator = () => {
     title: "",
     price: 0,
     property_condition: "Nieuw",
+    current_year: new Date().getFullYear(),
     construction_year: 1850,
     renovation: true,
     renovation_year: 2004,
+    renovation_price: 0,
     area: 3500,
     price_per_m2: 100,
     build_price: 1660,
-    renovation_price: 0,
     demolition_price: 0,
     grade_of_finish: 1.1,
+    abex_current_year: getAbexValue(new Date().getFullYear(), "july"),
+    abex_renovation_year: 0,
+    correction_percentage: 0, 
+    house_unusable: false,
 
     
     // Location
@@ -130,6 +135,44 @@ const PriceCalculator = () => {
     source: "ImmoGen"
   });
 
+  function calculateCorrectionPercentage(formData: FormDataType): number {
+    let correction = 0;
+
+    // Negatieve factoren
+    if (formData.noise_pollution) {
+      correction -= Number(formData.noise_pollution_level);
+    }
+    if (formData.smell_pollution) {
+      correction -= Number(formData.smell_pollution_level);
+    }
+    if (formData.traffic_pollution) {
+      correction -= Number(formData.traffic_pollution_level);
+    }
+    if (formData.air_pollution) {
+      correction -= Number(formData.air_pollution_level);
+    }
+    if (formData.special_shapes) {
+      correction -= Number(formData.special_shapes_level);
+    }
+    if (formData.special_colors) {
+      correction -= Number(formData.special_colors_level);
+    }
+    if (formData.special_materials) {
+      correction -= Number(formData.special_materials_level);
+    }
+    
+    // Positieve factoren
+    if (formData.elevator) correction += 2;
+    if (formData.wheelchair_accessible) correction += 2;
+    if (formData.garden) correction += 2;
+    if (formData.swimming_pool) correction += 4;
+    
+    // Clamp tussen -25 en +10
+    correction = Math.max(-25, Math.min(10, correction));
+
+    return correction;
+  }
+
 
   const handleChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -153,28 +196,43 @@ const PriceCalculator = () => {
     },[]
   );
 
+  
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
-      
+      let abexLastRenovation = 0;  
+      if (formData.renovation === true) {
+        abexLastRenovation = getAbexValue(formData.renovation_year, "july");
+      } else {
+        abexLastRenovation = getAbexValue(formData.construction_year, "july");
+      }
+
+      const correctionPercentage = calculateCorrectionPercentage(formData);
+
+      formData.correctionPercentage = correctionPercentage;
+
       // Formuleprijs berekenen
       const priceInput: PriceInput = {
         constructionYear: formData.construction_year,
-        currentYear: new Date().getFullYear(),
+        currentYear: formData.current_year,
         landArea: formData.area,
         landPricePerM2: formData.price_per_m2,
         livingArea: formData.livable_area,
         buildCostPerM2: formData.build_price,
         finishQuality: formData.grade_of_finish,
-        abexCurrent: 1048, // Dit moet worden aangepast op basis van je logica
-        abexAtConstruction: 570, // Dit moet worden aangepast op basis van je logica
-        correctionPercentage: 0.00, // Dit moet worden aangepast op basis van je logica
+        abexCurrent: formData.abex_current_year,
+        abexLastRenovation,
+        correctionPercentage: formData.correction_percentage, // Dit moet worden aangepast op basis van je logica
         houseUnusable: false, // Dit moet worden aangepast op basis van je logica
       };
-      
+
+      // update formData met de berekende waarden
+      formData.abex_renovation_year = abexLastRenovation;
+
+
       const formulaResult = calculatePrice(priceInput);
       setFormulaPrice(formulaResult.totalCorrected);
-      formData.price = formulaResult;
+      formData.price = formulaResult.totalCorrected;
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/calculate-price`, formData);
       setResult(response.data);
     } catch (error) {
@@ -260,6 +318,7 @@ const PriceCalculator = () => {
         </button>
       </form>
     
+          <p>Formule Prijs: €{formulaPrice?.toFixed(2)}</p>
 
       {result && (
         <div className="mt-4">

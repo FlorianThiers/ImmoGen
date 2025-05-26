@@ -95,6 +95,18 @@ class EstimatedHouse(Base):
     ai_price = Column(Float, nullable=True, default=None)
     property_condition = Column(String(255), nullable=True)
     construction_year = Column(Integer, nullable=True)
+    renovation = Column(Boolean, nullable=True)
+    renovation_year = Column(Integer, nullable=True)
+    renovation_price = Column(Float, nullable=True)
+    price_per_m2 = Column(Float, nullable=True)
+    build_price = Column(Float, nullable=True)
+    demolition_price = Column(Float, nullable=True)
+    grade_of_finish = Column(String(255), nullable=True)
+    current_year = Column(Integer, nullable=True)
+    abex_current_year = Column(Float, nullable=True)
+    abex_renovation_year = Column(Float, nullable=True)
+    correction_percentage = Column(Float, nullable=True)
+    house_unusable = Column(Boolean, nullable=True)
 
     # Location
     country = Column(String(255), nullable=False)

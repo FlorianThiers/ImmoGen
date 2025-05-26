@@ -10,7 +10,7 @@ export type PriceInput = {
   buildCostPerM2: number; // €/m²
   finishQuality: number; // e.g. 1.0 = normal, 0.85 = basic, 1.15 = luxury
   abexCurrent: number;
-  abexAtConstruction: number;
+  abexLastRenovation: number;
 
   correctionPercentage: number; // between 0 and 0.25 (e.g. 10% = 0.10)
   houseUnusable: boolean; // if true, deduct demolition cost
@@ -37,7 +37,7 @@ export function calculatePrice(input: PriceInput) {
       input.livingArea *
       input.buildCostPerM2 *
       input.finishQuality *
-      (input.abexCurrent / input.abexAtConstruction);
+      (input.abexCurrent / input.abexLastRenovation);
     console.log("New Build Cost: ", newBuildCost);
     const wear = calculateWear(input.constructionYear, input.currentYear);
     console.log("Wear: ", wear);
@@ -46,9 +46,14 @@ export function calculatePrice(input: PriceInput) {
   }
 
   const totalBeforeCorrection = landValue + houseValue;
-  const correctionFactor = 0.75 + Math.min(input.correctionPercentage, 0.25);
+  const correctionFactor = input.correctionPercentage;
 
-  const totalCorrected = totalBeforeCorrection * correctionFactor;
+  let totalCorrected: number = 0;
+  if (correctionFactor == 1) {
+    totalCorrected = totalBeforeCorrection;
+  } else {
+    totalCorrected = totalBeforeCorrection + ((totalBeforeCorrection / 100) * correctionFactor);
+  }
   console.log("Total Before Correction: ", totalBeforeCorrection);
   console.log("Correction Factor: ", correctionFactor);
   console.log("Total Corrected: ", totalCorrected);

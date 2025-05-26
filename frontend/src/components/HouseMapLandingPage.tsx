@@ -27,7 +27,8 @@ const HouseMapLandingPage: React.FC = () => {
   const [selectedBaseMap, setSelectedBaseMap] = useState<BaseMapKey>("STREETS");
   const [search, setSearch] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
-  const [houses, setHouses] = useState<any[]>([]);
+  const [scrapeHouses, setScrapeHouses] = useState<any[]>([]);
+  const [ImmoGenHouses, setImmoGenHouses] = useState<any[]>([]);
   const [mapLoaded, setMapLoaded] = useState(false); // Nieuwe state
 
   
@@ -44,7 +45,7 @@ const HouseMapLandingPage: React.FC = () => {
       setUserLocation([4.4, 51.2]);
     }
 
-    const fetchHouses = async () => {
+    const fetchScrapeHouses = async () => {
       try {
         const apiUrl = `${import.meta.env.VITE_API_URL}/scrape_addresses`;
         console.log('🔄 Fetching from:', apiUrl);
@@ -62,10 +63,10 @@ const HouseMapLandingPage: React.FC = () => {
         
         if (Array.isArray(data) && data.length > 0) {
           console.log('🏠 First house example:', data[0]);
-          setHouses(data);
+          setScrapeHouses(data);
         } else {
           console.warn('⚠️ No houses returned or invalid format');
-          setHouses([]);
+          setScrapeHouses([]);
         }
       } catch (error) {
         console.error("❌ Failed to fetch houses:", error);
@@ -75,7 +76,36 @@ const HouseMapLandingPage: React.FC = () => {
         });
       }
     };
-    fetchHouses();
+    fetchScrapeHouses();
+
+    const fetchImmoGenHouses = async () => {
+      try {
+        const apiUrl = `${import.meta.env.VITE_API_URL}/immogen_addresses`;
+        console.log('🔄 Fetching from:', apiUrl);
+        
+        const res = await fetch(apiUrl);
+        console.log('📡 Response status:', res.status, res.statusText);
+        
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        
+        const data = await res.json();
+        console.log('📋 Raw API response:', data);
+        console.log('📊 Houses count:', Array.isArray(data) ? data.length : 'Not an array');
+        
+        if (Array.isArray(data) && data.length > 0) {
+          console.log('🏠 First house example:', data[0]);
+          setImmoGenHouses(data);
+        } else {
+          console.warn('⚠️ No houses returned or invalid format');
+          setImmoGenHouses([]);
+        }
+      } catch (error) {
+        console.error("❌ Failed to fetch ImmoGen houses:", error);
+      }
+    };
+    fetchImmoGenHouses();
   }, []);
 
   useEffect(() => {
@@ -116,36 +146,18 @@ const HouseMapLandingPage: React.FC = () => {
   }, [userLocation, selectedBaseMap]);
 
   
-  // MARKERS TOEVOEGEN - alleen als map geladen is
   useEffect(() => {
-    if (!mapRef.current || !mapLoaded || houses.length === 0) {
-      console.log('Cannot add markers:', { 
-        hasMap: !!mapRef.current, 
-        mapLoaded, 
-        housesCount: houses.length 
-      });
+    if (!mapRef.current || !mapLoaded) {
       return;
     }
-
-    console.log('Adding markers for houses:', houses);
 
     // Verwijder oude markers
     markersRef.current.forEach(marker => marker.remove());
     markersRef.current = [];
-    
-    // Voeg markers toe
-    houses.forEach((house, index) => {
-      if (!house.lat || !house.lon) {
-        console.log(`Skipping house ${index} - no coordinates:`, house);
-        return;
-      }
 
-      console.log(`Adding marker for house ${index}:`, { 
-        lat: house.lat, 
-        lon: house.lon, 
-        address: house.address 
-      });
-
+    // Voeg scrapeHouses toe (blauwe of rode marker afhankelijk van ownEstimate)
+    scrapeHouses.forEach((house, index) => {
+      if (!house.lat || !house.lon) return;
       const el = document.createElement("div");
       el.style.width = "32px";
       el.style.height = "32px";
@@ -154,25 +166,42 @@ const HouseMapLandingPage: React.FC = () => {
       el.style.backgroundRepeat = "no-repeat";
       el.style.cursor = "pointer";
 
-      try {
-        const marker = new maptilersdk.Marker({ element: el })
-          .setLngLat([house.lon, house.lat])
-          .setPopup(
-            new maptilersdk.Popup().setHTML(
-              `<strong>${house.address || "Onbekend adres"}</strong><br/>Geschatte waarde: €${house.ai_price?.toLocaleString() || "?"}`
-            )
+      const marker = new maptilersdk.Marker({ element: el })
+        .setLngLat([house.lon, house.lat])
+        .setPopup(
+          new maptilersdk.Popup().setHTML(
+            `<strong>${house.address || "Onbekend adres"}</strong><br/>Geschatte waarde: €${house.ai_price?.toLocaleString() || "?"}`
           )
-          .addTo(mapRef.current!);
+        )
+        .addTo(mapRef.current!);
 
-        markersRef.current.push(marker);
-        console.log(`Marker ${index} added successfully`);
-      } catch (error) {
-        console.error(`Failed to add marker ${index}:`, error);
-      }
+      markersRef.current.push(marker);
     });
 
-    console.log(`Total markers added: ${markersRef.current.length}`);
-  }, [houses, mapLoaded]); // Afhankelijk van mapLoaded
+    // Voeg ImmoGenHouses toe (altijd rode marker)
+    ImmoGenHouses.forEach((house, index) => {
+      if (!house.lat || !house.lon) return;
+      const el = document.createElement("div");
+      el.style.width = "32px";
+      el.style.height = "32px";
+      el.style.backgroundImage = "url('/red-marker.png')";
+      el.style.backgroundSize = "contain";
+      el.style.backgroundRepeat = "no-repeat";
+      el.style.cursor = "pointer";
+
+      const marker = new maptilersdk.Marker({ element: el })
+        .setLngLat([house.lon, house.lat])
+        .setPopup(
+          new maptilersdk.Popup().setHTML(
+            `<strong>${house.address || "Onbekend adres"}</strong><br/>Geschatte waarde: €${house.ai_price?.toLocaleString() || "?"}`
+          )
+        )
+        .addTo(mapRef.current!);
+
+      markersRef.current.push(marker);
+    });
+
+  }, [scrapeHouses, ImmoGenHouses, mapLoaded]);
     
   const handleBaseMapSwitch = (key: keyof typeof BaseMaps) => {
     setSelectedBaseMap(key);
@@ -201,7 +230,7 @@ const HouseMapLandingPage: React.FC = () => {
     ];
     
     console.log('🧪 Adding test markers');
-    setHouses(testHouses);
+    setScrapeHouses(testHouses);
   };
 
   const handleSearch = async (e: React.FormEvent) => {

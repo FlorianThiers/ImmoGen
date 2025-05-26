@@ -1,56 +1,58 @@
-import React, { useState } from "react";
-import "../../index.css";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
+    setError('');
 
-    // Dummy login logic, vervang door echte API-call
-    if (email === "test@example.com" && password === "wachtwoord") {
-      alert("Succesvol ingelogd!");
-      // Redirect of set auth state hier
-    } else {
-      setError("Ongeldige e-mail of wachtwoord.");
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/token`, {
+        username,
+        password,
+      });
+
+      localStorage.setItem('token', response.data.access_token);
+      navigate('/dashboard'); // or wherever you want to redirect after login
+    } catch (err: any) {
+      setError('Invalid credentials');
     }
-    setLoading(false);
   };
 
   return (
-    <div className="login-bg">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Inloggen</h2>
-        <div className="login-field">
-          <label htmlFor="email">E-mail</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="login-field">
-          <label htmlFor="password">Wachtwoord</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {error && (
-          <div className="login-error">{error}</div>
-        )}
-        <button type="submit" disabled={loading}>
-          {loading ? "Bezig met inloggen..." : "Inloggen"}
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow-md w-full max-w-sm">
+        <h2 className="text-2xl font-semibold mb-6 text-center">Login</h2>
+
+        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="w-full px-3 py-2 mb-4 border rounded"
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full px-3 py-2 mb-4 border rounded"
+        />
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+        >
+          Login
         </button>
       </form>
     </div>

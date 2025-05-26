@@ -33,6 +33,7 @@ const AdminPanel = () => {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
       <h2 className="text-xl font-bold mt-6">Scraping Status</h2>
+      
       <button
         onClick={handleScrape}
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"

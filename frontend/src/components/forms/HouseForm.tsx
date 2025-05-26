@@ -201,6 +201,7 @@ const HouseForm: React.FC<HouseFormProps> = ({ formData, handleChange }) => {
 
   // Property condition options with their styles
   const conditionOptions = [
+    { value: "Uitstekend", label: "Uitstekend", style: { backgroundColor: "blue", color: "white" } },
     { value: "Nieuw", label: "Nieuw", style: { backgroundColor: "green", color: "white" } },
     { value: "Goed", label: "Goed", style: { backgroundColor: "limegreen", color: "white" } },
     { value: "Gemiddeld", label: "Gemiddeld", style: { backgroundColor: "yellow", color: "black" } },
@@ -211,6 +212,7 @@ const HouseForm: React.FC<HouseFormProps> = ({ formData, handleChange }) => {
   // Get background color based on property condition
   const getConditionStyle = () => {
     switch (formData.property_condition) {
+      case "Uitstekend": return { backgroundColor: "blue", color: "white" };
       case "Nieuw": return { backgroundColor: "green", color: "white" };
       case "Goed": return { backgroundColor: "limegreen", color: "white" };
       case "Gemiddeld": return { backgroundColor: "yellow", color: "black" };
