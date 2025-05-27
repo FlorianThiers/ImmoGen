@@ -13,13 +13,18 @@ const LoginPage: React.FC = () => {
     setError('');
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/token`, {
-        username,
-        password,
-      });
+      const params = new URLSearchParams();
+      params.append('username', username);
+      params.append('password', password);
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/login`,
+        params,
+        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+      );
 
       localStorage.setItem('token', response.data.access_token);
-      navigate('/dashboard'); // or wherever you want to redirect after login
+      navigate('/'); // or wherever you want to redirect after login
     } catch (err: any) {
       setError('Invalid credentials');
     }
@@ -34,7 +39,7 @@ const LoginPage: React.FC = () => {
 
         <input
           type="text"
-          placeholder="Username"
+          placeholder="Username of E-mail"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           className="w-full px-3 py-2 mb-4 border rounded"
@@ -54,6 +59,17 @@ const LoginPage: React.FC = () => {
         >
           Login
         </button>
+
+        <p className="text-center mt-4">
+          Nog geen account?{" "}
+          <button
+            type="button"
+            className="text-blue-600 underline"
+            onClick={() => navigate("/register")}
+          >
+            Registreer hier
+          </button>
+        </p>
       </form>
     </div>
   );

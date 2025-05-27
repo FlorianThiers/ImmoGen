@@ -1,6 +1,7 @@
 from app.db.database import Base, engine
 from app.models.house import ScrapeHouse
 from app.models.house import EstimatedHouse
+from app.models.user import User
 
 def init_db():
     print("Initialiseren van de database...")

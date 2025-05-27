@@ -4,12 +4,16 @@ import axios from "axios";
 const AdminPanel = () => {
   const [scrapingStatus, setScrapingStatus] = useState<string | null>(null);
   const [trainingStatus, setTrainingStatus] = useState<string | null>(null);
+  const [scrapePages, setScrapePages] = useState<number>(1);
 
   // Functie om scraping te starten
   const handleScrape = async () => {
     setScrapingStatus("Bezig met scrapen...");
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/scrape`);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/scrape`,
+        { max_pages: scrapePages }
+      );
       setScrapingStatus(`✅ Scraping voltooid: ${response.data.message}`);
     } catch (error) {
       console.error("Fout bij het scrapen:", error);
@@ -33,7 +37,17 @@ const AdminPanel = () => {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
       <h2 className="text-xl font-bold mt-6">Scraping Status</h2>
-      
+       <div className="flex items-center gap-2 mb-2">
+        <label htmlFor="scrapePages" className="font-medium">Aantal pagina's:</label>
+        <input
+          id="scrapePages"
+          type="number"
+          min={1}
+          value={scrapePages}
+          onChange={e => setScrapePages(Number(e.target.value))}
+          className="border px-2 py-1 rounded w-20"
+        />
+      </div>
       <button
         onClick={handleScrape}
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"

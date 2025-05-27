@@ -19,6 +19,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
 
   backend:
     build:
@@ -36,6 +41,11 @@ services:
       DATABASE_URL: mysql+pymysql://immogen_user:immogen_password@db:3306/immogen
     networks:
       - immogen_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
 
   frontend:
     build:
@@ -45,6 +55,11 @@ services:
       - "3000:3000"
     networks:
       - immogen_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
 
 networks:
   immogen_network:

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.AI.Models.immoVlanScraper import scrap_houses
@@ -6,12 +6,14 @@ from app.AI.Models.immoVlanScraper import scrap_houses
 router = APIRouter()
 
 @router.post("/scrape")
-def start_scraping(db: Session = Depends(get_db)):
+async def start_scraping(request: Request, db: Session = Depends(get_db)):
     """
     Start het scrapen van woningdata en sla deze op in de database.
     """
     try:
-        scrap_houses(db, max_pages=1)  # Pas het aantal pagina's aan indien nodig
-        return {"message": "Scraping voltooid en data opgeslagen in de database."}
+        data = await request.json()
+        max_pages = int(data.get("max_pages", 1))
+        scrap_houses(db, max_pages=max_pages)
+        return {"message": f"Scraping voltooid en data opgeslagen in de database ({max_pages} pagina's)."}
     except Exception as e:
         return {"error": str(e)}
