@@ -1,4 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
+from app.security.auth import get_current_user
+from app.models.user import User
 from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.models.house import EstimatedHouse
@@ -11,18 +13,20 @@ from app.config import APP_FEATURES
 router = APIRouter()
 
 @router.post("/calculate-price")
-def calculate_price(house_data: dict, db: Session = Depends(get_db)):
+def calculate_price(
+    house_data: dict, 
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
     try:
         model, scaler, features, dummy_columns = load_model()
         # print(f"✅ Schaalverhouding geladen: {scaler}")  # Log de scaler
         # print(f"✅ Features geladen: {features}")  # Log de features
-        result = ai_price(house_data, model, scaler, features, dummy_columns)  # Bereken de prijs
-        print(f"✅ Berekeningsresultaat: {result}")  # Log het resultaat
+        result = ai_price(house_data, model, scaler, features, dummy_columns)
+        print(f"✅ Berekeningsresultaat: {result}")
 
         if result:
-            update_estimated_price(db, house_data, result)
-            
-        update_lon_lat(db, house_data)
+            update_price_and_geo(db, house_data, result, current_user.id)
 
         return result
     except Exception as e:
@@ -31,24 +35,9 @@ def calculate_price(house_data: dict, db: Session = Depends(get_db)):
         traceback.print_exc()  # Print de volledige traceback voor debugging
         raise HTTPException(status_code=500, detail=f"Fout bij het berekenen van de prijs: {str(e)}")
     
-def update_estimated_price(db: Session, house_data, estimated_price: float):
-    """Update or insert the estimated price for a house in the database."""
+def update_price_and_geo(db: Session, house_data, estimated_price: float, user_id: int):
+    """Update or insert the estimated price and the longitude and latitud for a house in the database."""
 
-    flat_data = {
-        key: val for key, val in house_data.items()
-        if key in EstimatedHouse.__table__.columns.keys() and not isinstance(val, dict)
-    }
-    house = EstimatedHouse(**flat_data, ai_price=estimated_price)
-
-    db.add(house)
-    print("🆕 New EstimatedHouse added")
-    
-    db.commit()
-    return True
-
-def update_lon_lat(db: Session, house_data):
-    """Update the longitude and latitude for a house in the database."""
-    # get the dorp_postcode from house_data
     country = house_data.get("country", "")
     province = house_data.get("province", "")
     city = house_data.get("city", "")
@@ -70,10 +59,11 @@ def update_lon_lat(db: Session, house_data):
         key: val for key, val in house_data.items()
         if key in EstimatedHouse.__table__.columns.keys() and not isinstance(val, dict)
     }
-    house = EstimatedHouse(**flat_data, latitude=latitude, longitude=longitude)
-    db.add(house)
-    print("🆕 New EstimatedHouse added with geo data")
+    house = EstimatedHouse(**flat_data, ai_price=estimated_price, latitude=latitude, longitude=longitude, user_id=user_id)
 
+    db.add(house)
+    print("🆕 New EstimatedHouse added")
+    
     db.commit()
     return True
 

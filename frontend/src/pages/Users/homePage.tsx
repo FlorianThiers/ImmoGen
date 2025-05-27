@@ -1,8 +1,7 @@
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import HouseMapLandingPage from "../../components/HouseMapLandingPage";
-
+import HouseMapLandingPage from "../../components/maps/HouseMapLandingPage";
 
 const HomePage = () => {
   const [titles, setTitles] = useState<string[]>([]);
@@ -13,7 +12,9 @@ const HomePage = () => {
   useEffect(() => {
     const fetchHouseTitles = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/house_titles`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/house_titles`
+        );
         setTitles(response.data.titles);
         setNiuewbouw(response.data.nieuwbouw);
       } catch (error) {
@@ -24,7 +25,9 @@ const HomePage = () => {
 
     const fetchStatistics = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/statistics`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/statistics`
+        );
         setFeatureImportance(response.data.feature_importance);
         setCorrelations(response.data.correlations);
       } catch (error) {
@@ -38,7 +41,10 @@ const HomePage = () => {
     <div className="p-4 text-center">
       <div className="hero">
         <h1>The AI House price calculator</h1>
-        <p>ImmoGen is een AI-gebaseerde woningprijs calculator die gebruik maakt van machine learning om nauwkeurige schattingen te geven.</p>
+        <p>
+          ImmoGen is een AI-gebaseerde woningprijs calculator die gebruik maakt
+          van machine learning om nauwkeurige schattingen te geven.
+        </p>
         <div className="buttons">
           <Link to="/price-calculator">
             <button className="calculate-button">Bereken woningprijs</button>
@@ -46,7 +52,7 @@ const HomePage = () => {
         </div>
       </div>
 
-     {/* Lijst van titels */}
+      {/* Lijst van titels */}
       <h2 className="text-xl font-bold mt-6">Beschikbare Woningtypes</h2>
       <ul>
         {titles.map((title, index) => (

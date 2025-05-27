@@ -222,19 +222,28 @@ const PriceCalculator = () => {
         finishQuality: formData.grade_of_finish,
         abexCurrent: formData.abex_current_year,
         abexLastRenovation,
-        correctionPercentage: formData.correction_percentage, // Dit moet worden aangepast op basis van je logica
+        correctionPercentage: formData.correction_percentage, 
         houseUnusable: false, // Dit moet worden aangepast op basis van je logica
       };
 
       // update formData met de berekende waarden
       formData.abex_renovation_year = abexLastRenovation;
 
-
       const formulaResult = calculatePrice(priceInput);
       setFormulaPrice(formulaResult.totalCorrected);
       formData.price = formulaResult.totalCorrected;
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/calculate-price`, formData);
-      setResult(response.data);
+
+      const token = localStorage.getItem("token"); // of haal je token uit context
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/calculate-price`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        }
+      );      setResult(response.data);
     } catch (error) {
       console.error("Fout bij het berekenen van de prijs:", error);
     }

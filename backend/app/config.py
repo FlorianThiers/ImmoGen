@@ -152,4 +152,5 @@ APP_FEATURES = [
     "garden_area",
 
     "source",
+    "user_id",
 ]

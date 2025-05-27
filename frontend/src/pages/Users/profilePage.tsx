@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import HouseMapForm from "../../components/HouseMapForm";
+import HouseMapForm from "../../components/maps/HouseMapForm";
 import "../../index.css";
-import HouseMapProfile from "../../components/HouseMapProfile";
-
+import HouseMapProfile from "../../components/maps/HouseMapProfile";
 
 // Dummy data voor demo
 const user = {
@@ -52,15 +51,19 @@ const regionStats = user.estimates.reduce<Record<string, number>>((acc, e) => {
 const mostEstimatedRegion =
   Object.entries(regionStats).sort((a, b) => b[1] - a[1])[0]?.[0] || "-";
 
-
 const ProfilePage: React.FC = () => {
-  const [centerCoords, setCenterCoords] = useState<[number, number] | null>(null);
+  const [centerCoords, setCenterCoords] = useState<[number, number] | null>(
+    null
+  );
 
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setCenterCoords([position.coords.longitude, position.coords.latitude]);
+          setCenterCoords([
+            position.coords.longitude,
+            position.coords.latitude,
+          ]);
         },
         () => setCenterCoords(null) // fallback: geen locatie
       );
@@ -79,12 +82,16 @@ const ProfilePage: React.FC = () => {
         <div className="profile-stats">
           <h2>Statistieken</h2>
           <ul>
-            <li><strong>Totaal aantal schattingen:</strong> {totalEstimates}</li>
+            <li>
+              <strong>Totaal aantal schattingen:</strong> {totalEstimates}
+            </li>
             <li>
               <strong>Type woningen:</strong>
               <ul>
                 {Object.entries(typeStats).map(([type, count]) => (
-                  <li key={type}>{type}: {count}</li>
+                  <li key={type}>
+                    {type}: {count}
+                  </li>
                 ))}
               </ul>
             </li>
@@ -92,7 +99,9 @@ const ProfilePage: React.FC = () => {
               <strong>Streken:</strong>
               <ul>
                 {Object.entries(regionStats).map(([region, count]) => (
-                  <li key={region}>{region}: {count}</li>
+                  <li key={region}>
+                    {region}: {count}
+                  </li>
                 ))}
               </ul>
             </li>
@@ -104,7 +113,7 @@ const ProfilePage: React.FC = () => {
         <div className="profile-map">
           <h2>Mijn schattingen op de kaart</h2>
           <HouseMapProfile
-            houses={user.estimates.map(e => ({
+            houses={user.estimates.map((e) => ({
               lat: e.lat,
               lon: e.lon,
               ownEstimate: true,
@@ -126,7 +135,7 @@ const ProfilePage: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {user.estimates.map(e => (
+            {user.estimates.map((e) => (
               <tr key={e.id}>
                 <td>{e.address}</td>
                 <td className="right">€{e.value.toLocaleString()}</td>

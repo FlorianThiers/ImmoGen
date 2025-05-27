@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
-import "../index.css";
+import "../../index.css";
 
 
 const MAP_TILER_KEY = import.meta.env.VITE_MAP_TILER_KEY;

@@ -1,8 +1,11 @@
 from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy.orm import relationship
 from app.db.database import Base
 
 class User(Base):
     __tablename__ = "users"
+
+    estimated_houses = relationship("EstimatedHouse", back_populates="user")
 
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String(50), unique=True, nullable=False)

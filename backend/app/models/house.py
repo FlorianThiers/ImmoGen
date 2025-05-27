@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean, UniqueConstraint
+from sqlalchemy import Column, Integer, String, Float, Boolean, ForeignKey
+from sqlalchemy.orm import relationship                                   # <-- voeg relationship toe
 from app.db.database import Base
 
 class ScrapeHouse(Base):
@@ -87,6 +88,9 @@ class ScrapeHouse(Base):
 
 class EstimatedHouse(Base):
     __tablename__ = "estimated_houses"
+
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    user = relationship("User", back_populates="estimated_houses")
 
     # General
     id = Column(Integer, primary_key=True, autoincrement=True)

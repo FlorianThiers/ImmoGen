@@ -5,7 +5,7 @@ import StatisticsPage from "./pages/Users/statisticsPage";
 import ProfilePage from "./pages/Users/profilePage";
 import AdminPanel from "./pages/Admin/adminPage";
 import LoginPage from "./pages/Users/loginPage";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./routes/ProtectedRoute";
 import RegisterPage from "./pages/Users/registerPage";
 
 import './App.css'
