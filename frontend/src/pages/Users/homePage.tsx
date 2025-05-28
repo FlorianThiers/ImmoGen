@@ -40,10 +40,9 @@ const HomePage = () => {
   return (
     <div className="p-4 text-center">
       <div className="hero">
-        <h1>The AI House price calculator</h1>
+        <h1>Welkom bij ImmoGen</h1>
         <p>
-          ImmoGen is een AI-gebaseerde woningprijs calculator die gebruik maakt
-          van machine learning om nauwkeurige schattingen te geven.
+          hier kun je de woningprijs berekenen.
         </p>
         <div className="buttons">
           <Link to="/price-calculator">

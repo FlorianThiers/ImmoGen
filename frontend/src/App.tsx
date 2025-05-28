@@ -1,12 +1,16 @@
 import { Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import Navbar from "./components/Navbar";
+import MainLayout from "./components/MainLayout";
+import LoginPage from "./pages/Open/loginPage";
+import RegisterPage from "./pages/Open/registerPage";
+import LandingPage from "./pages/Open/landingPage3";
+import LandingPage2 from "./pages/Open/landingPage";
 import HomePage from "./pages/Users/homePage";
 import PriceCalculator from "./pages/Users/priceCalculator";
 import StatisticsPage from "./pages/Users/statisticsPage";
 import ProfilePage from "./pages/Users/profilePage";
 import AdminPanel from "./pages/Admin/adminPage";
-import LoginPage from "./pages/Users/loginPage";
-import ProtectedRoute from "./routes/ProtectedRoute";
-import RegisterPage from "./pages/Users/registerPage";
 
 import './App.css'
 
@@ -14,13 +18,28 @@ function App() {
   return (
     <div className="card">
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        {/* Landing page met alleen Navbar */}
         <Route
           path="/"
           element={
+            <>
+              <Navbar />
+              <LandingPage />
+            </>
+          }
+        />
+        {/* Login/Register zonder navbar */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+
+        {/* Alle andere pagina's met SideNavbar */}
+        <Route
+          path="/home"
+          element={
             <ProtectedRoute>
-              <HomePage />
+              <MainLayout>
+                <HomePage />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -28,7 +47,9 @@ function App() {
           path="/price-calculator"
           element={
             <ProtectedRoute>
-              <PriceCalculator />
+              <MainLayout>
+                <PriceCalculator />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -36,7 +57,9 @@ function App() {
           path="/statistics"
           element={
             <ProtectedRoute>
-              <StatisticsPage />
+              <MainLayout>
+                <StatisticsPage />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -44,7 +67,9 @@ function App() {
           path="/profile"
           element={
             <ProtectedRoute>
-              <ProfilePage />
+              <MainLayout>
+                <ProfilePage />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -52,7 +77,9 @@ function App() {
           path="/admin-panel"
           element={
             <ProtectedRoute>
-              <AdminPanel />
+              <MainLayout>
+                <AdminPanel />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -61,4 +88,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

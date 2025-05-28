@@ -36,14 +36,9 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <Link to="/home" onClick={closeMenu}>
-        <div className="logo">
-          <img src="/logo.png" alt="ImmoGen Logo" style={{ height: "30px", marginRight: "8px" }} />
-          <p className="logo-text">
-            ImmoGen 
-          </p>
-        </div>
-      </Link>
+      <div className="logo">
+        <a href="/home" onClick={closeMenu}>ImmoGen</a>
+      </div>
       
       <div className="burger-icon" onClick={toggleMenu}>
         {/* Hamburger icon */}
@@ -54,14 +49,14 @@ const Navbar = () => {
       
       <ul className={`nav-links ${isMenuOpen ? "open" : ""}`}>
         <li onClick={closeMenu} className="close-icon">X</li>
-        <li><Link to="/price-calculator" onClick={closeMenu}>Home</Link></li>
-        <li><Link to="/statistics" onClick={closeMenu}>About</Link></li>
-        <li><Link to="/profile" onClick={closeMenu}>Features</Link></li>
-        <li><Link to="/admin-panel" onClick={closeMenu}>Contact Us</Link></li>
+        <li><Link to="/price-calculator" onClick={closeMenu}>Calculator</Link></li>
+        <li><Link to="/statistics" onClick={closeMenu}>Statistics</Link></li>
+        <li><Link to="/profile" onClick={closeMenu}>Profiel</Link></li>
+        <li><Link to="/admin-panel" onClick={closeMenu}>Admin</Link></li>
         
         <li>
-          <button className="btn-primary" onClick={() => window.location.href = "/login"}>
-            Login
+          <button id="theme-toggle" onClick={toggleTheme}  className="theme-toggle-button">
+            {isDarkTheme ? "Dark Mode" : "Light Mode"}
           </button>
         </li>
       </ul>

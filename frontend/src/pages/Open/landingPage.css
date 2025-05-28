@@ -1,0 +1,288 @@
+/* Hero Section Landingpage */
+.hero {
+    padding: 120px 0 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.hero .highlight {
+    color: #296dff;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 2.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-primary {
+    background: #333;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    background: #555;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Hero Image Section */
+.hero-image {
+    margin-top: 4rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ai-figure {
+    position: relative;
+    width: 400px;
+    height: 500px;
+    background: linear-gradient(135deg, #296dff 0%, #f7931e 90%, #333 100%);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.ai-head {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(45deg, #333, #666);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    overflow: hidden;
+}
+
+.ai-face {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    position: relative;
+}
+
+.ai-eye {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #296dff;
+    border-radius: 50%;
+    top: 40%;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.ai-eye.left {
+    left: 30%;
+}
+
+.ai-eye.right {
+    right: 30%;
+}
+
+.tech-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.tech-circle {
+    position: absolute;
+    border: 2px solid rgba(255, 107, 53, 0.5);
+    border-radius: 50%;
+    animation: rotate 10s linear infinite;
+}
+
+.tech-circle.large {
+    width: 150px;
+    height: 150px;
+    top: 20%;
+    right: 10%;
+}
+
+.tech-circle.medium {
+    width: 100px;
+    height: 100px;
+    bottom: 30%;
+    left: 15%;
+    animation-direction: reverse;
+}
+
+.tech-circle.small {
+    width: 60px;
+    height: 60px;
+    top: 60%;
+    right: 20%;
+}
+
+/* Feature Labels */
+.feature-label {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.9);
+    /* backdrop-filter: blur(10px); */
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #333;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.label-crm {
+    top: 15%;
+    left: 5%;
+}
+
+.label-wms {
+    top: 20%;
+    right: 5%;
+}
+
+.label-project {
+    top: 45%;
+    right: 2%;
+}
+
+.label-hris {
+    bottom: 60%;
+    left: 2%;
+}
+
+.label-workflow {
+    bottom: 40%;
+    left: 20%;
+}
+
+.label-custom {
+    bottom: 25%;
+    right: 15%;
+}
+
+.label-procurement {
+    bottom: 15%;
+    right: 55%;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Company Logos Section */
+.companies {
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.company-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 3rem;
+    opacity: 0.6;
+}
+
+.company-logo {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #666;
+}
+
+/* Second Section */
+.operations-section {
+    padding: 5rem 0;
+    border-radius: 0.51rem;
+    text-align: center;
+    background: white;
+}
+
+.operations-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.operations-section .highlight {
+    color: #296dff;
+}
+
+.operations-section p {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .ai-figure {
+        width: 300px;
+        height: 400px;
+    }
+
+    .ai-head {
+        width: 200px;
+        height: 200px;
+    }
+
+    .company-logos {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .operations-section h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .ai-figure {
+        width: 250px;
+        height: 320px;
+    }
+}

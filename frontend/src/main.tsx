@@ -9,7 +9,6 @@ import App from './App.tsx'
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <Navbar />
       <App />
     </BrowserRouter>
   </React.StrictMode>

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import "../../index.css";
+import axios from "axios";
 
 
 const MAP_TILER_KEY = import.meta.env.VITE_MAP_TILER_KEY;
@@ -28,7 +29,8 @@ const HouseMapLandingPage: React.FC = () => {
   const [search, setSearch] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
   const [scrapeHouses, setScrapeHouses] = useState<any[]>([]);
-  const [ImmoGenHouses, setImmoGenHouses] = useState<any[]>([]);
+  const [immoGenHouses, setImmoGenHouses] = useState<any[]>([]);
+  const [userHouses, setUserHouses] = useState<any[]>([]); // Voor gebruikershuizen, indien nodig
   const [mapLoaded, setMapLoaded] = useState(false); // Nieuwe state
 
   
@@ -80,20 +82,16 @@ const HouseMapLandingPage: React.FC = () => {
 
     const fetchImmoGenHouses = async () => {
       try {
-        const apiUrl = `${import.meta.env.VITE_API_URL}/immogen_addresses`;
-        console.log('🔄 Fetching from:', apiUrl);
-        
-        const res = await fetch(apiUrl);
-        console.log('📡 Response status:', res.status, res.statusText);
-        
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        
-        const data = await res.json();
-        console.log('📋 Raw API response:', data);
-        console.log('📊 Houses count:', Array.isArray(data) ? data.length : 'Not an array');
-        
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/immogen_addresses_without_user`,
+          {
+            headers: {
+              "Authorization": `Bearer ${token}`,
+            },
+          }
+        );
+        const data = response.data;
         if (Array.isArray(data) && data.length > 0) {
           console.log('🏠 First house example:', data[0]);
           setImmoGenHouses(data);
@@ -106,7 +104,35 @@ const HouseMapLandingPage: React.FC = () => {
       }
     };
     fetchImmoGenHouses();
+
+    
+
+    const fetchUserHouses = async () => {
+      try {
+        const token = localStorage.getItem("token"); 
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/user_house_addresses`,
+          {
+            headers: {
+              "Authorization": `Bearer ${token}`,
+            },
+          }
+        );
+        const data = response.data;
+        if (Array.isArray(data) && data.length > 0) {
+          console.log('🏠 First house example:', data[0]);
+          setUserHouses(data);
+        } else {
+          console.warn('⚠️ No houses returned or invalid format');
+          setUserHouses([]);
+        }
+      } catch (error) {
+        console.error("❌ Failed to fetch user houses:", error);
+      }
+    };
+    fetchUserHouses();
   }, []);
+
 
   useEffect(() => {
     if (!mapContainer.current || !userLocation) return;
@@ -179,12 +205,12 @@ const HouseMapLandingPage: React.FC = () => {
     });
 
     // Voeg ImmoGenHouses toe (altijd rode marker)
-    ImmoGenHouses.forEach((house, index) => {
+    immoGenHouses.forEach((house, index) => {
       if (!house.lat || !house.lon) return;
       const el = document.createElement("div");
       el.style.width = "32px";
       el.style.height = "32px";
-      el.style.backgroundImage = "url('/red-marker.png')";
+      el.style.backgroundImage = "url('/blue-marker.png')";
       el.style.backgroundSize = "contain";
       el.style.backgroundRepeat = "no-repeat";
       el.style.cursor = "pointer";
@@ -201,7 +227,32 @@ const HouseMapLandingPage: React.FC = () => {
       markersRef.current.push(marker);
     });
 
-  }, [scrapeHouses, ImmoGenHouses, mapLoaded]);
+    // Voeg gebruikershuizen toe (indien nodig)
+    if (userHouses.length > 0) {
+      userHouses.forEach((house, index) => {
+        if (!house.lat || !house.lon) return;
+        const el = document.createElement("div");
+        el.style.width = "32px";
+        el.style.height = "32px";
+        el.style.backgroundImage = "url('/red-marker.png')";
+        el.style.backgroundSize = "contain";
+        el.style.backgroundRepeat = "no-repeat";
+        el.style.cursor = "pointer";
+
+        const marker = new maptilersdk.Marker({ element: el })
+          .setLngLat([house.lon, house.lat])
+          .setPopup(
+            new maptilersdk.Popup().setHTML(
+              `<strong>${house.address || "Onbekend adres"}</strong><br/>Geschatte waarde: €${house.ai_price?.toLocaleString() || "?"}`
+            )
+          )
+          .addTo(mapRef.current!);
+
+        markersRef.current.push(marker);
+      });
+    }
+
+  }, [scrapeHouses, immoGenHouses, userHouses, mapLoaded]);
     
   const handleBaseMapSwitch = (key: keyof typeof BaseMaps) => {
     setSelectedBaseMap(key);

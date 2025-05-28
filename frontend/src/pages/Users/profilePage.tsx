@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import HouseMapForm from "../../components/maps/HouseMapForm";
-import "../../index.css";
 import HouseMapProfile from "../../components/maps/HouseMapProfile";
+import "./profilePage.css"
 
 // Dummy data voor demo
 const user = {

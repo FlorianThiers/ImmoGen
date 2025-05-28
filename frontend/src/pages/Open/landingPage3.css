@@ -1,0 +1,324 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+header {
+    background: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #296dff;
+}
+
+.logo::before {
+    content: "●";
+    color: #f59e0b;
+    margin-right: 8px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #296dff;
+}
+
+.btn-primary {
+    background: #296dff;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: #000dff;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #296dff;
+    padding: 12px 24px;
+    border: 2px solid #296dff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    margin-right: 1rem;
+}
+
+.btn-secondary:hover {
+    background: #296dff;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, #fef3f0 0%, #f0f9ff 100%);
+    padding: 120px 0 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.hero-text h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.hero-text .highlight {
+    color: #296dff;
+}
+
+.hero-text p {
+    font-size: 1.1rem;
+    color: #6b7280;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.hero-image {
+    position: relative;
+    text-align: center;
+}
+
+/* Decorative elements */
+.decoration {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+.decoration-1 {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(45deg, #fbbf24, #f59e0b);
+    top: 10%;
+    right: 10%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.decoration-2 {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, #ec4899, #be185d);
+    bottom: 20%;
+    left: 5%;
+    animation: float 4s ease-in-out infinite 2s;
+}
+
+.decoration-3 {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(45deg, #06b6d4, #0891b2);
+    top: 30%;
+    left: 10%;
+    animation: float 5s ease-in-out infinite 1s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Companies Section */
+.companies {
+    padding: 3rem 0;
+    text-align: center;
+    background: white;
+}
+
+.companies h3 {
+    color: #6b7280;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.company-logos {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.company-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.company-logo::before {
+    content: "●";
+    font-size: 1.5rem;
+}
+
+.company-logo:nth-child(1)::before { color: #296dff; }
+.company-logo:nth-child(2)::before { color: #10b981; }
+.company-logo:nth-child(3)::before { color: #3b82f6; }
+.company-logo:nth-child(4)::before { color: #8b5cf6; }
+.company-logo:nth-child(5)::before { color: #f59e0b; }
+
+/* Categories Section */
+.categories {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.categories h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.categories p {
+    color: #6b7280;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    max-width: 600px;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.category-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.category-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.graphic-design { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.business { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.web-design { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+.content-writing { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+.digital-marketing { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+.finance { background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%); }
+
+.category-card h3 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+    display: none;
+    }
+
+    .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    }
+
+    .hero-text h1 {
+    font-size: 2.5rem;
+    }
+
+    .company-logos {
+    flex-direction: column;
+    }
+
+    .categories h2 {
+    font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-text h1 {
+    font-size: 2rem;
+    }
+
+    .category-grid {
+    grid-template-columns: 1fr;
+    }
+}

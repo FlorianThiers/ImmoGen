@@ -1,12 +1,14 @@
-import requests
 import time
+import logging
+import requests
+
 from typing import List, Dict, Optional
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.models.house import ScrapeHouse, EstimatedHouse
-import logging
-
+from app.models.user import User
+from app.security.auth import get_current_user
 from app.AI.Models.geoLocation import geocode_address
 
 # Configure logging
@@ -77,6 +79,110 @@ def geocode_address(address: str, max_retries: int = 3) -> Optional[Dict]:
     # Cache failed result
     geocoding_cache[address] = None
     return None
+
+@router.get("/user_house_addresses")
+def get_user_addresses(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+    limit: int = 100
+):
+    """
+    Fetch estimated houses created by a specific user.
+    """
+    try:
+        user_id = current_user.id
+        logger.info(f"⏳ Fetching user addresses for user_id={user_id} from database...")
+
+        houses = (
+            db.query(EstimatedHouse)
+            .filter(EstimatedHouse.user_id == user_id)
+            .limit(limit)
+            .all()
+        )
+
+        if not houses:
+            logger.warning(f"⚠️ No houses found in the database for user_id={user_id}.")
+            return []
+
+        results = []
+        for house in houses:
+            if not all([house.street, house.street_number, house.city]):
+                continue  # Skip incomplete addresses
+
+            full_address = f"{house.street} {house.street_number}, {house.postal_code} {house.city}, {house.country}"
+            geocode_result = geocode_address(full_address)
+
+            if geocode_result:
+                results.append({
+                    "id": house.id,
+                    "address": full_address,
+                    "lat": geocode_result["lat"],
+                    "lon": geocode_result["lon"],
+                    "ai_price": getattr(house, "ai_price", None),
+                    "price": house.price,
+                    "title": house.title,
+                    "area": house.area,
+                    "bedrooms": house.bedrooms
+                })
+
+        logger.info(f"✅ Returning {len(results)} mapped houses for user_id={user_id}.")
+        return results
+
+    except Exception as e:
+        logger.error(f"❌ Error in get_user_addresses: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error fetching addresses: {str(e)}")
+    
+@router.get("/immogen_addresses_without_user")
+def get_immogen_addresses_without_user(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user), 
+    limit: int = 100):
+    """
+    Fetch estimated houses without a specific user.
+    """
+    try:
+        user_id = current_user.id        
+        logger.info(f"⏳ Fetching user addresses for user_id={user_id} from database...")
+
+        houses = (
+            db.query(EstimatedHouse)
+            .filter(EstimatedHouse.user_id != user_id) 
+            .limit(limit)
+            .all()
+        )
+        
+
+        if not houses:
+            logger.warning("⚠️ No houses found in the database.")
+            return []
+
+        results = []
+        for house in houses:
+            if not all([house.street, house.street_number, house.city]):
+                continue  # Skip incomplete addresses
+            
+            full_address = f"{house.street} {house.street_number}, {house.postal_code} {house.city}, {house.country}"
+            geocode_result = geocode_address(full_address)
+
+            if geocode_result:
+                results.append({
+                    "id": house.id,
+                    "address": full_address,
+                    "lat": geocode_result["lat"],
+                    "lon": geocode_result["lon"],
+                    "ai_price": getattr(house, "ai_price", None),
+                    "price": house.price,
+                    "title": house.title,
+                    "area": house.area,
+                    "bedrooms": house.bedrooms
+                })
+
+        logger.info(f"✅ Returning {len(results)} mapped houses.")
+        return results
+
+    except Exception as e:
+        logger.error(f"❌ Error in get_immogen_addresses_without_user: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error fetching addresses: {str(e)}")
 
 @router.get("/immogen_addresses")
 def get_immogen_addresses(db: Session = Depends(get_db), limit: int = 100):
