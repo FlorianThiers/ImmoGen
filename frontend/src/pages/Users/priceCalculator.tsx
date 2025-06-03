@@ -10,7 +10,7 @@ import HouseForm from "../../components/forms/HouseForm";
 import OfficeForm from "../../components/forms/OfficeForm";
 import VillaForm from "../../components/forms/VillaForm";
 import Sidebar from "../../components/SideNavbar";
-import Header from "../../components/header";
+import Header from "../../components/Header";
 
 import { calculatePrice, PriceInput } from "../../utils/calculator"; // Pas het pad aan naar waar je de functie opslaat
 import { getAbexValue } from "../../utils/abexCalculator"; // Zorg ervoor dat je deze functie hebt geïmplementeerd

@@ -126,6 +126,41 @@ body.theme-switching .dashboard-bg-fade {
     background-color: var(--text-color-dashboard-dark);
 }
 
+.sidebar-toggle {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    background-color: var(--text-color-dashboard-dark);
+    
+}
+
+.sidebar-toggle:hover {
+    background-color: var(--primair-blue);
+}
+
+.sidebar-toggle-arrow {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s;
+    transform: rotate(0deg);
+}
+
+.sidebar-toggle-arrow.expanded {
+    transform: rotate(180deg);
+}
+
+.sidebar-toggle:hover .sidebar-toggle-arrow {
+    transform: translateX(6px);
+}
+.sidebar-toggle:hover .sidebar-toggle-arrow.expanded {
+    transform: translateX(-6px) rotate(180deg);
+}
+
 .sidebar.expanded .nav-item {
     width: 100%;
     height: 50px;
@@ -251,6 +286,7 @@ body.theme-switching .dashboard-bg-fade {
 
 /* Basis overgang voor achtergrondkleur */
 .nav-item,
+.sidebar-toggle,
 .theme-toggle-button,
 .exit-item {
     transition: background 0.4s, background-color 0.4s, color 0.4s;
@@ -263,11 +299,13 @@ body.theme-switching .nav-item.sidebar-animate.delay-4 { transition-delay: 0.3s;
 body.theme-switching .nav-item.sidebar-animate.delay-5 { transition-delay: 0.4s; }
 body.theme-switching .nav-item.sidebar-animate.delay-6 { transition-delay: 0.5s; }
 body.theme-switching .nav-item.sidebar-animate.delay-7 { transition-delay: 0.6s; }
-body.theme-switching .theme-toggle-button.sidebar-animate.delay-6 { transition-delay: 0.7s; }
+body.theme-switching .sidebar-toggle { transition-delay: 0.7s; }
+body.theme-switching .theme-toggle-button { transition-delay: 0.75s; }
 body.theme-switching .exit-item { transition-delay: 0.8s; }
 
 /* Na de switch, reset de delay */
 body:not(.theme-switching) .nav-item,
+body:not(.theme-switching) .sidebar-toggle,
 body:not(.theme-switching) .theme-toggle-button,
 body:not(.theme-switching) .exit-item {
     transition-delay: 0s;
@@ -386,14 +424,14 @@ body:not(.theme-switching) .exit-item {
 }
 
 .user-panel-slide {
-    position: fixed;
+    position: relative;
     top: 0;
     right: 0;
     width: 340px;
     height: 100vh;
-    background: #fff;
     box-shadow: -2px 0 16px rgba(0,0,0,0.08);
-    z-index: 2000;
+    border-left: var(--backgroundcolor-fields-border) 1px solid;
+    /* z-index: 2000; */
     animation: slideInRight 0.3s cubic-bezier(0.4,0,0.2,1);
     display: flex;
     flex-direction: column;
@@ -430,11 +468,12 @@ body:not(.theme-switching) .exit-item {
     display: none;                
 }
 
-/* houses Section */
-.houses-section {
+/* Top Section */
+.top-section {
     margin-bottom: 40px;
 }
 
+/* houses Section */
 .section-header {
     display: flex;
     justify-content: space-between;
@@ -545,15 +584,15 @@ body:not(.theme-switching) .exit-item {
     gap: 40px;
 }
 
-/* Transactions Section */
-.transactions-section {
+/* recent-astimations Section */
+.recent-astimations-section {
     background-color: var(--backgroundcolor-fields);
     border-radius: 16px;
     padding: 24px;
     border: 1px solid var(--backgroundcolor-fields-border);
 }
 
-.transactions-section .section-header {
+.recent-astimations-section .section-header {
     margin-bottom: 20px;
 }
 
@@ -564,7 +603,7 @@ body:not(.theme-switching) .exit-item {
     cursor: pointer;
 }
 
-.transactions-table {
+.recent-astimations-table {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -581,7 +620,7 @@ body:not(.theme-switching) .exit-item {
     margin-bottom: 16px;
 }
 
-.transaction-row {
+.recent-astimation-row {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 16px;
@@ -591,17 +630,17 @@ body:not(.theme-switching) .exit-item {
     transition: background-color 0.2s;
 }
 
-.transaction-row:hover {
+.recent-astimation-row:hover {
     background-color: #222;
 }
 
-.transaction-name {
+.recent-astimation-name {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-.transaction-icon {
+.recent-astimation-icon {
     width: 32px;
     height: 32px;
     border-radius: 8px;
@@ -613,26 +652,34 @@ body:not(.theme-switching) .exit-item {
     color: white;
 }
 
-.transaction-icon.amazon {
-    background-color: #ff9900;
+.recent-astimation-icon.appartement {
+    background-color: #ff5f00;
 }
 
-.transaction-icon.walmart {
+.recent-astimation-icon.huis {
     background-color: #004c91;
 }
 
-.transaction-icon::before {
+.recent-astimation-icon.villa {
+    background-color: #ff9900;
+}
+
+.recent-astimation-icon::before {
     content: attr(class);
     text-transform: uppercase;
     font-size: 10px;
 }
 
-.transaction-icon.amazon::before {
+.recent-astimation-icon.appartement::before {
     content: 'A';
 }
 
-.transaction-icon.walmart::before {
-    content: 'W';
+.recent-astimation-icon.huis::before {
+    content: 'H';
+}
+
+.recent-astimation-icon.villa::before {
+    content: 'V';
 }
 
 .name {
@@ -670,85 +717,56 @@ body:not(.theme-switching) .exit-item {
     gap: 24px;
 }
 
-/* Currency Exchange */
-.currency-exchange {
+/* average estiamte */
+.average-estimate {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.estimate-today, .estimate-week {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.estimate-today .label,
+.estimate-week .label {
+  font-weight: 500;
+  color: var(--text-color-dashboard-gray);
+}
+.estimate-today .value,
+.estimate-week .value {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.diff.up {
+  color: #27ae60;
+  font-weight: 600;
+}
+.diff.down {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+.right-top-section {
     background-color: var(--backgroundcolor-fields);
     border-radius: 16px;
     padding: 24px;
     border: 1px solid var(--backgroundcolor-fields-border);
 }
 
-.currency-exchange h2 {
+.right-top-section h2 {
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 20px;
     color: var(--text-color-dashboard);
 }
 
-.exchange-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 20px;
-}
-
-.currency-input {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.currency-input select {
-    background-color: var(--backgroundcolor-fields-border);
-    border: 1px solid #3a3a3a;
-    border-radius: 8px;
-    padding: 8px 12px;
-    color: var(--text-color-dashboard);
-    font-size: 14px;
-    outline: none;
-    cursor: pointer;
-}
-
-.exchange-arrow {
-    color: var(--text-color-dashboard-dark);
-    font-size: 16px;
-}
-
-.exchange-amounts {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-bottom: 24px;
-}
-
-.amount-row {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.label {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.amount-value {
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--text-color-dashboard);
-}
-
-.rate {
-    font-size: 12px;
-    color: #888;
-}
-
-.exchange-footer {
+.estimate-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+} 
 
 .convert-btn {
     background-color: #667eea;
@@ -775,38 +793,47 @@ body:not(.theme-switching) .exit-item {
     gap: 2px;
 }
 
-/* Money Flow */
-.money-flow {
+/* Top Municipalities */
+.right-bottom-section {
     background-color: var(--backgroundcolor-fields);
     border-radius: 16px;
     padding: 24px;
     border: 1px solid var(--backgroundcolor-fields-border);
 }
 
-.money-flow .section-header {
-    margin-bottom: 20px;
+.municipality-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
 }
 
-.date-range {
-    font-size: 12px;
-}
-
-.chart-container {
-    position: relative;
-}
-
-.flow-chart {
-    width: 100%;
-    height: 120px;
-}
-
-.chart-labels {
+.municipality-row {
     display: flex;
     justify-content: space-between;
-    margin-top: 12px;
-    font-size: 11px;
-    color: var(--text-color-dashboard-dark);
-    padding: 0 10px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--backgroundcolor-fields-border);
+    font-size: 15px;
+}
+
+.municipality-row:last-child {
+    border-bottom: none;
+}
+
+.municipality-name {
+    font-weight: 600;
+    min-width: 5rem;
+    color: var(--text-color-dashboard);
+}
+
+.municipality-count {
+    color: var(--text-color-dashboard-gray);
+}
+
+.municipality-avg {
+    font-weight: 500;
+    color: #27ae60;
 }
 
 /* Responsive Design */
@@ -847,7 +874,7 @@ body:not(.theme-switching) .exit-item {
     }
     
     .table-header,
-    .transaction-row {
+    .recent-astimation-row {
         grid-template-columns: 2fr 1fr;
         gap: 8px;
     }

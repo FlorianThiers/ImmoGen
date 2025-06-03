@@ -7,6 +7,8 @@ from app.models.user import User
 from app.services.user import Token, UserCreate, UserOut
 from app.db.database import get_db
 from app.security.auth import verify_password, create_access_token, get_password_hash
+from app.models import User
+from app.security.auth import get_current_user
 
 router = APIRouter()
 
@@ -41,3 +43,8 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 
     access_token = create_access_token(data={"sub": str(user.id)})
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.get("/me", response_model=UserOut)
+def get_me(current_user: User = Depends(get_current_user)):
+    return current_user

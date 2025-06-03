@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import Sidebar from "../../components/SideNavbar";
-import Header from "../../components/header";
+import Header from "../../components/Header";
 const StatisticsPage = () => {
   const [featureImportance, setFeatureImportance] = useState([]);
   const [correlations, setCorrelations] = useState<Record<string, number>>({});

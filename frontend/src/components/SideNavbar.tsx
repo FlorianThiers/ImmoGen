@@ -113,12 +113,16 @@ const Navbar = () => {
         </Link>
       </ul>
       <div className="sidebar-toggle" onClick={handleSidebarToggle}>
-        <span>{isExpanded ? "<" : ">"}</span>
+        <img
+          src="/right-arrow.png"
+          alt="Toggle Sidebar"
+          className={`sidebar-toggle-arrow${isExpanded ? " expanded" : ""}`}
+        />
       </div>
       <button
         id="theme-toggle"
         onClick={toggleTheme}
-        className={`theme-toggle-button sidebar-animate delay-6 ${
+        className={`theme-toggle-button ${
           isDarkTheme ? "dark" : "light"
         }`}
         title={isDarkTheme ? "Switch to light mode" : "Switch to dark mode"}
@@ -129,7 +133,7 @@ const Navbar = () => {
           // style={{ width: 24, height: 24 }}
         />
       </button>
-      <div className="sidebar-bottom sidebar-animate delay-7">
+      <div className="sidebar-bottom">
         <li className="exit-item">
           <span className="exit-icon logout-icon">
             <img src="/exit.png" alt="Logout" className="sidebar-icon" />

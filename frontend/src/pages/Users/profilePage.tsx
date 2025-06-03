@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import HouseMapProfile from "../../components/maps/HouseMapProfile";
 import Sidebar from "../../components/SideNavbar";
-import Header from "../../components/header";
+import Header from "../../components/Header";
 import "./profilePage.css"
 
 // Dummy data voor demo

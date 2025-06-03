@@ -32,7 +32,7 @@ const LoginPage: React.FC = () => {
       );
 
       localStorage.setItem('token', response.data.access_token);
-      navigate('/home');
+      navigate('/dashboard');
     } catch (err: any) {
       setError('Invalid credentials');
     }

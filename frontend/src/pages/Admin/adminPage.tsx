@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Sidebar from "../../components/SideNavbar";
-import Header from "../../components/header";
+import Header from "../../components/Header";
 
 const AdminPanel = () => {
   const [scrapingStatus, setScrapingStatus] = useState<string | null>(null);

@@ -9,6 +9,7 @@ import Dashboard from "./pages/Users/dashboard";
 import HomePage from "./pages/Users/homePage";
 import PriceCalculator from "./pages/Users/priceCalculator";
 import StatisticsPage from "./pages/Users/statisticsPage";
+import MapPage from "./pages/Users/mapPage";
 import ProfilePage from "./pages/Users/profilePage";
 import AdminPanel from "./pages/Admin/adminPage";
 
@@ -61,6 +62,14 @@ function App() {
         element={
           <ProtectedRoute>
               <StatisticsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/map"
+        element={
+          <ProtectedRoute>
+              <MapPage />
           </ProtectedRoute>
         }
       />
