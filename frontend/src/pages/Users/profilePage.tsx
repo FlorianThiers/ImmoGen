@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import HouseMapProfile from "../../components/maps/HouseMapProfile";
+import Sidebar from "../../components/SideNavbar";
+import Header from "../../components/header";
 import "./profilePage.css"
 
 // Dummy data voor demo
@@ -70,82 +72,91 @@ const ProfilePage: React.FC = () => {
   }, []);
 
   return (
-    <div className="profile-container">
-      <h1 className="profile-header">Profiel</h1>
-      <div className="profile-info">
-        <strong>Naam:</strong> {user.name} <br />
-        <strong>E-mail:</strong> {user.email}
-      </div>
+    <div className="dashboard">
+      <Sidebar/>
 
-      <div className="profile-flex">
-        <div className="profile-stats">
-          <h2>Statistieken</h2>
-          <ul>
-            <li>
-              <strong>Totaal aantal schattingen:</strong> {totalEstimates}
-            </li>
-            <li>
-              <strong>Type woningen:</strong>
+      <main className="main-content">
+          <Header title="Profiel" />
+
+        <div className="profile-container">
+          <img src="/profileImg.png" alt="profielfoto" className="profile-img" />
+          <div className="profile-info">
+            <strong>Naam:</strong> {user.name} <br />
+            <strong>E-mail:</strong> {user.email}
+          </div>
+
+          <div className="profile-flex">
+            <div className="profile-stats">
+              <h2>Statistieken</h2>
               <ul>
-                {Object.entries(typeStats).map(([type, count]) => (
-                  <li key={type}>
-                    {type}: {count}
-                  </li>
-                ))}
+                <li>
+                  <strong>Totaal aantal schattingen:</strong> {totalEstimates}
+                </li>
+                <li>
+                  <strong>Type woningen:</strong>
+                  <ul>
+                    {Object.entries(typeStats).map(([type, count]) => (
+                      <li key={type}>
+                        {type}: {count}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+                <li>
+                  <strong>Streken:</strong>
+                  <ul>
+                    {Object.entries(regionStats).map(([region, count]) => (
+                      <li key={region}>
+                        {region}: {count}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+                <li>
+                  <strong>Meest geschatte streek:</strong> {mostEstimatedRegion}
+                </li>
               </ul>
-            </li>
-            <li>
-              <strong>Streken:</strong>
-              <ul>
-                {Object.entries(regionStats).map(([region, count]) => (
-                  <li key={region}>
-                    {region}: {count}
-                  </li>
+            </div>
+            <div className="profile-map">
+              <h2>Mijn schattingen op de kaart</h2>
+              <HouseMapProfile
+                houses={user.estimates.map((e) => ({
+                  lat: e.lat,
+                  lon: e.lon,
+                  ownEstimate: true,
+                  address: e.address,
+                  value: e.value,
+                }))}
+              />
+            </div>
+          </div>
+          <div className="profile-table-container">
+            <h2>Mijn schattingen</h2>
+            <table className="profile-table">
+              <thead>
+                <tr>
+                  <th>Adres</th>
+                  <th className="right">Waarde</th>
+                  <th className="center">Type</th>
+                  <th className="center">Streek</th>
+                </tr>
+              </thead>
+              <tbody>
+                {user.estimates.map((e) => (
+                  <tr key={e.id}>
+                    <td>{e.address}</td>
+                    <td className="right">€{e.value.toLocaleString()}</td>
+                    <td className="center">{e.type}</td>
+                    <td className="center">{e.region}</td>
+                  </tr>
                 ))}
-              </ul>
-            </li>
-            <li>
-              <strong>Meest geschatte streek:</strong> {mostEstimatedRegion}
-            </li>
-          </ul>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div className="profile-map">
-          <h2>Mijn schattingen op de kaart</h2>
-          <HouseMapProfile
-            houses={user.estimates.map((e) => ({
-              lat: e.lat,
-              lon: e.lon,
-              ownEstimate: true,
-              address: e.address,
-              value: e.value,
-            }))}
-          />
-        </div>
-      </div>
-      <div className="profile-table-container">
-        <h2>Mijn schattingen</h2>
-        <table className="profile-table">
-          <thead>
-            <tr>
-              <th>Adres</th>
-              <th className="right">Waarde</th>
-              <th className="center">Type</th>
-              <th className="center">Streek</th>
-            </tr>
-          </thead>
-          <tbody>
-            {user.estimates.map((e) => (
-              <tr key={e.id}>
-                <td>{e.address}</td>
-                <td className="right">€{e.value.toLocaleString()}</td>
-                <td className="center">{e.type}</td>
-                <td className="center">{e.region}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      </main>
     </div>
+
   );
 };
 

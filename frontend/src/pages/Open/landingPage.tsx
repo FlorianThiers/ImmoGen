@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './landingPage.css'; // Assuming you have a CSS file for styles
 
-const LandingPage2 = () => {
+const LandingPage = () => {
   useEffect(() => {
     // Add smooth scrolling
     const handleAnchorClick = (e: Event) => {
@@ -176,4 +176,4 @@ const LandingPage2 = () => {
   );
 };
 
-export default LandingPage2;
+export default LandingPage;

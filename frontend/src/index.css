@@ -1,11 +1,32 @@
 
 :root {
   --background-color: linear-gradient(135deg, #fef3f0 0%, #f0f9ff 100%);
+  --background-color-rev: linear-gradient(135deg, #f0f9ff 0%, #fef3f0 100%);
+  --background-color-hover: #555;
   --text-color: #333;
+  --mid-gray: #555;
+  --text-colot-gray: #666;
   --text-colot-white: #ffffff;
-  --button-bg-color: #296dff;
+
+  --primair-blue: #296dff;
+  --primair-orange: #f7931e;
   --inputfield-bg-color: #7ba5ff;
   --button-border-hover-color: #000dff;
+  --navbar-bg-color: rgba(255, 255, 255, 0.8);
+
+  /* dashboard */
+  --backgroundcolor-dashboard: linear-gradient(135deg, #fef3f0 0%, #f0f9ff 100%);
+  --backgroundcolor-dashboard-rev: linear-gradient(135deg, #f0f9ff 0%, #fef3f0 100%);
+  --backgroundcolor-dashboard-dark: linear-gradient(135deg, #160700 0%, #000000 50%, #00103a 100%);
+  --backgroundcolor-dashboard-dark-rev: linear-gradient(135deg, #00103a 0%, #000000 50%, #160700 100%);
+  --backgroundcolor-dashboard-hover: #555;
+  --backgroundcolor-dashboard-dark-hover: #000dff;
+  --text-color-dashboard: #333;
+  --text-color-dashboard-dark: rgba(255, 255, 255, 0.6);
+  --text-color-dashboard-gray: #666;
+  --backgroundcolor-fields: #fffefc;
+  --backgroundcolor-fields-border: #f0f0f0;
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -19,13 +40,29 @@
 }
 
 .dark-theme {
-  --background-color: #121212;
+  --background-color: linear-gradient(135deg, #160700 0%, #000000 50%, #00103a 100%);
+  --background-color-rev: linear-gradient(135deg, #00103a 0%, #000000 50%, #160700 100%);
   --text-color: rgba(255, 255, 255, 0.87);
-  --text-colot-white: #ffffff;
-  
-  --button-bg-color: #1a1a1a;
+  --text-colot-gray: rgba(255, 255, 255, 0.6);
   --inputfield-bg-color: #7ba5ff;
-  --button-border-hover-color: #000dff;
+  --navbar-bg-color: rgba(0, 0, 0, 0.8);
+
+  /* dashboard */
+  --backgroundcolor-dashboard: linear-gradient(135deg, #160700 0%, #000000 50%, #00103a 100%);
+  --backgroundcolor-dashboard-rev: linear-gradient(135deg, #00103a 0%, #000000 50%, #160700 100%);
+  --backgroundcolor-dashboard-dark: linear-gradient(135deg, #fef3f0 0%, #f0f9ff 100%);
+  --backgroundcolor-dashboard-dark-rev: linear-gradient(135deg, #f0f9ff 0%, #fef3f0 100%);
+  --backgroundcolor-dashboard-hover: #000dff;
+  --backgroundcolor-dashboard-dark-hover: #555;
+  --text-color-dashboard: rgba(255, 255, 255, 0.87);
+  --text-color-dashboard-dark: #666;
+  --text-color-dashboard-gray: rgba(255, 255, 255, 0.6);
+  --backgroundcolor-fields: #1a1a1a;
+  --backgroundcolor-fields-border: #2a2a2a;
+
+  
+
+  
 } 
 
 /* components */
@@ -36,15 +73,15 @@ a {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  color: var(--text-color);
 }
 
 /* body */
 #root {
-  margin: 0.51rem;
   border-radius: 0.5rem;
   min-height: 100vh;
-  min-width: 90%;
   text-align: center;
+  min-width: 80%;
 }
 
 * {
@@ -53,9 +90,16 @@ h1 {
   box-sizing: border-box;
 }
 
+/* Verberg scrollbar op de landingpage */
+body, html {
+    -ms-overflow-style: none;     /* IE en Edge */
+}
+body::-webkit-scrollbar, html::-webkit-scrollbar {
+    display: none;                /* Chrome, Safari, Opera */
+}
+
 body {
   margin: 0;
-  padding: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,18 +107,16 @@ body {
   min-height: 100vh;
   line-height: 1.6;
   color: var(--text-color);
-  background: var(--background-color);
+  /* background: var(--background-color); */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
-}
-
-.card {
-  padding: 2em;
+  background-color: var(--background-color);
 }
 
 
@@ -87,7 +129,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: var(--button-bg-color);
+  background-color: var(--primair-blue);
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -108,16 +150,6 @@ button:focus-visible {
   transition: 350ms ease-in-out;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
 
 /* Algemene navbar-styling */
 .navbar {
@@ -125,7 +157,7 @@ button:focus-visible {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: var(--text-colot-white);
+  background-color: var(--navbar-bg-color);
   color: var(--text-color);
   position: sticky;
   top: 0;
@@ -137,12 +169,12 @@ button:focus-visible {
   align-items: center;
   font-size: 1.2rem;
   font-weight: 600;
-  color: #333;
+  color: var(--text-color);
   z-index: 999;
 }
 
 .logo-text {
-    color: #333;
+    color: var(--text-color);
     font-weight: 700;
 }
 
@@ -170,7 +202,7 @@ button:focus-visible {
 }
 
 .nav-links a:hover {
-    color: #333;
+    color: var(--text-color);
 }
 
 .nav-actions {
@@ -339,7 +371,7 @@ select {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: var(--button-bg-color);
+  background-color: var(--primair-blue);
   cursor: pointer;
 }
 
@@ -353,7 +385,7 @@ input {
   background-color: var(--inputfield-bg-color);
 }
 input:focus {
-  background-color: var(--button-bg-color);
+  background-color: var(--primair-blue);
 }
 input:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -372,7 +404,7 @@ option {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: var(--button-bg-color);
+  background-color: var(--primair-blue);
 }
 option:hover {
   background-color: var(--button-border-hover-color);

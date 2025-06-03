@@ -193,6 +193,7 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                                 # buurtveiligheid = self.schat_buurtveiligheid(locatie)
 
                                 # Interieur values
+                                oppervlakte = property_details["interieur"]["oppervlakte"]
                                 bewoonbare_opp = property_details["interieur"]["bewoonbare_opp"]
                                 slaapkamers = property_details["interieur"]["slaapkamers"]
                                 oppervlakte_slaapkamer_1 = property_details["interieur"]["oppervlakte_slaapkamer_1"]
@@ -217,6 +218,7 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                                 # # Keuken en sanitair
                                 oppervlakte_keuken = property_details["keuken_sanitair"]["oppervlakte_keuken"]
                                 keukenuitrusting = property_details["keuken_sanitair"]["keukenuitrusting"]
+                                badkamers = property_details["keuken_sanitair"]["badkamers"]
                                 aantal_toiletten = property_details["keuken_sanitair"]["aantal_toiletten"]
                                 aantal_douchecabines = property_details["keuken_sanitair"]["aantal_douchecabines"]
                                 aantal_baden = property_details["keuken_sanitair"]["aantal_baden"]

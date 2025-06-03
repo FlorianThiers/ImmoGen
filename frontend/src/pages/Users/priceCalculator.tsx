@@ -9,6 +9,8 @@ import CommercialPropertyForm from "../../components/forms/CommercialPropertyFor
 import HouseForm from "../../components/forms/HouseForm";
 import OfficeForm from "../../components/forms/OfficeForm";
 import VillaForm from "../../components/forms/VillaForm";
+import Sidebar from "../../components/SideNavbar";
+import Header from "../../components/header";
 
 import { calculatePrice, PriceInput } from "../../utils/calculator"; // Pas het pad aan naar waar je de functie opslaat
 import { getAbexValue } from "../../utils/abexCalculator"; // Zorg ervoor dat je deze functie hebt geïmplementeerd
@@ -283,62 +285,68 @@ const PriceCalculator = () => {
   }, []);
 
   return (
-    <div className="form">
-      <h1 className="text-2xl font-bold mb-4">Bereken Woningprijs</h1>
+    <div className="dashboard">
+    <Sidebar/>
+      <main className="main-content">
+      <Header title="Calculator" />
 
-      <form onSubmit={handleSubmit}>
-        {/* Algemene Informatie */}
-        <h2 className="text-xl font-bold mt-4">Type</h2>
-        {/* <select
-          name="title"
-          value={formData.title}
-          onChange={(e) => {
-            const value = e.target.value;
-            setSelectedType(value); // Update het geselecteerde type
-            setFormData({ ...formData, title: value }); // Update de title in formData
-          }}
-          title="Selecteer een titel"
-        >
-          {titles.map((title, index) => (
-          <option key={index} value={title}>
-            {title}
-          </option>
-          ))}
-        </select> */}
+        <div className="form">
 
-        <select
-          name="title"
-          value={formData.title}
-          onChange={(e) => {
-            const value = e.target.value;
-            setSelectedType(value); // Update het geselecteerde type
-            setFormData({ ...formData, title: value }); // Update de title in formData
-          }}
-          title="Selecteer een titel"
-        >
-          <option value="Appartement">Appartement</option>
-          <option value="Huis">Huis</option>
-        </select>
+          <form onSubmit={handleSubmit}>
+            {/* Algemene Informatie */}
+            <h2 className="text-xl font-bold mt-4">Type</h2>
+            {/* <select
+              name="title"
+              value={formData.title}
+              onChange={(e) => {
+                const value = e.target.value;
+                setSelectedType(value); // Update het geselecteerde type
+                setFormData({ ...formData, title: value }); // Update de title in formData
+              }}
+              title="Selecteer een titel"
+            >
+              {titles.map((title, index) => (
+              <option key={index} value={title}>
+                {title}
+              </option>
+              ))}
+            </select> */}
 
-        {renderForm()}
+            <select
+              name="title"
+              value={formData.title}
+              onChange={(e) => {
+                const value = e.target.value;
+                setSelectedType(value); // Update het geselecteerde type
+                setFormData({ ...formData, title: value }); // Update de title in formData
+              }}
+              title="Selecteer een titel"
+            >
+              <option value="Appartement">Appartement</option>
+              <option value="Huis">Huis</option>
+            </select>
+
+            {renderForm()}
+            
+            <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4">
+              Bereken Prijs
+            </button>
+          </form>
         
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4">
-          Bereken Prijs
-        </button>
-      </form>
-    
-          <p>Formule Prijs: €{formulaPrice?.toFixed(2)}</p>
+              <p>Formule Prijs: €{formulaPrice?.toFixed(2)}</p>
 
-      {result && (
-        <div className="mt-4">
-          <h2 className="text-xl font-bold">Resultaat:</h2>
-          <p>AI Prijs: €{result}</p>
-          <p>Formule Prijs: €{formulaPrice?.toFixed(2)}</p>
-          {/* <p>Verschil: €{result.verschil}</p>
-          <p>Verschil Percentage: {result.verschil_percentage}%</p> */}
+          {result && (
+            <div className="mt-4">
+              <h2 className="text-xl font-bold">Resultaat:</h2>
+              <p>AI Prijs: €{result}</p>
+              <p>Formule Prijs: €{formulaPrice?.toFixed(2)}</p>
+              {/* <p>Verschil: €{result.verschil}</p>
+              <p>Verschil Percentage: {result.verschil_percentage}%</p> */}
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </main>
+    </div>       
   );
 };
 

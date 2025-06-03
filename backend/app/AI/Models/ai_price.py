@@ -21,6 +21,7 @@ def ai_price(data, model, scaler, features, dummy_columns):
 
         # ULTRA OPTIMALISATIE: Maak direct een DataFrame met alle verwachte kolommen
         # Dit is veel sneller dan dummy encoding + kolom manipulaties
+        print("Gebruikte features voor predictie:", dummy_columns)
         
         # Maak een lege array met de juiste vorm
         feature_array = np.zeros(len(dummy_columns))
@@ -45,6 +46,9 @@ def ai_price(data, model, scaler, features, dummy_columns):
         
         # Maak DataFrame met juiste kolom namen
         input_df = pd.DataFrame([feature_array], columns=dummy_columns)
+        print("Input features:", input_df)
+        print("Scaler mean:", scaler.mean_)
+        print("Scaler var:", scaler.var_)
 
         # Normaliseer de features
         try:
@@ -54,10 +58,12 @@ def ai_price(data, model, scaler, features, dummy_columns):
             return None
         
         # Voorspel de prijs
-        voorspelde_prijs = model.predict(input_scaled)[0]
-        print(f"✅ Voorspelde prijs: {voorspelde_prijs}")
+        raw_pred = model.predict(input_scaled)[0]
+        print(f"Ruwe voorspelling (in duizenden): {raw_pred}")
+        predicted_price = raw_pred * 1000
+        print(f"✅ Voorspelde prijs: {predicted_price}")
 
-        return round(voorspelde_prijs, 2)
+        return round(predicted_price, 2)
     
     except Exception as e:
         print(f"❌ Fout bij het berekenen van de prijs: {e}")

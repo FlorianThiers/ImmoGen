@@ -5,6 +5,13 @@
   padding: 2rem;
 }
 
+.profile-img {
+  width: 20%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
 .profile-header {
   margin-bottom: 0.5rem;
 }

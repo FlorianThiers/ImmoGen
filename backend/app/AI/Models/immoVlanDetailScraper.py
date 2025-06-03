@@ -74,7 +74,9 @@ def scrape_property_details(detail_url, headers={"User-Agent": "Mozilla/5.0"}):
             "aansluiting_waterleiding": "None",
             "aansluiting_gasleiding": "None",
             "zwembad": "None",
-            "tuin": "None"
+            "zwembad_oppervlakte": "None",
+            "tuin": "None",
+            "tuin_oppervlakte": "None",
         }
     }
     
@@ -354,7 +356,7 @@ def scrape_property_details(detail_url, headers={"User-Agent": "Mozilla/5.0"}):
                                     elif any(x in field_name_lower for x in ["oppervlakte terras", "opp. terras"]):
                                         property_data["buitenruimte"]["oppervlakte_terras"] = field_value
                                         print(f"  → Found oppervlakte_terras: {field_value}")
-                                    elif any(x in field_name_lower for x in ["totale oppervlakte", "totale opp"]):
+                                    elif any(x in field_name_lower for x in ["totale oppervlakte", "totale opp", "Totaal grondoppervlakte"]):
                                         property_data["buitenruimte"]["totale_opp"] = field_value
                                         print(f"  → Found totale_opp: {field_value}")
                                     elif any(x in field_name_lower for x in ["diepte perceel", "perceel diepte"]):
@@ -375,9 +377,15 @@ def scrape_property_details(detail_url, headers={"User-Agent": "Mozilla/5.0"}):
                                     elif field_name_lower == "zwembad":
                                         property_data["buitenruimte"]["zwembad"] = field_value
                                         print(f"  → Found zwembad: {field_value}")
+                                    elif field_name_lower == "zwembad oppervlakte":
+                                        property_data["buitenruimte"]["zwembad_oppervlakte"] = field_value
+                                        print(f"  → Found buitenruimte: {field_value}")
                                     elif field_name_lower == "tuin":
                                         property_data["buitenruimte"]["tuin"] = field_value
                                         print(f"  → Found tuin: {field_value}")
+                                    elif field_name_lower == "Oppervlakte tuin":
+                                        property_data["buitenruimte"]["tuin_oppervlakte"] = field_value
+                                        print(f"  → Found tuin_oppervlakte: {field_value}")
                             
     except Exception as e:
         print(f"Error scraping detail page {detail_url}: {e}")

@@ -61,7 +61,7 @@ const LoginPage: React.FC = () => {
       </button>
 
       <div className="form-container">
-        <div className="header">
+        <div className="login-header">
           <img src="/logo.png" alt="ImmoGen Logo" className='login-logo' />
           <div className="login-logo-text">ImmoGen</div>
         </div>

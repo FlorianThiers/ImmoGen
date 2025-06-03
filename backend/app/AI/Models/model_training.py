@@ -1,5 +1,6 @@
 import os
 import pickle
+import numpy as np
 import pandas as pd
 
 from sklearn.ensemble import RandomForestRegressor
@@ -37,8 +38,13 @@ def train_model(db: Session, features=None):
         # Filter invalid data
         print("🧹 Filtering invalid data...")
         initial_count = len(df)
-        df = df.dropna(subset=['price', 'area'])
+        df = df.dropna(subset=['price', 'area']) # Verwijder rijen zonder prijs
+        df = df[df["title"] == "huis"]  # Of de juiste waarde voor huizen
+        df = df[df["property_condition"] != "Te slopen"]
+        print("Aantal huizen in trainingsdata:", len(df))
         df = df[df['price'] > 0]
+        print(df["price"].describe())
+        print(df["price"].value_counts(bins=10))
         print(f"✅ Filtered data: {initial_count} -> {len(df)} rows")
         
         # Check if there is enough data for training
@@ -52,7 +58,28 @@ def train_model(db: Session, features=None):
         if not features:
             features = SCRAPE_FEATURES
 
-        features = [f for f in SCRAPE_FEATURES if f != "price"]
+        MAIN_FEATURES = [
+            "livable_area",          # woonoppervlakte
+            # "area",                  # perceeloppervlakte
+            "bedrooms",              # aantal slaapkamers
+            # "bathrooms",             # aantal badkamers
+            "construction_year",     # bouwjaar
+            "property_condition",    # staat van het huis
+            "postal_code",           # locatie
+            "city",                  # locatie
+            # "garage",                # garage aanwezig
+            # "garden",                # tuin aanwezig
+            # "terrace",               # terras aanwezig
+            # "epc",                   # EPC waarde
+            # "heating_type",          # type verwarming
+            # "kitchen_equipment",     # keukenuitrusting
+            # "swimming_pool",         # zwembad aanwezig
+            # Voeg hier andere relevante features toe die in jouw data goed gevuld zijn
+        ]
+
+        # Gebruik deze lijst in plaats van alle SCRAPE_FEATURES:
+        features = [f for f in MAIN_FEATURES if f in df.columns]
+        print(df[features].isnull().sum())
         # print("🔍 Features passed to model:", features)
         
         # Check which features actually exist in the DataFrame
@@ -73,7 +100,11 @@ def train_model(db: Session, features=None):
         # print(f"✅ Features selected: {X.shape}")
         
         print(f"🎯 Selecting target variable...")
-        y = df['price']
+        y = df["price"] / 1000
+        print("Min prijs:", df["price"].min())
+        print("Max prijs:", df["price"].max())
+        print("Min y:", y.min())
+        print("Max y:", y.max())
         # print(f"✅ Target selected: {y.shape}")
         
         print(f"✅ Data voor training: {X.shape[0]} rows, {X.shape[1]} columns")
@@ -134,22 +165,36 @@ def train_model(db: Session, features=None):
         print("🚀 Training RandomForest model...")
         model = RandomForestRegressor(n_estimators=100, random_state=42)
         model.fit(X_train, y_train)
-        print("✅ Model trained")
 
-        # Evaluate the model
-        score = model.score(X_test, y_test)
-        print(f"📈 Model R² score: {score:.4f}")
+        # Feature importance tonen
+        importances = model.feature_importances_
+        indices = np.argsort(importances)[::-1]
+        feature_names = X.columns
+        print("🔎 Feature importances (belangrijkste bovenaan):")
+        for i in indices:
+            print(f"{feature_names[i]}: {importances[i]:.3f}")
 
-        try:    
-            # Save the model
-            print("💾 Saving model...")
+        # Selecteer alleen features met importance > 0.01 (of kies top N)
+        threshold = 0.01
+        important_indices = [i for i, imp in enumerate(importances) if imp > threshold]
+        important_features = [feature_names[i] for i in important_indices]
+
+        print(f"🔎 Geselecteerde belangrijke features (importance > {threshold}): {important_features}")
+
+        # Train opnieuw met alleen deze features
+        if len(important_features) > 0:
+            X_imp = X[important_features]
+            scaler_imp = StandardScaler()
+            X_imp_scaled = scaler_imp.fit_transform(X_imp)
+            model_imp = RandomForestRegressor(n_estimators=100, random_state=42)
+            model_imp.fit(X_imp_scaled, y)  # Gebruik y in plaats van y_train_imp
+
+            # Sla eventueel dit model op als het beter is
             with open(model_path, 'wb') as f:
-                pickle.dump((model, scaler, available_features, dummy_columns), f)
-            print(f"✅ Model saved at {model_path}")
-            return True
-        except Exception as e:
-            print(f"❌ Error saving the model: {e}")
-            return False
+                pickle.dump((model_imp, scaler_imp, important_features, important_features), f)
+                print("✅ Model trained")   
+        else:
+            print("⚠️ Geen belangrijke features gevonden boven de drempel.")
             
     except Exception as e:
         print(f"❌ Error during training: {e}")

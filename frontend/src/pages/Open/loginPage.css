@@ -10,6 +10,11 @@
   position: relative;
   overflow: hidden;
   border-radius: 20px;
+  margin: 2rem auto;
+  -ms-overflow-style: none;    
+}
+.login-container::-webkit-scrollbar {
+    display: none;                /* Chrome, Safari, Opera */
 }
 
 /* Dark overlay for better contrast */
@@ -32,7 +37,7 @@
   padding: 20px;
 }
 
-.header {
+.login-header {
   text-align: center;
   margin-bottom: 40px;
 }
