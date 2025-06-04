@@ -1,12 +1,38 @@
-import { useState } from "react";
 import axios from "axios";
+import { useState, useEffect } from "react";
+
 import Sidebar from "../../components/SideNavbar";
 import Header from "../../components/Header";
+import UserField from "../../components/UserField";
 
 const AdminPanel = () => {
   const [scrapingStatus, setScrapingStatus] = useState<string | null>(null);
   const [trainingStatus, setTrainingStatus] = useState<string | null>(null);
   const [scrapePages, setScrapePages] = useState<number>(1);
+  const isDarkTheme = useState(
+    typeof document !== "undefined" &&
+      document.body.classList.contains("dark-theme")
+  );
+  const showOverlay = useState(false);
+  const overlayTheme = useState(isDarkTheme ? "dark" : "light");
+  const [showUserField, setShowUserField] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUser(res.data);
+      } catch (err) {
+        setUser(null);
+      }
+    };
+    fetchUser();
+  }, []);
+
 
   // Functie om scraping te starten
   const handleScrape = async () => {
@@ -37,9 +63,14 @@ const AdminPanel = () => {
 
   return (
     <div className="dashboard">
+      {showOverlay && (<div className={`dashboard-bg-fade ${overlayTheme}`}></div>)}
+      <div className={`dashboard-bg-fade ${isDarkTheme ? "dark" : "light"}`}></div>
       <Sidebar/>
       <main className="main-content">
-        <Header title="Admin Panel" />
+        <Header title="Admin Panel" 
+          user={user || undefined}
+          onUserClick={() => setShowUserField(true)}
+        />
         <div className="p-4">
           <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
           <h2 className="text-xl font-bold mt-6">Scraping Status</h2>
@@ -93,6 +124,7 @@ const AdminPanel = () => {
           
         </div>
       </main>
+        <UserField open={showUserField} onClose={() => setShowUserField(false)} />
     </div>
   );
 };

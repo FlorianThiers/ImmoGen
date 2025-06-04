@@ -441,6 +441,7 @@ body:not(.theme-switching) .exit-item {
     to   { transform: translateX(0); }
 }
 .user-panel-content {
+    margin-top: 3rem;
     padding: 32px 24px;
 }
 .close-btn {
@@ -515,16 +516,73 @@ body:not(.theme-switching) .exit-item {
     justify-content: space-between;
 }
 
+
 .house.villa {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.house.villa::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.house.villa:hover::before {
+  left: 100%;
+}
+
+.house.villa:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .house.appartement {
     background: linear-gradient(135deg, #2d9c95 0%, #1e6b67 100%);
 }
+.house.appartement::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s ease;
+}
+.house.appartement:hover::before {
+  left: 100%;
+}
+.house.appartement:hover {
+    background: linear-gradient(135deg, #26a69a 0%, #1b6f6b 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
 
 .house.huis {
     background: linear-gradient(135deg, #8e8e93 0%, #6d6d73 100%);
+}
+.house.huis::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s ease;
+}
+.house.huis:hover::before {
+  left: 100%;
+}
+.house.huis:hover {
+    background: linear-gradient(135deg, #7a7a7d 0%, #5c5c60 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .house-header {

@@ -28,18 +28,24 @@ export function calculatePrice(input: PriceInput) {
   console.log("Land Price per m²: ", input.landPricePerM2);
   console.log("Land Value: ", landValue);
   let houseValue = 0;
-
+  let newBuildCost = 0;
+  let wear = 0;
 
   if (input.houseUnusable) {
     houseValue = -25000; // demolition cost
   } else {
-    const newBuildCost =
+    console.log("Living Area: ", input.livingArea);
+    console.log("Build Cost per m²: ", input.buildCostPerM2);
+    console.log("Finish Quality: ", input.finishQuality);
+    console.log("ABEX Current: ", input.abexCurrent);
+    console.log("ABEX Last Renovation: ", input.abexLastRenovation);
+    newBuildCost =
       input.livingArea *
       input.buildCostPerM2 *
       input.finishQuality *
       (input.abexCurrent / input.abexLastRenovation);
     console.log("New Build Cost: ", newBuildCost);
-    const wear = calculateWear(input.constructionYear, input.currentYear);
+    wear = calculateWear(input.constructionYear, input.currentYear);
     console.log("Wear: ", wear);
     houseValue = newBuildCost * (1 - wear);
     console.log("House Value: ", houseValue);
@@ -48,17 +54,23 @@ export function calculatePrice(input: PriceInput) {
   const totalBeforeCorrection = landValue + houseValue;
   const correctionFactor = input.correctionPercentage;
 
+  console.log("Total Before Correction: ", totalBeforeCorrection);
   let totalCorrected: number = 0;
   if (correctionFactor == 1) {
     totalCorrected = totalBeforeCorrection;
   } else {
+    console.log("Correction Factor: ", correctionFactor);
+    console.log("Total Before Correction: ", totalBeforeCorrection);
     totalCorrected = totalBeforeCorrection + ((totalBeforeCorrection / 100) * correctionFactor);
+    console.log("Total Corrected: ", totalCorrected);
   }
   console.log("Total Before Correction: ", totalBeforeCorrection);
   console.log("Correction Factor: ", correctionFactor);
   console.log("Total Corrected: ", totalCorrected);
   return {
     landValue,
+    newBuildCost,
+    wear,
     houseValue,
     totalBeforeCorrection,
     correctionFactor,

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../../components/SideNavbar';
-import Header from '../../components/header';
+import Header from '../../components/Header';
 import UserField from '../../components/UserField';
 import HouseMapLandingPage from '../../components/maps/HouseMapLandingPage';
 
@@ -8,11 +9,28 @@ import './mappage.css';
 
 const MapPage = () => {
     const isDarkTheme = useState(
-        typeof document !== "undefined" && document.body.classList.contains("dark-theme")
+    typeof document !== "undefined" &&
+        document.body.classList.contains("dark-theme")
     );
     const showOverlay = useState(false);
     const overlayTheme = useState(isDarkTheme ? "dark" : "light");
     const [showUserField, setShowUserField] = useState(false);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+    const fetchUser = async () => {
+        try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/me`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        setUser(res.data);
+        } catch (err) {
+        setUser(null);
+        }
+    };
+    fetchUser();
+    }, []);
 
     return (
         <div className="mappage">
@@ -23,19 +41,14 @@ const MapPage = () => {
             <div className={`dashboard-bg-fade ${isDarkTheme ? "dark" : "light"}`}></div>
             <Sidebar/>
             <main className="main-content">
-                <Header title="Kaart" onUserClick={() => setShowUserField(true)}/>
+                <Header title="Kaart" 
+                    user={user || undefined}
+                    onUserClick={() => setShowUserField(true)}
+                />
                 
                 <div className="content-wrapper">
                     <div className="bottom-section">
                         <section className="map-main-section">
-                            {/* <div className="map-intro">
-                                <h2>Interactieve vastgoedkaart</h2>
-                                <p className="map-description">
-                                    Bekijk alle geschatte eigendommen op de kaart. Blauwe markers tonen externe schattingen, 
-                                    rode markers tonen jouw eigen schattingen.
-                                </p>
-                            </div> */}
-                            
                             <div className="map-content-wrapper">
                                 <HouseMapLandingPage />
                             </div>

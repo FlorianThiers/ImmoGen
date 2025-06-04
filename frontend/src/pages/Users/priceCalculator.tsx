@@ -11,6 +11,7 @@ import OfficeForm from "../../components/formpage/forms/OfficeForm";
 import VillaForm from "../../components/formpage/forms/VillaForm";
 import Sidebar from "../../components/SideNavbar";
 import Header from "../../components/Header";
+import UserField from '../../components/UserField';
 
 import CalculationFields from "../../components/formpage/CalculationFields";
 
@@ -19,12 +20,37 @@ import { getAbexValue } from "../../utils/abexCalculator"; // Zorg ervoor dat je
 
 import "./dashboard.css"; // Zorg ervoor dat je een CSS-bestand hebt voor de styling
 import "./priceCalculator.css"; // Zorg ervoor dat je een CSS-bestand hebt voor de styling
+import { set } from "react-hook-form";
 
 const PriceCalculator = () => {
+  const isDarkTheme = useState(
+    typeof document !== "undefined" &&
+      document.body.classList.contains("dark-theme")
+  );
+  const showOverlay = useState(false);
+  const overlayTheme = useState(isDarkTheme ? "dark" : "light");
+  const [user, setUser] = useState(null);
+  const [showUserField, setShowUserField] = useState(false);
+  useEffect(() => {
+      const fetchUser = async () => {
+      try {
+          const token = localStorage.getItem("token");
+          const res = await axios.get(`${import.meta.env.VITE_API_URL}/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+          });
+          setUser(res.data);
+      } catch (err) {
+          setUser(null);
+      }
+      };
+      fetchUser();
+  }, []);
+
   const [result, setResult] = useState(null);
   const [titles, setTitles] = useState<string[]>([]);
   const [selectedType, setSelectedType] = useState<string>(""); // Houd het type huis bij
   const [formulaPrice, setFormulaPrice] = useState<number | null>(null);
+  const [formulaResult, setFormulaResult] = useState<any>(null); // Placeholder voor de formule resultaten
 
   const [formData, setFormData] = useState<FormDataType>({
     title: "",
@@ -40,8 +66,6 @@ const PriceCalculator = () => {
     build_price: 1660,
     demolition_price: 0,
     grade_of_finish: 1.1,
-    abex_current_year: getAbexValue(new Date().getFullYear(), "july"),
-    abex_renovation_year: 0,
     correction_percentage: 0,
     house_unusable: false,
 
@@ -203,36 +227,44 @@ const PriceCalculator = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
+       // Altijd dynamisch berekenen!
+      const abexCurrentYear = getAbexValue(Number(formData.current_year), "july");
       let abexLastRenovation = 0;
       if (formData.renovation === true) {
-        abexLastRenovation = getAbexValue(formData.renovation_year, "july");
+        abexLastRenovation = getAbexValue(Number(formData.renovation_year), "july");
       } else {
-        abexLastRenovation = getAbexValue(formData.construction_year, "july");
+        abexLastRenovation = getAbexValue(Number(formData.construction_year), "july");
       }
 
       const correctionPercentage = calculateCorrectionPercentage(formData);
+      console.log("Correction Percentage:", correctionPercentage);
+      
+      formData.correction_percentage = correctionPercentage; // Update formData met de berekende correctie
+      console.log("Form Data:", formData);
 
-      formData.correctionPercentage = correctionPercentage;
 
       // Formuleprijs berekenen
       const priceInput: PriceInput = {
-        constructionYear: formData.construction_year,
-        currentYear: formData.current_year,
-        landArea: formData.area,
-        landPricePerM2: formData.price_per_m2,
-        livingArea: formData.livable_area,
-        buildCostPerM2: formData.build_price,
-        finishQuality: formData.grade_of_finish,
-        abexCurrent: formData.abex_current_year,
+        constructionYear: Number(formData.construction_year),
+        currentYear: Number(formData.current_year),
+        landArea: Number(formData.area),
+        landPricePerM2: Number(formData.price_per_m2),
+        livingArea: Number(formData.livable_area),
+        buildCostPerM2: Number(formData.build_price),
+        finishQuality: Number(formData.grade_of_finish),
+        abexCurrent: abexCurrentYear,
         abexLastRenovation,
-        correctionPercentage: formData.correction_percentage,
+        correctionPercentage: Number(correctionPercentage), // Zorg ervoor dat dit een percentage is tussen 0 en 0.25
         houseUnusable: false, // Dit moet worden aangepast op basis van je logica
       };
 
+      console.log("Price Input:", priceInput);
       // update formData met de berekende waarden
       formData.abex_renovation_year = abexLastRenovation;
+      console.log("Abex Last Renovation:", abexLastRenovation);
 
       const formulaResult = calculatePrice(priceInput);
+      setFormulaResult(formulaResult);
       setFormulaPrice(formulaResult.totalCorrected);
       formData.price = formulaResult.totalCorrected;
 
@@ -252,6 +284,11 @@ const PriceCalculator = () => {
       console.error("Fout bij het berekenen van de prijs:", error);
     }
   };
+
+  const abexCurrentYear = getAbexValue(Number(formData.current_year), "july");
+  const abexLastRenovation = formData.renovation
+    ? getAbexValue(Number(formData.renovation_year), "july")
+    : getAbexValue(Number(formData.construction_year), "july");
 
   const renderForm = useCallback(() => {
     switch (selectedType) {
@@ -291,50 +328,79 @@ const PriceCalculator = () => {
   }, []);
 
     // Voeg bovenaan toe in je PriceCalculator component
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const houseTypes = [
-    { value: "Appartement", label: "Appartement", img: "/img/appartement.png" },
-    { value: "Huis", label: "Huis", img: "/img/house.png" },
+    { value: "Appartement", label: "Appartement", img: "/appartement.png" },
+    { value: "Huis", label: "Huis", img: "/house.png" },
+    { value: "Villa", label: "Villa", img: "/villa.png" },
+    { value: "Duplex", label: "Duplex", img: "/duplex.png" },
+    { value: "Kantoor", label: "Kantoor", img: "/office.png" },
+    { value: "Handelspand", label: "Handelspand", img: "/office2.png" },
+    { value: "Bouwgrond", label: "Bouwgrond", img: "/shovel.png" },
+    { value: "Hut", label: "Hut", img: "/cabin.png" },
+    { value: "Garage", label: "Garage", img: "/garage.png" },
+    { value: "Grond", label: "Grond", img: "/ground.png" },
+    { value: "Overig", label: "Overig", img: "/more.png" }, // Voeg een 'Overig' type toe
     // Voeg meer types toe indien gewenst
   ];
 
+  const filteredHouseTypes = houseTypes.filter(type =>
+    type.label.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="dashboard">
+      {showOverlay && (<div className={`dashboard-bg-fade ${overlayTheme}`}></div>)}
+      <div className={`dashboard-bg-fade ${isDarkTheme ? "dark" : "light"}`}></div>
       <Sidebar />
       <main className="main-content">
-        <Header title="Calculator" />
+        <Header title="Calculator" user={user || undefined} onUserClick={() => setShowUserField(true)}/>
 
         <div className="content-wrapper">
           <div className="bottom-section">
             <div className="form">
               <form onSubmit={handleSubmit}>
                 {/* Algemene Informatie */}
-                <h2 className="text-xl font-bold mt-4">Type</h2>
+                <div className="type-select-container">
+                  <div className="type-search-container">
+                    <h2 className="form-type-title">Type</h2>
+                    <input
+                    type="text"
+                    placeholder="Zoek type..."
+                    className="type-search-input"
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)}
+                    style={{ marginBottom: "1rem", width: "100%" }}
+                    />
+                  </div>
 
-                <div className="type-select-row">
-                  {houseTypes.map((type) => (
-                    <div
+                  <div className="type-select-row">
+                    {filteredHouseTypes.slice(0, 3).map((type) => (
+                      <div
                       key={type.value}
                       className={`type-card${selectedType === type.value ? " selected" : ""}`}
                       onClick={() => {
                         setSelectedType(type.value);
                         setFormData({ ...formData, title: type.value });
                       }}
-                    >
+                      >
                       <img src={type.img} alt={type.label} className="type-img" />
                       <span>{type.label}</span>
-                    </div>
-                  ))}
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="bg-blue-500 text-white p-2 rounded mt-4"
+                  >
+                    Bereken Prijs
+                  </button>
                 </div>
                 
                 {selectedType && (
                   <>
                     {renderForm()}
-                    <button
-                      type="submit"
-                      className="bg-blue-500 text-white p-2 rounded mt-4"
-                    >
-                      Bereken Prijs
-                    </button>
                   </>
                 )}
               </form>
@@ -342,12 +408,20 @@ const PriceCalculator = () => {
             </div>
 
             <div className="right-panel">
-              <CalculationFields />
+              <CalculationFields
+                formulaResult={formulaResult} // or result, depending on your logic
+                formulaPrice={formulaPrice}
+                result={result}
+                formData={formData}
+                abexCurrentYear={abexCurrentYear}
+                abexLastRenovation={abexLastRenovation}
+              />
 
             </div>
           </div>
         </div>
       </main>
+        <UserField open={showUserField}  onClose={() => setShowUserField(false)} />
     </div>
   );
 };
