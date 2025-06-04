@@ -1,44 +1,36 @@
 import { useState } from "react";
-import FormDataType from "../formDataType";
+import FormDataType from "../../formDataType";
 
-import "../../index.css";
+const DuplexForm = () => {
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
 
-const ApartmentForm = () => {
   const [formData, setFormData] = useState<FormDataType>({
     // General Information
     title: "Project:",
-    property_condition: "",
-    construction_year: 1980,
-    renovation_year: 2010,
-    area: 50,
-    price_per_m2: 80.68,
-    build_price: 1660,
-    renovation_price: 2500,
-    demolition_price: 0,
-    grade_of_finish: 0.6,
+    property_condition: "Uitstekend",
+    construction_year: 2000,
+    area: 0,
 
-    
     // Location
     country: "België",
     province: "Oost-Vlaanderen",
     city: "Gent",
     postal_code: 9000,
-    street: "Sint-Lievenspoortstraat",
-    street_number: 168,
-    distance_to_center: 1,
-    neighborhood_safety: 6,
-
+    street: "Hoogstraat",
+    street_number: 1,
+    distance_to_center: 5,
+    neighborhood_safety: 7,
 
     // Interior
-    livable_area: 50,
-    bedrooms: 1,
+    livable_area: 0,
+    bedrooms: 0,
     bedroom_1_area: 0,
     bedroom_2_area: 0,
     bedroom_3_area: 0,
     bedroom_4_area: 0,
     bedroom_5_area: 0,
     bedroom_6_area: 0,
-    living_room_area: 80,
+    living_room_area: 0,
     attic: false,
     attic_area: 0,
     basement: false,
@@ -60,7 +52,6 @@ const ApartmentForm = () => {
     // Energy and environment
     epc: "",
     heating_type: "",
-    gas_connection: false,
     glass_type: "",
     solar_panels: false,
     solar_panel_area: 0,
@@ -72,56 +63,68 @@ const ApartmentForm = () => {
     // Outdoor space
     number_of_facades: 0,
     facade_width: 0,
-    plot_depth: 0,
     floor: 0,
     number_of_floors: 0,
     terrace: false,
     terrace_area: 0,
+    plot_depth: 0,
     terrace_front_width: 0,
     sewer_connection: false,
     water_connection: false,
-    garden: false,
-    garden_area: 0,
+    gas_connection: false,
     swimming_pool: false,
     swimming_pool_area: 0,
+    garden: false,
+    garden_area: 0,
 
-    // extra
-    noise_pollution: false,
-    noise_pollution_type: "",
-    noise_pollution_level: 0,
-    smell_pollution: false,
-    smell_pollution_type: "",
-    smell_pollution_level: 0,
-    traffic_pollution: false,
-    traffic_pollution_type: "",
-    traffic_pollution_level: 0,
-    air_pollution: false,
-    air_pollution_type: "",
-    air_pollution_level: 0,
-    special_shapes: false,
-    special_shapes_type: "",
-    special_shapes_level: 0,
-    special_colors: false,
-    special_colors_type: "",
-    special_colors_level: 0,
-    special_materials: false,
-    special_materials_type: "",
-    special_materials_level: 0,
-    
-    source: "ImmoGen"
+    source: "ImmoGen",
   });
 
   const handleChange = (e: { target: { name: string; value: any } }) => {
     const { name, value } = e.target;
 
     // Controleer of de waarde een boolean is
-    const parsedValue = value === "true" ? true : value === "false" ? false : value;
-  
+    const parsedValue =
+      value === "true" ? true : value === "false" ? false : value;
+
     setFormData({ ...formData, [name]: parsedValue });
   };
-  
+
+  const FoldableSection = ({
+    title,
+    sectionKey,
+    isOpen,
+    toggleSection,
+    children,
+  }: {
+    title: string;
+    sectionKey: string;
+    isOpen: boolean;
+    toggleSection: (key: string) => void;
+    children: React.ReactNode;
+  }) => {
+    return (
+      <div>
+        <h2
+          className="text-xl font-bold mt-4 cursor-pointer"
+          onClick={() => toggleSection(sectionKey)}
+        >
+          {title} {isOpen ? "▲" : "▼"}
+        </h2>
+        {isOpen && <div>{children}</div>}
+      </div>
+    );
+  };
+
+  const toggleSection = (key: string) => {
+    setOpenSections((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
   return (
-    <div>
+    <>
       <h2 className="text-xl font-bold mt-4">Algemene Informatie</h2>
       <label>Woningconditie:</label>
       <input
@@ -214,6 +217,7 @@ const ApartmentForm = () => {
         placeholder="Straatnummer"
       />
 
+      {/* Interieur */}
       <h2 className="text-xl font-bold mt-4">Interieur</h2>
       <label>Woonoppervlakte:</label>
       <input
@@ -235,6 +239,7 @@ const ApartmentForm = () => {
         placeholder="Aantal slaapkamers"
       />
 
+      {/* Keuken en Sanitair */}
       <h2 className="text-xl font-bold mt-4">Keuken en Sanitair</h2>
       <label>Keukenuitrusting:</label>
       <input
@@ -256,6 +261,7 @@ const ApartmentForm = () => {
         placeholder="Aantal badkamers"
       />
 
+      {/* Energie en Milieu */}
       <h2 className="text-xl font-bold mt-4">Energie en Milieu</h2>
       <label>Type Verwarming:</label>
       <input
@@ -277,6 +283,7 @@ const ApartmentForm = () => {
         placeholder="Type glas"
       />
 
+      {/* Buitenruimte */}
       <h2 className="text-xl font-bold mt-4">Buitenruimte</h2>
       <label>Heeft Tuin:</label>
       <select
@@ -373,8 +380,8 @@ const ApartmentForm = () => {
           />
         </>
       )}
-    </div>
+    </>
   );
 };
 
-export default ApartmentForm;
+export default DuplexForm;

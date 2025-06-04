@@ -42,7 +42,7 @@ const Navbar = () => {
       className={`sidebar${isExpanded ? " expanded" : ""}`}
     >
       <div className="sidebar-logo sidebar-animate delay-1">
-        <a href="/home">
+        <a href="/">
           <span className="nav-icon logo-icon ">
             <img src="/logo.png" alt="Logo" className="sidebar-logo" />
           </span>

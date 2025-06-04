@@ -1,22 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+type House = {
+  id: number;
+  city: string;
+  postal_code: string;
+  street: string;
+  title: string;
+  ai_price: number;
+  price: number;
+  created_at: string;
+  // voeg hier andere velden toe indien nodig
+};
 
 const RecentEstimations = () => {
-  // Hier later je fetch/useEffect voor backend data
+    const [houses, setHouses] = useState<House[]>([]);
+
+    useEffect(() => {
+        const fetchHouses = async () => {
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/houses`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        setHouses(res.data);
+        };
+        fetchHouses();
+    }, []);
+
+    // Sorteer op datum (recentste eerst)
+    const sorted = [...houses].sort(
+        (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
+
   return (
     <section className="recent-astimations-section">
-        <div className="section-header">
-            <h2>Recente schattingen</h2>
-            <span className="sort-icon"></span>
+      <div className="section-header">
+        <h2>Recente schattingen</h2>
+        <span className="sort-icon"></span>
+      </div>
+      <div className="recent-astimations-table">
+        <div className="table-header">
+          <span>Adres schattingen</span>
+          <span>Type</span>
+          <span>AI prijs</span>
+          <span>Prijs</span>
         </div>
-        
-        <div className="recent-astimations-table">
-            <div className="table-header">
-                <span>Adres schattingen</span>
-                <span>Type</span>
-                <span>AI prijs</span>
-                <span>Prijs</span>
+        {sorted.slice(0, 5).map((est) => (
+          <div className="recent-astimation-row" key={est.id}>
+            <div className="recent-astimation-name">
+              <span className={`recent-astimation-icon ${est.title.toLowerCase()}`}></span>
+              <div>
+                <div className="name">{est.city} {est.postal_code} {est.street}</div>
+                <div className="date">{new Date(est.created_at).toLocaleString()}</div>
+              </div>
             </div>
-            
+            <span className="category">{est.title}</span>
+            <span className="cashback">€ {est.ai_price.toLocaleString("nl-BE")}</span>
+            <span className="amount">€ {est.price.toLocaleString("nl-BE")}</span>
+          </div>
+        ))}
             <div className="recent-astimation-row">
                 <div className="recent-astimation-name">
                     <span className="recent-astimation-icon appartement"></span>

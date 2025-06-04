@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+
 import Sidebar from '../../components/SideNavbar';
 import Header from '../../components/Header';
 import UserField from '../../components/UserField';
@@ -25,7 +26,7 @@ const dashboard = () => {
         const fetchUser = async () => {
         try {
             const token = localStorage.getItem("token");
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/user/me`, {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/me`, {
             headers: { Authorization: `Bearer ${token}` },
             });
             setUser(res.data);
@@ -45,10 +46,10 @@ const dashboard = () => {
         <div className={`dashboard-bg-fade ${isDarkTheme ? "dark" : "light"}`}></div>
         <Sidebar/>
         <main className="main-content">
-            <Header title="Dashboard" user={user|| undefined} onUserClick={() => setShowUserField(true)}/>
+            <Header title="Dashboard" user={user || undefined} onUserClick={() => setShowUserField(true)}/>
 
             <div className="content-wrapper">
-                <RecentTypes />    
+                <RecentTypes user={user || undefined} />    
 
                 <div className="bottom-section">
                     <RecentEstimations />    

@@ -2,18 +2,23 @@ import axios from "axios";
 import React, { useState, useEffect, useCallback } from "react";
 
 import FormDataType from "../../components/formDataType";
-import ApartmentForm from "../../components/forms/ApartementForm";
-import BuildingPlotForm from "../../components/forms/BuildingPlotForm";
-import DuplexForm from "../../components/forms/DuplexForm";
-import CommercialPropertyForm from "../../components/forms/CommercialPropertyForm";
-import HouseForm from "../../components/forms/HouseForm";
-import OfficeForm from "../../components/forms/OfficeForm";
-import VillaForm from "../../components/forms/VillaForm";
+import ApartmentForm from "../../components/formpage/forms/ApartementForm";
+import BuildingPlotForm from "../../components/formpage/forms/BuildingPlotForm";
+import DuplexForm from "../../components/formpage/forms/DuplexForm";
+import CommercialPropertyForm from "../../components/formpage/forms/CommercialPropertyForm";
+import HouseForm from "../../components/formpage/forms/HouseForm";
+import OfficeForm from "../../components/formpage/forms/OfficeForm";
+import VillaForm from "../../components/formpage/forms/VillaForm";
 import Sidebar from "../../components/SideNavbar";
 import Header from "../../components/Header";
 
+import CalculationFields from "../../components/formpage/CalculationFields";
+
 import { calculatePrice, PriceInput } from "../../utils/calculator"; // Pas het pad aan naar waar je de functie opslaat
 import { getAbexValue } from "../../utils/abexCalculator"; // Zorg ervoor dat je deze functie hebt geïmplementeerd
+
+import "./dashboard.css"; // Zorg ervoor dat je een CSS-bestand hebt voor de styling
+import "./priceCalculator.css"; // Zorg ervoor dat je een CSS-bestand hebt voor de styling
 
 const PriceCalculator = () => {
   const [result, setResult] = useState(null);
@@ -37,10 +42,9 @@ const PriceCalculator = () => {
     grade_of_finish: 1.1,
     abex_current_year: getAbexValue(new Date().getFullYear(), "july"),
     abex_renovation_year: 0,
-    correction_percentage: 0, 
+    correction_percentage: 0,
     house_unusable: false,
 
-    
     // Location
     country: "België",
     province: "Oost-Vlaanderen",
@@ -50,7 +54,6 @@ const PriceCalculator = () => {
     street_number: 7,
     distance_to_center: 10,
     neighborhood_safety: 6,
-
 
     // Interior
     livable_area: 165,
@@ -133,8 +136,7 @@ const PriceCalculator = () => {
     special_materials_type: "",
     special_materials_level: 0,
 
-
-    source: "ImmoGen"
+    source: "ImmoGen",
   });
 
   function calculateCorrectionPercentage(formData: FormDataType): number {
@@ -162,47 +164,46 @@ const PriceCalculator = () => {
     if (formData.special_materials) {
       correction -= Number(formData.special_materials_level);
     }
-    
+
     // Positieve factoren
     if (formData.elevator) correction += 2;
     if (formData.wheelchair_accessible) correction += 2;
     if (formData.garden) correction += 2;
     if (formData.swimming_pool) correction += 4;
-    
+
     // Clamp tussen -25 en +10
     correction = Math.max(-25, Math.min(10, correction));
 
     return correction;
   }
 
-
   const handleChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, value } = e.target;
 
       // Controleer of de waarde een boolean is
-      const parsedValue = value === "true" ? true : value === "false" ? false : value;
+      const parsedValue =
+        value === "true" ? true : value === "false" ? false : value;
 
-    
       // Update het geselecteerde type huis
       if (name === "title") {
         setSelectedType(value);
       }
-    
+
       setFormData((prevFormData) => {
         if (prevFormData[name] === parsedValue) {
           return prevFormData; // Geen update nodig
         }
         return { ...prevFormData, [name]: parsedValue };
       });
-    },[]
+    },
+    []
   );
 
-  
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      let abexLastRenovation = 0;  
+      let abexLastRenovation = 0;
       if (formData.renovation === true) {
         abexLastRenovation = getAbexValue(formData.renovation_year, "july");
       } else {
@@ -224,7 +225,7 @@ const PriceCalculator = () => {
         finishQuality: formData.grade_of_finish,
         abexCurrent: formData.abex_current_year,
         abexLastRenovation,
-        correctionPercentage: formData.correction_percentage, 
+        correctionPercentage: formData.correction_percentage,
         houseUnusable: false, // Dit moet worden aangepast op basis van je logica
       };
 
@@ -242,10 +243,11 @@ const PriceCalculator = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
-      );      setResult(response.data);
+      );
+      setResult(response.data);
     } catch (error) {
       console.error("Fout bij het berekenen van de prijs:", error);
     }
@@ -253,20 +255,22 @@ const PriceCalculator = () => {
 
   const renderForm = useCallback(() => {
     switch (selectedType) {
-      case 'Appartement':
-        return <ApartmentForm/>;
-      case 'Bouwgrond':
-        return <BuildingPlotForm formData={formData} handleChange={handleChange}/>;
-      case 'Duplex':
-        return <DuplexForm/>;
-      case 'Handelspand':
-        return <CommercialPropertyForm/>;
-      case 'Huis':
-        return <HouseForm formData={formData} handleChange={handleChange}/>;
-      case 'Kantoor':
-        return <OfficeForm/>;
-      case 'Villa':
-        return <VillaForm/>;
+      case "Appartement":
+        return <ApartmentForm />;
+      case "Bouwgrond":
+        return (
+          <BuildingPlotForm formData={formData} handleChange={handleChange} />
+        );
+      case "Duplex":
+        return <DuplexForm />;
+      case "Handelspand":
+        return <CommercialPropertyForm />;
+      case "Huis":
+        return <HouseForm formData={formData} handleChange={handleChange} />;
+      case "Kantoor":
+        return <OfficeForm />;
+      case "Villa":
+        return <VillaForm />;
       default:
         return null;
     }
@@ -275,7 +279,9 @@ const PriceCalculator = () => {
   useEffect(() => {
     const fetchHouseTitles = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/house_titles`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/house_titles`
+        );
         setTitles(response.data.titles);
       } catch (error) {
         console.error("Fout bij het ophalen van woningtitels:", error);
@@ -284,69 +290,65 @@ const PriceCalculator = () => {
     fetchHouseTitles();
   }, []);
 
+    // Voeg bovenaan toe in je PriceCalculator component
+  const houseTypes = [
+    { value: "Appartement", label: "Appartement", img: "/img/appartement.png" },
+    { value: "Huis", label: "Huis", img: "/img/house.png" },
+    // Voeg meer types toe indien gewenst
+  ];
+
   return (
     <div className="dashboard">
-    <Sidebar/>
+      <Sidebar />
       <main className="main-content">
-      <Header title="Calculator" />
+        <Header title="Calculator" />
 
-        <div className="form">
+        <div className="content-wrapper">
+          <div className="bottom-section">
+            <div className="form">
+              <form onSubmit={handleSubmit}>
+                {/* Algemene Informatie */}
+                <h2 className="text-xl font-bold mt-4">Type</h2>
 
-          <form onSubmit={handleSubmit}>
-            {/* Algemene Informatie */}
-            <h2 className="text-xl font-bold mt-4">Type</h2>
-            {/* <select
-              name="title"
-              value={formData.title}
-              onChange={(e) => {
-                const value = e.target.value;
-                setSelectedType(value); // Update het geselecteerde type
-                setFormData({ ...formData, title: value }); // Update de title in formData
-              }}
-              title="Selecteer een titel"
-            >
-              {titles.map((title, index) => (
-              <option key={index} value={title}>
-                {title}
-              </option>
-              ))}
-            </select> */}
+                <div className="type-select-row">
+                  {houseTypes.map((type) => (
+                    <div
+                      key={type.value}
+                      className={`type-card${selectedType === type.value ? " selected" : ""}`}
+                      onClick={() => {
+                        setSelectedType(type.value);
+                        setFormData({ ...formData, title: type.value });
+                      }}
+                    >
+                      <img src={type.img} alt={type.label} className="type-img" />
+                      <span>{type.label}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                {selectedType && (
+                  <>
+                    {renderForm()}
+                    <button
+                      type="submit"
+                      className="bg-blue-500 text-white p-2 rounded mt-4"
+                    >
+                      Bereken Prijs
+                    </button>
+                  </>
+                )}
+              </form>
 
-            <select
-              name="title"
-              value={formData.title}
-              onChange={(e) => {
-                const value = e.target.value;
-                setSelectedType(value); // Update het geselecteerde type
-                setFormData({ ...formData, title: value }); // Update de title in formData
-              }}
-              title="Selecteer een titel"
-            >
-              <option value="Appartement">Appartement</option>
-              <option value="Huis">Huis</option>
-            </select>
-
-            {renderForm()}
-            
-            <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4">
-              Bereken Prijs
-            </button>
-          </form>
-        
-              <p>Formule Prijs: €{formulaPrice?.toFixed(2)}</p>
-
-          {result && (
-            <div className="mt-4">
-              <h2 className="text-xl font-bold">Resultaat:</h2>
-              <p>AI Prijs: €{result}</p>
-              <p>Formule Prijs: €{formulaPrice?.toFixed(2)}</p>
-              {/* <p>Verschil: €{result.verschil}</p>
-              <p>Verschil Percentage: {result.verschil_percentage}%</p> */}
             </div>
-          )}
+
+            <div className="right-panel">
+              <CalculationFields />
+
+            </div>
+          </div>
         </div>
       </main>
-    </div>       
+    </div>
   );
 };
 

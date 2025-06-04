@@ -1,7 +1,7 @@
 import { useState } from "react";
-import FormDataType from "../formDataType";
+import FormDataType from "../../formDataType";
 
-const DuplexForm = () => {
+const CommercialPropertyForm = () => {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
 
   const [formData, setFormData] = useState<FormDataType>({
@@ -10,7 +10,7 @@ const DuplexForm = () => {
     property_condition: "Uitstekend",
     construction_year: 2000,
     area: 0,
-    
+
     // Location
     country: "België",
     province: "Oost-Vlaanderen",
@@ -77,15 +77,16 @@ const DuplexForm = () => {
     garden: false,
     garden_area: 0,
 
-    source: "ImmoGen"
+    source: "ImmoGen",
   });
 
   const handleChange = (e: { target: { name: string; value: any } }) => {
     const { name, value } = e.target;
 
     // Controleer of de waarde een boolean is
-    const parsedValue = value === "true" ? true : value === "false" ? false : value;
-  
+    const parsedValue =
+      value === "true" ? true : value === "false" ? false : value;
+
     setFormData({ ...formData, [name]: parsedValue });
   };
 
@@ -121,7 +122,7 @@ const DuplexForm = () => {
       [key]: !prev[key],
     }));
   };
-  
+
   return (
     <>
       <h2 className="text-xl font-bold mt-4">Algemene Informatie</h2>
@@ -218,24 +219,14 @@ const DuplexForm = () => {
 
       {/* Interieur */}
       <h2 className="text-xl font-bold mt-4">Interieur</h2>
-      <label>Woonoppervlakte:</label>
+      <label>Werkoppervlakte:</label>
       <input
         type="number"
         name="livable_area"
         value={formData.livable_area || ""}
         onChange={handleChange}
-        title="Voer de woonoppervlakte in"
-        placeholder="Woonoppervlakte"
-      />
-
-      <label>Aantal Slaapkamers:</label>
-      <input
-        type="number"
-        name="bedrooms"
-        value={formData.bedrooms || ""}
-        onChange={handleChange}
-        title="Voer het aantal slaapkamers in"
-        placeholder="Aantal slaapkamers"
+        title="Voer de werkoppervlakte in"
+        placeholder="Werkoppervlakte"
       />
 
       {/* Keuken en Sanitair */}
@@ -383,4 +374,4 @@ const DuplexForm = () => {
   );
 };
 
-export default DuplexForm;
+export default CommercialPropertyForm;

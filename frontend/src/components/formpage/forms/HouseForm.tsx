@@ -1,8 +1,10 @@
 import React, { memo, useState } from "react";
-import FormDataType from "../formDataType";
+import FormDataType from "../../formDataType";
 
-import "../../index.css";
-import HouseMapForm from "../maps/HouseMapForm";
+import HouseMapForm from "../../maps/HouseMapForm";
+
+import "../../../pages/Users/priceCalculator.css"; // Import the CSS for styling
+
 
 interface HouseFormProps {
   formData: FormDataType;
@@ -14,10 +16,10 @@ interface HouseFormProps {
 // Create a separate component for input fields to prevent them from losing focus
 const FormField = memo(
   ({ label, children }: { label: string; children: React.ReactNode }) => (
-    <>
+    <div className="form-field">
       <label>{label}</label>
       {children}
-    </>
+    </div>
   )
 );
 
@@ -104,15 +106,21 @@ const FoldableSection = memo(
     onToggle: () => void;
     children: React.ReactNode;
   }) => (
-    <div className="mb-6">
-      <h2
-        className="text-xl font-bold mt-4 cursor-pointer flex items-center"
+    <div className="foldable-section">
+      <div
+        className="section-header"
         onClick={onToggle}
       >
-        <span>{title}</span>
-        <span className="ml-2">{isOpen ? "▲" : "▼"}</span>
-      </h2>
-      {isOpen && <div className="mt-3">{children}</div>}
+        <h2 className="section-title">{title}</h2>
+        <span className={`section-toggle ${isOpen ? 'open' : ''}`}>
+          ▼
+        </span>
+      </div>
+      {isOpen && (
+        <div className="section-content">
+          {children}
+        </div>
+      )}
     </div>
   )
 );

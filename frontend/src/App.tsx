@@ -6,7 +6,6 @@ import RegisterPage from "./pages/Open/registerPage";
 import LandingPage from "./pages/Open/landingPage";
 import LandingPage3 from "./pages/Open/landingPage3";
 import Dashboard from "./pages/Users/dashboard";
-import HomePage from "./pages/Users/homePage";
 import PriceCalculator from "./pages/Users/priceCalculator";
 import StatisticsPage from "./pages/Users/statisticsPage";
 import MapPage from "./pages/Users/mapPage";
@@ -33,14 +32,6 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
 
       {/* Alle andere pagina's met SideNavbar */}
-      <Route
-        path="/home"
-        element={
-          <ProtectedRoute>
-              <HomePage />
-          </ProtectedRoute>
-        }
-      />
       <Route
         path="/dashboard"
         element={

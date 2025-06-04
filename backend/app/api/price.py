@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException
 from app.security.auth import get_current_user
 from app.models.user import User
@@ -26,7 +27,7 @@ def calculate_price(
         print(f"✅ Berekeningsresultaat: {result}")
 
         if result:
-            update_price_and_geo(db, house_data, result, current_user.id)
+            update_price_createTime_and_geo(db, house_data, result, current_user.id)
 
         return result
     except Exception as e:
@@ -35,8 +36,8 @@ def calculate_price(
         traceback.print_exc()  # Print de volledige traceback voor debugging
         raise HTTPException(status_code=500, detail=f"Fout bij het berekenen van de prijs: {str(e)}")
     
-def update_price_and_geo(db: Session, house_data, estimated_price: float, user_id: int):
-    """Update or insert the estimated price and the longitude and latitud for a house in the database."""
+def update_price_createTime_and_geo(db: Session, house_data, estimated_price: float, user_id: int):
+    """Update or insert the estimated price and the longitude and latitude for a house in the database."""
 
     country = house_data.get("country", "")
     province = house_data.get("province", "")
@@ -59,7 +60,14 @@ def update_price_and_geo(db: Session, house_data, estimated_price: float, user_i
         key: val for key, val in house_data.items()
         if key in EstimatedHouse.__table__.columns.keys() and not isinstance(val, dict)
     }
-    house = EstimatedHouse(**flat_data, ai_price=estimated_price, latitude=latitude, longitude=longitude, user_id=user_id)
+    house = EstimatedHouse(
+        **flat_data,
+        ai_price=estimated_price,
+        latitude=latitude,
+        longitude=longitude,
+        user_id=user_id,
+        created_at=datetime.utcnow()  # Voeg datum en tijd toe
+    )
 
     db.add(house)
     print("🆕 New EstimatedHouse added")

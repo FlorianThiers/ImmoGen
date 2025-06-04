@@ -92,6 +92,8 @@ class EstimatedHouse(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     user = relationship("User", back_populates="estimated_houses")
 
+    created_at = Column(String(255), nullable=False)
+
     # General
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(255), nullable=False)

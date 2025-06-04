@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import '../pages/Users/dashboard.css';
 
 type HeaderProps = {
@@ -10,12 +9,13 @@ type HeaderProps = {
 
 const Header = ({ title, user, onUserClick }: HeaderProps) => {
     const initials = user
-        ? user.username
-            .split(" ")
-            .map((n) => n[0])
-            .join("")
-            .substring(0, 2)
-            .toUpperCase()
+        ? (() => {
+            const parts = user.username.trim().split(" ");
+            if (parts.length === 1) {
+                return parts[0].substring(0, 2).toUpperCase();
+            }
+            return parts.map((n) => n[0]).join("").substring(0, 2).toUpperCase();
+        })()
         : "US";
 
     return (
