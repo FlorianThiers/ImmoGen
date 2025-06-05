@@ -39,6 +39,8 @@ const OutdoorSection: React.FC<GeneralInfoSectionProps> = ({ formData, handleCha
                 onChange={handleChange}
                 title="Voer de gevelbreedte in"
                 placeholder="Gevelbreedte"
+                min={0}
+                required
               />
             </FormField>
 
@@ -50,6 +52,8 @@ const OutdoorSection: React.FC<GeneralInfoSectionProps> = ({ formData, handleCha
                 onChange={handleChange}
                 title="Voer de perceeldiepte in"
                 placeholder="Perceeldiepte"
+                min={0}
+                required
               />
             </FormField>
 
@@ -61,6 +65,8 @@ const OutdoorSection: React.FC<GeneralInfoSectionProps> = ({ formData, handleCha
                 onChange={handleChange}
                 title="Voer het aantal verdiepingen in"
                 placeholder="Aantal verdiepingen"
+                min={0}
+                required
               />
             </FormField>
 
@@ -83,6 +89,8 @@ const OutdoorSection: React.FC<GeneralInfoSectionProps> = ({ formData, handleCha
                     onChange={handleChange}
                     title="Voer de terrasoppervlakte in"
                     placeholder="Terrasoppervlakte"
+                    min={0}
+                    required
                   />
                 </FormField>
 
@@ -94,6 +102,8 @@ const OutdoorSection: React.FC<GeneralInfoSectionProps> = ({ formData, handleCha
                     onChange={handleChange}
                     title="Voer de terrasbreedte in"
                     placeholder="Terrasbreedte"
+                    min={0}
+                    required
                   />
                 </FormField>
               </>
@@ -135,6 +145,8 @@ const OutdoorSection: React.FC<GeneralInfoSectionProps> = ({ formData, handleCha
                   onChange={handleChange}
                   title="Voer de tuinoppervlakte in"
                   placeholder="Tuinoppervlakte"
+                  min={0}
+                  required
                 />
               </FormField>
             )}
@@ -157,6 +169,8 @@ const OutdoorSection: React.FC<GeneralInfoSectionProps> = ({ formData, handleCha
                   onChange={handleChange}
                   title="Voer de zwembadoppervlakte in"
                   placeholder="Zwembadoppervlakte"
+                  min={0}
+                  required
                 />
               </FormField>
             )}

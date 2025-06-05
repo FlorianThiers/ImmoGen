@@ -2,6 +2,9 @@ import { abexIndex } from './data/abexIndex';
 
 export function getAbexValue(year: number | string, month: 'january' | 'july'): number {
     const yearNum = Number(year);
+    if (yearNum < 1914) {
+        return 1;
+    }
     console.log(`Fetching ABEX value for year: ${yearNum}, month: ${month}`);
     const index = abexIndex.find((entry) => entry.year === yearNum);
     console.log(`Found ABEX index: ${JSON.stringify(index)}`);

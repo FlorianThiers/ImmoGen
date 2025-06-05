@@ -13,6 +13,7 @@ const InputField = memo(
     min,
     max,
     step,
+    required,
   }: {
     name: string;
     value: string | number;
@@ -23,6 +24,7 @@ const InputField = memo(
     min?: number;
     max?: number;
     step?: number;
+    required?: boolean;
   }) => (
     <input
       type={type}
@@ -35,6 +37,7 @@ const InputField = memo(
       max={max}
       step={step}
       style={type === "range" ? { width: "100%" } : undefined}
+      required={required}
     />
   )
 );

@@ -8,8 +8,7 @@ const CalculationFields = ({
   formulaPrice,
   result,
   formData,
-  abexCurrentYear,
-  abexLastRenovation
+
 }: any) => {
     return (
         <section className="calculate-section">
@@ -40,15 +39,29 @@ const CalculationFields = ({
                                 <b>Grondwaarde:</b> {formData.area} m² × €{formData.price_per_m2} = <b>€{(formulaResult?.landValue ?? 0).toLocaleString("nl-BE", {maximumFractionDigits: 0})}</b>
                             </div>
                             <div className="calculation-note">
-                                <b>Nieuwbouwkost:</b> {formData.livable_area} m² × €{formData.build_price} × {formData.grade_of_finish} × (Abex {abexCurrentYear} / Abex {abexLastRenovation}) 
-                                = <b>
+                                <b>Nieuwbouwkost:</b> {formData.livable_area} m² × €{formData.build_price} × {formData.grade_of_finish}  
+                                 = <b>
                                     €{typeof formulaResult?.newBuildCost === "number"
                                     ? formulaResult.newBuildCost.toLocaleString("nl-BE", { maximumFractionDigits: 0 })
                                     : 0}
                                 </b>                            
                             </div>
                             <div className="calculation-note">
-                                <b>Slijtage (wear):</b> {formData.current_year} - {formData.construction_year} = {formData.current_year - formData.construction_year} jaar → {Math.round((formulaResult.wear || 0) * 100)}%
+                                <b>Slijtage (wear):</b> {formData.current_year} - 
+                                    {formData.renovation
+                                        ? formData.renovation_year
+                                        : formData.construction_year
+                                    } = {formData.renovation
+                                        ? formData.current_year - formData.renovation_year
+                                        : formData.current_year - formData.construction_year
+                                    } jaar →                                   
+                                <b>
+                                    {formData.renovation? (() => {
+                                            return Math.round(formulaResult.renovationWear * 100);
+                                        })()
+                                    : Math.round((formulaResult.wear || 0) * 100)
+                                    }%
+                                </b>
                             </div>
                             <div className="calculation-note">
                                 <b>Woningwaarde na slijtage:</b> Nieuwbouwkost × (1 - slijtage) = <b>€{typeof formulaResult?.houseValue === "number" ? formulaResult.houseValue.toLocaleString("nl-BE", {maximumFractionDigits: 0}) : 0}</b>

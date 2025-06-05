@@ -57,6 +57,7 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                     onChange={handleChange}
                     title="Voer de geluidsoverlast type in"
                     placeholder="Geluidsoverlast Type"
+                    required
                   />
                 </FormField>
 
@@ -71,7 +72,9 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                     min={1}
                     max={15}
                     step={1}
+                    required
                   />
+                <span>{formData.noise_pollution_level}</span>
                 </FormField>
               </>
             )}
@@ -95,6 +98,7 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                     onChange={handleChange}
                     title="Voer de geur overlast type in"
                     placeholder="Geur Overlast Type"
+                    required
                   />
                 </FormField>
 
@@ -109,7 +113,9 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                     min={1}
                     max={15}
                     step={1}
+                    required
                   />
+                <span>{formData.smell_pollution_level}</span>
                 </FormField>
               </>
             )}
@@ -133,6 +139,7 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                     onChange={handleChange}
                     title="Voer de verkeersoverlast type in"
                     placeholder="Verkeers Overlast Type"
+                    required
                   />
                 </FormField>
 
@@ -147,7 +154,9 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                     min={1}
                     max={15}
                     step={1}
+                    required
                   />
+              <span>{formData.traffic_pollution_level}</span>
                 </FormField>
               </>
             )}
@@ -171,6 +180,7 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                     onChange={handleChange}
                     title="Voer de luchtvervuiling type in"
                     placeholder="Luchtvervuiling Type"
+                    required
                   />
                 </FormField>
 
@@ -185,7 +195,9 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                     min={1}
                     max={15}
                     step={1}
+                    required
                   />
+                <span>{formData.air_pollution_level}</span>
                 </FormField>
               </>
             )}
@@ -209,6 +221,7 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                     onChange={handleChange}
                     title="Voer de aparte vormen type in"
                     placeholder="Aparte Vormen Type"
+                    required
                   />
                 </FormField>
 
@@ -223,7 +236,9 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                     min={1}
                     max={15}
                     step={1}
+                    required
                   />
+                <span>{formData.special_shapes_level}</span>
                 </FormField>
               </>
             )}
@@ -247,10 +262,13 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                     onChange={handleChange}
                     title="Voer de aparte kleuren type in"
                     placeholder="Aparte Kleuren Type"
+                    required
                   />
                 </FormField>
 
                 <FormField label="last %:">
+                  <div className="range-field">
+                    
                   <InputField
                     type="range"
                     name="special_colors_level"
@@ -261,7 +279,10 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                     min={1}
                     max={15}
                     step={1}
-                  />
+                    required
+                    />
+                <span>{formData.special_colors_level}</span>
+                    </div>
                 </FormField>
               </>
             )}
@@ -285,6 +306,7 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                     onChange={handleChange}
                     title="Voer de aparte materialen type in"
                     placeholder="Aparte Materialen Type"
+                    required
                   />
                 </FormField>
 
@@ -300,8 +322,9 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                       min={1}
                       max={15}
                       step={1}
-                    />
-                    <span>{formData.special_materials_level || 1}</span>
+                      required
+                      />
+                      <span>{formData.special_materials_level || 1}</span>
                   </div>
                 </FormField>
               </>

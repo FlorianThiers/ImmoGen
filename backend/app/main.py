@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import immoGen_houses
-from app.api import scrape_houses
+from app.api import houses
 from app.api import adresses
 from app.api import scraper
 from app.api import trainer
@@ -22,8 +21,7 @@ app.add_middleware(
 
 # API-routes registreren
 app.include_router(user.router) # , prefix="/api/v1", tags=["user"]
-app.include_router(immoGen_houses.router)  # , prefix="/api/v1", tags=["scrape_houses"]
-app.include_router(scrape_houses.router)
+app.include_router(houses.router)  # , prefix="/api/v1", tags=["houses"]
 app.include_router(adresses.router)
 app.include_router(scraper.router)
 app.include_router(trainer.router)

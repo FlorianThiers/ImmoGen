@@ -5,6 +5,12 @@
   padding: 2rem;
 }
 
+.bottom-section-profile {
+      display: grid;
+    grid-template-columns: 1fr 800px;
+    gap: 40px;
+}
+
 .profile-img {
   width: 20%;
   height: auto;
@@ -69,3 +75,11 @@
 .profile-table td.right {
   text-align: right;
 }
+
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .bottom-section-profile {
+        grid-template-columns: 1fr;
+    }
+  }

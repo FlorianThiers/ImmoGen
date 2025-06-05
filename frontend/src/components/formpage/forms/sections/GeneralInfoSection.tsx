@@ -91,8 +91,9 @@ const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({ formData, handl
             onChange={handleChange}
             title="Voer het bouwjaar in"
             placeholder="Bouwjaar"
-            min={1800}
+            min={1700}
             max={new Date().getFullYear()}
+            required
             />
         </FormField>
 
@@ -114,6 +115,7 @@ const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({ formData, handl
                 onChange={handleChange}
                 title="Voer het laatste renovatie jaar in"
                 placeholder="Renovatie jaar"
+                min={1800}
             />
             </FormField>
         )}
@@ -126,6 +128,21 @@ const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({ formData, handl
             onChange={handleChange}
             title="Voer de totale oppervlakte in"
             placeholder="Totale oppervlakte"
+            min={0}
+            required
+            />
+        </FormField>
+
+        <FormField label="Woonoppervlakte:">
+            <InputField
+            type="number"
+            name="livable_area"
+            value={formData.livable_area || ""}
+            onChange={handleChange}
+            title="Voer de woonoppervlakte in"
+            placeholder="Woonoppervlakte"
+            min={0}
+            required
             />
         </FormField>
 
@@ -137,6 +154,8 @@ const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({ formData, handl
             onChange={handleChange}
             title="Voer de m²-prijs bouwgrond in"
             placeholder="m²-prijs Bouwgrond"
+            min={0}
+            required
             />
         </FormField>
 
@@ -148,6 +167,8 @@ const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({ formData, handl
             onChange={handleChange}
             title="Voer de bouwkost/m² in"
             placeholder="Bouwkost/m²"
+            min={0}
+            required
             />
         </FormField>
 
@@ -159,6 +180,7 @@ const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({ formData, handl
             onChange={handleChange}
             title="Voer de renovatiekosten in"
             placeholder="Renovatiekosten"
+            min={0}
             />
         </FormField>
 
@@ -170,10 +192,11 @@ const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({ formData, handl
             onChange={handleChange}
             title="Voer de afbraakkost in"
             placeholder="Afbraakkost"
+            min={0}
             />
         </FormField>
 
-        <FormField label="Graad Van Afwerking">
+        <FormField label="Graad Van Afwerking ">
             <InputField
             type="range"
             name="grade_of_finish"
@@ -185,6 +208,7 @@ const GeneralInfoSection: React.FC<GeneralInfoSectionProps> = ({ formData, handl
             max={1.5}
             step={0.1}
             />
+            <span>{formData.grade_of_finish}</span>
         </FormField>
     </div>
     );

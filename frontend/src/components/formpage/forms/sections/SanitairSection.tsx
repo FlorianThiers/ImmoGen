@@ -28,6 +28,8 @@ const SanitairSection: React.FC<GeneralInfoSectionProps> = ({ formData, handleCh
                 onChange={handleChange}
                 title="Voer de keukenoppervlakte in"
                 placeholder="Keukenoppervlakte"
+                min={0}
+                required
               />
             </FormField>
 
@@ -53,6 +55,8 @@ const SanitairSection: React.FC<GeneralInfoSectionProps> = ({ formData, handleCh
                 onChange={handleChange}
                 title="Voer het aantal badkamers in"
                 placeholder="Aantal badkamers"
+                min={0}
+                required
               />
             </FormField>
 
@@ -64,6 +68,8 @@ const SanitairSection: React.FC<GeneralInfoSectionProps> = ({ formData, handleCh
                 onChange={handleChange}
                 title="Voer het aantal douches in"
                 placeholder="Aantal douches"
+                min={0}
+                required
               />
             </FormField>
 
@@ -75,6 +81,7 @@ const SanitairSection: React.FC<GeneralInfoSectionProps> = ({ formData, handleCh
                 onChange={handleChange}
                 title="Voer het aantal badkuipen in"
                 placeholder="Aantal badkuipen"
+                min={0}
               />
             </FormField>
 
@@ -86,6 +93,9 @@ const SanitairSection: React.FC<GeneralInfoSectionProps> = ({ formData, handleCh
                 onChange={handleChange}
                 title="Voer het aantal toiletten in"
                 placeholder="Aantal toiletten"
+                min={0}
+                required
+
               />
             </FormField>
           </div>

@@ -43,11 +43,13 @@ const ProfilePage: React.FC = () => {
       <main className="main-content">
         <Header title="Profiel" user={user || undefined}/>
         <div className="content-wrapper">
-          <UserInfo/>
-          <div className="bottom-section">
-            <ProfileMap/>
-            <div className="right-panel">
+          <div className="bottom-section-profile">
+            <div className="left-panel">
+              <UserInfo/>
               <ProfileStats />
+            </div>
+            <div className="right-panel">
+              <ProfileMap/>
               <UserEstimates />
             </div>
           </div>

@@ -181,6 +181,8 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                   onChange={handleChange}
                   title="Voer de zonnepaneeloppervlakte in"
                   placeholder="Zonnepaneeloppervlakte"
+                  min={0}
+                  required
                 />
               </FormField>
             )}

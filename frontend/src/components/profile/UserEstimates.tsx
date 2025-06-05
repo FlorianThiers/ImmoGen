@@ -1,32 +1,145 @@
-import React, { useContext } from 'react';
+import axios from 'axios';
+import React, { useContext, useState, useEffect } from 'react';
 
 
 const UserEstimates = () => {
+    const [currentUser, setCurrentUser] = useState<{ id: number } | null>(null);  
+    const [immoGenHouses, setImmoGenHouses] = useState<any[]>([]);
     
+    useEffect(() => {
+        const fetchCurrentUser = async () => {
+            const token = localStorage.getItem("token");
+            try {
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/me`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                setCurrentUser(res.data);
+            } catch (error) {
+                console.error("Error fetching current user:", error);
+                setCurrentUser(null);
+            }
+        };
+        fetchCurrentUser();
+    }, []);
+
+    useEffect(() => {
+        const fetchImmoGenHouses = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_URL}/immogen_addresses`,
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                        },
+                    }
+                );
+                const data = response.data;
+                if (Array.isArray(data) && data.length > 0) {
+                    console.log('🏠 First house example:', data[0]);
+                    setImmoGenHouses(data);
+                } else {
+                    console.warn('⚠️ No houses returned or invalid format');
+                    setImmoGenHouses([]);
+                }
+            } catch (error) {
+                console.error("❌ Failed to fetch ImmoGen houses:", error);
+            }
+        };
+        fetchImmoGenHouses();
+    }, []);
+
+    // Filter direct in de render:
+        const userHouses = currentUser
+        ? immoGenHouses.filter(house => Number(house.user_id) === Number(currentUser.id))
+        : [];
+
+    // Sorteer op datum (recentste eerst)
+        const sorted = [...userHouses].sort(
+            (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+
     return (
-        <div className="profile-table-container">
-            <h2>Mijn schattingen</h2>
-            <table className="profile-table">
-                <thead>
-                <tr>
-                    <th>Adres</th>
-                    <th className="right">Waarde</th>
-                    <th className="center">Type</th>
-                    <th className="center">Streek</th>
-                </tr>
-                </thead>
-                <tbody>
-                {/* {user && user.estimates.map((e) => (
-                    <tr key={e.id}>
-                    <td>{e.address}</td>
-                    <td className="right">€{e.value.toLocaleString()}</td>
-                    <td className="center">{e.type}</td>
-                    <td className="center">{e.region}</td>
-                    </tr>
-                ))} */}
-                </tbody>
-            </table>
+    <section className="recent-astimations-section">
+      <div className="section-header">
+        <h2>Recente schattingen</h2>
+        <span className="sort-icon"></span>
+      </div>
+      <div className="recent-astimations-table">
+        <div className="table-header">
+          <span>Adres schattingen</span>
+          <span>Type</span>
+          <span>AI prijs</span>
+          <span>Prijs</span>
         </div>
+        {sorted.slice(0, 5).map((est) => (
+          <div className="recent-astimation-row" key={est.id}>
+            <div className="recent-astimation-name">
+              <span className={`recent-astimation-icon ${est.title.toLowerCase()}`}></span>
+              <div>
+                <div className="name">{est.city} {est.postal_code} {est.street}</div>
+                <div className="date">{new Date(est.created_at).toLocaleString()}</div>
+              </div>
+            </div>
+            <span className="category">{est.title}</span>
+            <span className="cashback">€ {est.ai_price.toLocaleString("nl-BE")}</span>
+            <span className="amount">€ {est.price.toLocaleString("nl-BE")}</span>
+          </div>
+        ))}
+
+        <div className="recent-astimation-row">
+                <div className="recent-astimation-name">
+                    <span className="recent-astimation-icon appartement"></span>
+                    <div>
+                        <div className="name">Gent 9000 Oost-Vlaanderen</div>
+                        <div className="date">Today at 16:36 AM</div>
+                    </div>
+                </div>
+                <span className="category">Appartement</span>
+                <span className="cashback">€ 320.500,00</span>
+                <span className="amount">€ 300.250,00 </span>
+            </div>
+            
+            <div className="recent-astimation-row">
+                <div className="recent-astimation-name">
+                    <span className="recent-astimation-icon villa"></span>
+                    <div>
+                        <div className="name">Knokke 8300 West-Vlaanderen</div>
+                        <div className="date">Today at 16:36 AM</div>
+                    </div>
+                </div>
+                <span className="category">Villa</span>
+                <span className="cashback">€ 900.450,00</span>
+                <span className="amount">€ 900.450,00 </span>
+            </div>
+
+            <div className="recent-astimation-row">
+                <div className="recent-astimation-name">
+                    <span className="recent-astimation-icon huis"></span>
+                    <div>
+                        <div className="name">Beveren 9120 Oost-Vlaanderen</div>
+                        <div className="date">Today at 16:36 AM</div>
+                    </div>
+                </div>
+                <span className="category">Huis</span>
+                <span className="cashback">€ 300.250,00</span>
+                <span className="amount">€ 300.250,00 </span>
+            </div>
+
+            <div className="recent-astimation-row">
+                <div className="recent-astimation-name">
+                    <span className="recent-astimation-icon appartement"></span>
+                    <div>
+                        <div className="name">Antwerpen 2000 Antwerpen</div>
+                        <div className="date">Today at 16:36 AM</div>
+                    </div>
+                </div>
+                <span className="category">Appartement</span>
+                <span className="cashback">€ 450.500,00</span>
+                <span className="amount">€ 450.500,00 </span>
+            </div>
+        </div>
+    </section>
     );
 }
 
