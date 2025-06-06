@@ -503,9 +503,32 @@ body:not(.theme-switching) .exit-item {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 24px;
     max-width: 900px;
+    margin-left: 4%;
+}
+
+.houses-grid-controls button[disabled] {
+  opacity: 0.5;
+}
+
+.types-button {
+    width: 3rem;
+    background-color: rgba(51, 51, 51, 0.2);
+    /* cursor: page === 0 ? "not-allowed" : "pointer"; */
+}
+
+.back {
+    position: sticky;
+    right: 90%;
+}
+
+.more {
+    position: sticky;
+    left: 63%;
+
 }
 
 .house {
+    max-width: 284px;
     padding: 24px;
     border-radius: 16px;
     position: relative;
@@ -591,6 +614,183 @@ body:not(.theme-switching) .exit-item {
     align-items: center;
     margin-bottom: 16px;
 }
+
+.house.duplex {
+    background: linear-gradient(135deg, #1b6f6b 0%, #14514d 100%);
+}
+.house.duplex::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s ease;
+}
+.house.duplex:hover::before {
+    left: 100%;
+}
+.house.duplex:hover {
+    background: linear-gradient(135deg, #17625a 0%, #0e3c36 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.house.kantoor {
+    background: linear-gradient(135deg, #4ade80 0%, #16a34a 100%);
+}
+.house.kantoor::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s ease;
+}
+.house.kantoor:hover::before {
+    left: 100%;
+}
+.house.kantoor:hover {
+    background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.house.handelspand {
+    background: linear-gradient(135deg, #a9000e 0%, #ff4757 100%);
+}
+.house.handelspand::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s ease;
+}
+.house.handelspand:hover::before {
+    left: 100%;
+}
+.house.handelspand:hover {
+    background: linear-gradient(135deg, #c40013 0%, #ff6b81 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.house.bouwgrond {
+    background: linear-gradient(135deg, #6b46c1 0%, #b794f4 100%);
+}
+.house.bouwgrond::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s ease;
+}
+.house.bouwgrond:hover::before {
+    left: 100%;
+}
+.house.bouwgrond:hover {
+    background: linear-gradient(135deg, #553c9a 0%, #a78bfa 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.house.hut {
+    background: linear-gradient(135deg, #667eea 0%, #a5b4fc 100%);
+}
+.house.hut::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s ease;
+}
+.house.hut:hover::before {
+    left: 100%;
+}
+.house.hut:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #818cf8 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.house.garage {
+    background: linear-gradient(135deg, #222 0%, #444 100%);
+}
+.house.garage::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s ease;
+}
+.house.garage:hover::before {
+    left: 100%;
+}
+.house.garage:hover {
+    background: linear-gradient(135deg, #333 0%, #555 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.house.grond {
+    background: linear-gradient(135deg, #151515 0%, #333 100%);
+}
+.house.grond::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s ease;
+}
+.house.grond:hover::before {
+    left: 100%;
+}
+.house.grond:hover {
+    background: linear-gradient(135deg, #222 0%, #444 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.house.Overige {
+    background: linear-gradient(135deg, #000000 0%, #434343 100%);
+}
+.house.Overige::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s ease;
+}
+.house.Overige:hover::before {
+    left: 100%;
+}
+.house.Overige:hover {
+    background: linear-gradient(135deg, #222 0%, #666 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
 
 .house-type {
     font-size: 14px;
@@ -678,6 +878,10 @@ body:not(.theme-switching) .exit-item {
     margin-bottom: 16px;
 }
 
+.pagination span {
+    padding: 1rem;
+}
+
 .recent-astimation-row {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
@@ -689,7 +893,7 @@ body:not(.theme-switching) .exit-item {
 }
 
 .recent-astimation-row:hover {
-    background-color: #222;
+    background-color: var(--backgroundcolor-fields-border);
 }
 
 .recent-astimation-name {
@@ -722,6 +926,39 @@ body:not(.theme-switching) .exit-item {
     background-color: #ff9900;
 }
 
+.recent-astimation-icon.duplex {
+    background-color: #1b6f6b
+}
+
+.recent-astimation-icon.kantoor {
+    background-color: #4ade80;
+}
+
+.recent-astimation-icon.handelspand {
+    background-color: #a9000e;
+}
+
+.recent-astimation-icon.bouwgrond {
+    background-color: #6b46c1;
+}
+
+.recent-astimation-icon.hut {
+    background-color: #667eea;
+}
+
+.recent-astimation-icon.garage {
+    background-color: #26a69a
+}
+
+.recent-astimation-icon.grond {
+    background-color: #151515;
+}
+
+.recent-astimation-icon.Overige {
+    background-color: #000000;
+}
+
+
 .recent-astimation-icon::before {
     content: attr(class);
     text-transform: uppercase;
@@ -740,6 +977,37 @@ body:not(.theme-switching) .exit-item {
     content: 'V';
 }
 
+.recent-astimation-icon.duplex::before {
+    content: 'D';
+}
+
+.recent-astimation-icon.kantoor::before {
+    content: 'K';
+}
+
+.recent-astimation-icon.handelspand::before {
+    content: 'HP';
+}
+
+.recent-astimation-icon.bouwgrond::before {
+    content: 'BG';
+}
+
+.recent-astimation-icon.hut::before {
+    content: 'HT';
+}
+
+.recent-astimation-icon.garage::before {
+    content: 'G';
+}
+
+.recent-astimation-icon.grond::before {
+    content: 'GR';
+}
+
+.recent-astimation-icon.Overige::before {
+    content: 'O';
+}
 .name {
     font-size: 14px;
     font-weight: 500;
@@ -748,7 +1016,7 @@ body:not(.theme-switching) .exit-item {
 
 .date {
     font-size: 12px;
-    color: var(--text-color-dashboard-dark);
+    color: var(--text-color-dashboard-gray);
     margin-top: 2px;
 }
 

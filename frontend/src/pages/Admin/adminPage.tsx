@@ -5,6 +5,11 @@ import Sidebar from "../../components/SideNavbar";
 import Header from "../../components/Header";
 import UserField from "../../components/UserField";
 
+import MandelbrotZoom from "./MandelbrotZoom";
+
+import "../Users/dashboard.css"
+
+
 const AdminPanel = () => {
   const [scrapingStatus, setScrapingStatus] = useState<string | null>(null);
   const [trainingStatus, setTrainingStatus] = useState<string | null>(null);
@@ -121,7 +126,10 @@ const AdminPanel = () => {
             Bekijk logs
           </button>
         
+
+
           
+        {/* <MandelbrotZoom /> */}
         </div>
       </main>
         <UserField open={showUserField} onClose={() => setShowUserField(false)} />

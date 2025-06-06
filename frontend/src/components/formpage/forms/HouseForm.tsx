@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
 import FormDataType from "../../formDataType";
 
 import GeneralInfoSection from "./sections/GeneralInfoSection";
@@ -17,7 +17,6 @@ interface HouseFormProps {
 }
 
 const HouseForm: React.FC<HouseFormProps> = ({ formData, handleChange }) => {
-  // Voeg bovenaan je component toe:
   const categories = [
     { key: "generalInfo", label: "Algemeen" },
     { key: "location", label: "Locatie" },

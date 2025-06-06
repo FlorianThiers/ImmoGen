@@ -11,13 +11,13 @@ import ExtraSection from "./sections/ExtraSection";
 
 import "../../../pages/Users/priceCalculator.css"; // Import the CSS for styling
 
-interface DuplexFormProps {
+interface CabinFormProps {
   formData: FormDataType;
   handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 }
 
-const DuplexForm: React.FC<DuplexFormProps> = ({ formData, handleChange }) => {
- const categories = [
+const CabinForm: React.FC<CabinFormProps> = ({ formData, handleChange }) => {
+  const categories = [
     { key: "generalInfo", label: "Algemeen" },
     { key: "location", label: "Locatie" },
     { key: "interior", label: "Interieur" },
@@ -29,7 +29,7 @@ const DuplexForm: React.FC<DuplexFormProps> = ({ formData, handleChange }) => {
   const [activeCategory, setActiveCategory] = useState("generalInfo");
 
   return (
-    <div className="villa-form">
+    <div className="cabin-form">
       <div className="category-tabs">
         {categories.map((cat) => (
           <button
@@ -76,6 +76,4 @@ const DuplexForm: React.FC<DuplexFormProps> = ({ formData, handleChange }) => {
   );
 };
 
-
-
-export default DuplexForm;
+export default CabinForm;

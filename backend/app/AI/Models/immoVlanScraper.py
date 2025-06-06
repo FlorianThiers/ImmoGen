@@ -332,7 +332,15 @@ def scrap_houses(db: Session, max_pages, base_url="https://immovlan.be/nl/vastgo
                             swimming_pool=clean_boolean(zwembad),
                             swimming_pool_area=clean_area(oppervlakte_zwembad),  
                             garden=clean_boolean(tuin),
-                            garden_area=clean_area(oppervlakte_tuin),
+                            garden_area=(
+                                clean_area(oppervlakte_tuin)
+                                if clean_area(oppervlakte_tuin) != 0
+                                else (
+                                    clean_area(oppervlakte) - clean_area(bewoonbare_opp)
+                                    if clean_area(oppervlakte) and clean_area(bewoonbare_opp)
+                                    else 0
+                                )
+                            ),
 
                             # Source
                             source="ImmoVlan",

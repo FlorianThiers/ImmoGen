@@ -15,6 +15,7 @@ type House = {
 
 const RecentEstimations = () => {
     const [houses, setHouses] = useState<House[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         const fetchHouses = async () => {
@@ -45,13 +46,13 @@ const RecentEstimations = () => {
           <span>AI prijs</span>
           <span>Prijs</span>
         </div>
-        {sorted.slice(0, 5).map((est) => (
+        {sorted.slice((currentPage - 1) * 5, currentPage * 5).map((est) => (
           <div className="recent-astimation-row" key={est.id}>
             <div className="recent-astimation-name">
               <span className={`recent-astimation-icon ${est.title.toLowerCase()}`}></span>
               <div>
-                <div className="name">{est.city} {est.postal_code} {est.street}</div>
-                <div className="date">{new Date(est.created_at).toLocaleString()}</div>
+          <div className="name">{est.city} {est.postal_code} {est.street}</div>
+          <div className="date">{new Date(est.created_at).toLocaleString()}</div>
               </div>
             </div>
             <span className="category">{est.title}</span>
@@ -59,7 +60,24 @@ const RecentEstimations = () => {
             <span className="amount">€ {est.price.toLocaleString("nl-BE")}</span>
           </div>
         ))}
-            <div className="recent-astimation-row">
+        <div className="pagination">
+          <button
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+          >
+            Vorige
+          </button>
+          <span>
+            Pagina {currentPage} van {Math.ceil(sorted.length / 5)}
+          </span>
+          <button
+            onClick={() => setCurrentPage((p) => Math.min(Math.ceil(sorted.length / 5), p + 1))}
+            disabled={currentPage === Math.ceil(sorted.length / 5)}
+          >
+            Volgende
+          </button>
+        </div>
+            {/* <div className="recent-astimation-row">
                 <div className="recent-astimation-name">
                     <span className="recent-astimation-icon appartement"></span>
                     <div>
@@ -109,7 +127,7 @@ const RecentEstimations = () => {
                 <span className="category">Appartement</span>
                 <span className="cashback">€ 450.500,00</span>
                 <span className="amount">€ 450.500,00 </span>
-            </div>
+            </div> */}
         </div>
     </section>
   );

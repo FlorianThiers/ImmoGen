@@ -28,8 +28,6 @@ const HouseMapProfile: React.FC = () => {
   const markersRef = useRef<maptilersdk.Marker[]>([]);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [selectedBaseMap, setSelectedBaseMap] = useState<BaseMapKey>("STREETS");
-  const [search, setSearch] = useState("");
-  const [searchLoading, setSearchLoading] = useState(false);
   const [immoGenHouses, setImmoGenHouses] = useState<any[]>([]);
   const [mapLoaded, setMapLoaded] = useState(false); // Nieuwe state
   const [centerCoords, setCenterCoords] = useState<[number, number]>(DEFAULT_CENTER);
@@ -55,10 +53,13 @@ const HouseMapProfile: React.FC = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setCenterCoords([position.coords.longitude, position.coords.latitude]);
+          const { latitude, longitude } = position.coords;
+          setUserLocation([longitude, latitude]);
         },
-        () => setCenterCoords(DEFAULT_CENTER)
+        () => setUserLocation([3.7, 51.06])
       );
+    } else {
+      setUserLocation([4.4, 51.2]);
     }
 
      const fetchImmoGenHouses = async () => {

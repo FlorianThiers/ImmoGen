@@ -356,7 +356,7 @@ def scrape_property_details(detail_url, headers={"User-Agent": "Mozilla/5.0"}):
                                     elif any(x in field_name_lower for x in ["oppervlakte terras", "opp. terras"]):
                                         property_data["buitenruimte"]["oppervlakte_terras"] = field_value
                                         print(f"  → Found oppervlakte_terras: {field_value}")
-                                    elif any(x in field_name_lower for x in ["totale oppervlakte", "totale opp", "Totaal grondoppervlakte"]):
+                                    elif any(x in field_name_lower for x in ["totale oppervlakte", "totale opp", "Totale grondoppervlakte"]):
                                         property_data["buitenruimte"]["totale_opp"] = field_value
                                         print(f"  → Found totale_opp: {field_value}")
                                     elif any(x in field_name_lower for x in ["diepte perceel", "perceel diepte"]):

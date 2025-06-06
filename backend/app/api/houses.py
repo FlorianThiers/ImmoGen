@@ -12,5 +12,5 @@ def get_houses(db: Session = Depends(get_db)):
     return db.query(EstimatedHouse).order_by(EstimatedHouse.created_at.desc()).all()
 
 @router.get("/scrape_houses")
-def get_houses(db: Session = Depends(get_db)):
-    return db.query(ScrapeHouse).order_by(ScrapeHouse).all()
+def get_scrapeHouses(db: Session = Depends(get_db)):
+    return db.query(ScrapeHouse).all()

@@ -3,26 +3,20 @@ import FormDataType from "../../formDataType";
 
 import GeneralInfoSection from "./sections/GeneralInfoSection";
 import LocationSection from "./sections/LocationSection";
-import InteriorSection from "./sections/InteriorSection";
-import SanitairSection from "./sections/SanitairSection";
-import EnergySection from "./sections/EnergySection";
 import OutdoorSection from "./sections/OutdoorSection";
 import ExtraSection from "./sections/ExtraSection";
 
 import "../../../pages/Users/priceCalculator.css"; // Import the CSS for styling
 
-interface DuplexFormProps {
+interface GroundFormProps {
   formData: FormDataType;
   handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
 }
 
-const DuplexForm: React.FC<DuplexFormProps> = ({ formData, handleChange }) => {
- const categories = [
+const GroundForm: React.FC<GroundFormProps> = ({ formData, handleChange }) => {
+const categories = [
     { key: "generalInfo", label: "Algemeen" },
     { key: "location", label: "Locatie" },
-    { key: "interior", label: "Interieur" },
-    { key: "kitchen", label: "Sanitair" },
-    { key: "energy", label: "Energie" },
     { key: "outdoor", label: "Buitenruimte" },
     { key: "extras", label: "Extra's" },
   ];
@@ -52,18 +46,6 @@ const DuplexForm: React.FC<DuplexFormProps> = ({ formData, handleChange }) => {
           <LocationSection formData={formData} handleChange={handleChange}/>
         )}
 
-        {activeCategory === "interior" && (
-          <InteriorSection formData={formData} handleChange={handleChange} />
-        )}
-
-        {activeCategory === "kitchen" && (
-          <SanitairSection formData={formData} handleChange={handleChange} />
-        )}
-
-        {activeCategory === "energy" && (
-          <EnergySection formData={formData} handleChange={handleChange}/>
-        )}
-
         {activeCategory === "outdoor" && (
           <OutdoorSection formData={formData} handleChange={handleChange} />
         )}
@@ -77,5 +59,4 @@ const DuplexForm: React.FC<DuplexFormProps> = ({ formData, handleChange }) => {
 };
 
 
-
-export default DuplexForm;
+export default GroundForm;
