@@ -6,18 +6,20 @@ import LocationSection from "./sections/LocationSection";
 import InteriorSection from "./sections/InteriorSection";
 import SanitairSection from "./sections/SanitairSection";
 import EnergySection from "./sections/EnergySection";
-import OutdoorSection from "./sections/OutdoorSection";
+import OutdoorSectionAppartment from "./sections/appartment/OutdoorSectionAppartment";
 import ExtraSection from "./sections/ExtraSection";
 
 import "../../../pages/Users/priceCalculator.css"; // Import the CSS for styling
 
 interface DuplexFormProps {
   formData: FormDataType;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
 }
 
 const DuplexForm: React.FC<DuplexFormProps> = ({ formData, handleChange }) => {
- const categories = [
+  const categories = [
     { key: "generalInfo", label: "Algemeen" },
     { key: "location", label: "Locatie" },
     { key: "interior", label: "Interieur" },
@@ -34,7 +36,9 @@ const DuplexForm: React.FC<DuplexFormProps> = ({ formData, handleChange }) => {
         {categories.map((cat) => (
           <button
             key={cat.key}
-            className={`category-tab${activeCategory === cat.key ? " active" : ""}`}
+            className={`category-tab${
+              activeCategory === cat.key ? " active" : ""
+            }`}
             onClick={() => setActiveCategory(cat.key)}
             type="button"
           >
@@ -49,7 +53,7 @@ const DuplexForm: React.FC<DuplexFormProps> = ({ formData, handleChange }) => {
         )}
 
         {activeCategory === "location" && (
-          <LocationSection formData={formData} handleChange={handleChange}/>
+          <LocationSection formData={formData} handleChange={handleChange} />
         )}
 
         {activeCategory === "interior" && (
@@ -61,11 +65,14 @@ const DuplexForm: React.FC<DuplexFormProps> = ({ formData, handleChange }) => {
         )}
 
         {activeCategory === "energy" && (
-          <EnergySection formData={formData} handleChange={handleChange}/>
+          <EnergySection formData={formData} handleChange={handleChange} />
         )}
 
         {activeCategory === "outdoor" && (
-          <OutdoorSection formData={formData} handleChange={handleChange} />
+          <OutdoorSectionAppartment
+            formData={formData}
+            handleChange={handleChange}
+          />
         )}
 
         {activeCategory === "extras" && (
@@ -75,7 +82,5 @@ const DuplexForm: React.FC<DuplexFormProps> = ({ formData, handleChange }) => {
     </div>
   );
 };
-
-
 
 export default DuplexForm;

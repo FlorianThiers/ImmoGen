@@ -118,7 +118,7 @@ const ProfileStats = () => {
   return (
     <section className="right-top-section">
         <div className="section-header">
-            <h3>Kaart statistieken</h3>
+            <h3>Gebruikers statistieken</h3>
         </div>
 
         <div className="statistics-grid">
@@ -138,10 +138,11 @@ const ProfileStats = () => {
 
             <div className="statistic-card">
             <div className="statistic-content">
-                <div className="statistic-value">
+              <div className="statistic-value">Type's</div>
+                <div className="statistic-label">
                   {Object.entries(typeStats).map(([type, count]) => (
                     <div key={type}>
-                      {type}: {count}
+                      {type}: <strong>{count}</strong>
                     </div>
                   ))}
                 </div>
@@ -157,10 +158,11 @@ const ProfileStats = () => {
 
             <div className="statistic-card">
             <div className="statistic-content">
-                <div className="statistic-value">
+              <div className="statistic-value">Regio's</div>
+                <div className="statistic-label">
                   {Object.entries(regionStats).map(([region, count]) => (
                     <div key={region}>
-                      {region}: {count}
+                      {region}: <strong>{count}</strong>
                     </div>
                   ))}
                 </div>
@@ -176,10 +178,11 @@ const ProfileStats = () => {
 
             <div className="statistic-card">
             <div className="statistic-content">
-                <div className="statistic-value">
+                <div className="statistic-value">Steden</div>
+                <div className="statistic-label">
                   {Object.entries(cityCount).map(([city, count]) => (
                     <div key={city}>
-                      {city}: {count}
+                      {city}: <strong>{count}</strong>
                     </div>
                   ))}
                 </div>

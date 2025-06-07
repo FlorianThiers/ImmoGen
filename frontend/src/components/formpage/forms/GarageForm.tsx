@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FormDataType from "../../formDataType";
 
-import GeneralInfoSection from "./sections/GeneralInfoSection";
+import GeneralInfoSectionGarage from "./sections/garage/GeneralInfoSectionGarage";
 import LocationSection from "./sections/LocationSection";
 import ExtraSection from "./sections/ExtraSection";
 
@@ -38,7 +38,7 @@ const GarageForm: React.FC<GarageFormProps> = ({ formData, handleChange }) => {
 
       <div className="category-content">
         {activeCategory === "generalInfo" && (
-          <GeneralInfoSection formData={formData} handleChange={handleChange} />
+          <GeneralInfoSectionGarage formData={formData} handleChange={handleChange} />
         )}
 
         {activeCategory === "location" && (

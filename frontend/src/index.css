@@ -160,6 +160,7 @@ button:focus-visible {
   background-color: var(--navbar-bg-color);
   color: var(--text-color);
   position: sticky;
+  width: 80%;
   top: 0;
   z-index: 1000;
 }

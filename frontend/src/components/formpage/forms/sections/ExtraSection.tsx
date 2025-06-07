@@ -11,13 +11,6 @@ interface ExtraSectionProps {
 }
 
 const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) => {
-    const [extraFeatures, setExtraFeatures] = useState(formData.extra_features || "");
-
-    const handleExtraFeaturesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setExtraFeatures(event.target.value);
-        handleChange(event);
-    };
-
     return (
          <div className="grid-container">
             <FormField label="Heeft Lift:">
@@ -315,7 +308,7 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                     <InputField
                       type="range"
                       name="special_materials_level"
-                      value={formData.special_materials_level || 1}
+                      value={formData.special_materials_level || ""}
                       onChange={handleChange}
                       title="Voer de aparte materialen level in"
                       placeholder=""
@@ -324,7 +317,7 @@ const ExtraSection: React.FC<ExtraSectionProps> = ({ formData, handleChange }) =
                       step={1}
                       required
                       />
-                      <span>{formData.special_materials_level || 1}</span>
+                      <span>{formData.special_materials_level}</span>
                   </div>
                 </FormField>
               </>

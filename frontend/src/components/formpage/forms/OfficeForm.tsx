@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import FormDataType from "../../formDataType";
 
-import GeneralInfoSection from "./sections/GeneralInfoSection";
+import GeneralInfoSectionGarage from "./sections/garage/GeneralInfoSectionGarage";
 import LocationSection from "./sections/LocationSection";
-import InteriorSection from "./sections/InteriorSection";
+import InteriorSectionOffice from "./sections/office/InteriorSectionOffice";
 import SanitairSection from "./sections/SanitairSection";
 import EnergySection from "./sections/EnergySection";
 import OutdoorSection from "./sections/OutdoorSection";
@@ -45,7 +45,7 @@ const OfficeForm: React.FC<OfficeFormProps> = ({ formData, handleChange }) => {
 
       <div className="category-content">
         {activeCategory === "generalInfo" && (
-          <GeneralInfoSection formData={formData} handleChange={handleChange} />
+          <GeneralInfoSectionGarage formData={formData} handleChange={handleChange} />
         )}
 
         {activeCategory === "location" && (
@@ -53,7 +53,7 @@ const OfficeForm: React.FC<OfficeFormProps> = ({ formData, handleChange }) => {
         )}
 
         {activeCategory === "interior" && (
-          <InteriorSection formData={formData} handleChange={handleChange} />
+          <InteriorSectionOffice formData={formData} handleChange={handleChange} />
         )}
 
         {activeCategory === "kitchen" && (

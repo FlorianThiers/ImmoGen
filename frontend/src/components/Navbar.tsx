@@ -5,7 +5,6 @@ import "../index.css"; // Zorg ervoor dat je de juiste CSS-bestanden hebt
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -15,28 +14,17 @@ const Navbar = () => {
     setIsMenuOpen(false);
   };
 
-  const toggleTheme = () => {
-    setIsDarkTheme((prevTheme) => !prevTheme);
-
-    if (document.body.classList.contains("dark-theme")) {
-      document.body.classList.remove("dark-theme");
-    } else {
-      document.body.classList.add("dark-theme");
-    }
-  };
-
   useEffect(() => {
         // Detect system preference for light mode
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     if (prefersDark) {
       document.body.classList.add("dark-theme");
-      setIsDarkTheme(true);
     }
   }, []);
 
   return (
     <nav className="navbar">
-      <Link to="/home" onClick={closeMenu}>
+      <Link to="/dashboard" onClick={closeMenu}>
         <div className="logo">
           <img src="/logo.png" alt="ImmoGen Logo" style={{ height: "30px", marginRight: "8px" }} />
           <p className="logo-text">

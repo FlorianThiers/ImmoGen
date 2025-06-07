@@ -1,3 +1,6 @@
+// In App.tsx of in een AuthProvider
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Navbar from "./components/Navbar";
@@ -15,18 +18,28 @@ import AdminPanel from "./pages/Admin/adminPage";
 import './App.css'
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios.get(`${import.meta.env.VITE_API_URL}/me`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(res => setUser(res.data))
+      .catch(() => {
+        // Token ongeldig, verwijder hem
+        localStorage.removeItem("token");
+        setUser(null);
+      });
+    }
+  }, []);
+
   return (
     <Routes>
       {/* Landing page met alleen Navbar */}
-      <Route
-        path="/"
-        element={
-          <>
-            <Navbar />
-            <LandingPage />
-          </>
-        }
-      />
+      <Route path="/" element={<LandingPage />} />
+      
       {/* Login/Register zonder navbar */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
@@ -36,7 +49,7 @@ function App() {
         path="/dashboard"
         element={
           <ProtectedRoute>
-              <Dashboard />
+              <Dashboard user={user}/>
           </ProtectedRoute>
         }
       />
@@ -44,7 +57,7 @@ function App() {
         path="/price-calculator"
         element={
           <ProtectedRoute>
-              <PriceCalculator />
+              <PriceCalculator user={user}/>
           </ProtectedRoute>
         }
       />
@@ -52,7 +65,7 @@ function App() {
         path="/statistics"
         element={
           <ProtectedRoute>
-              <StatisticsPage />
+              <StatisticsPage user={user}/>
           </ProtectedRoute>
         }
       />
@@ -60,7 +73,7 @@ function App() {
         path="/map"
         element={
           <ProtectedRoute>
-              <MapPage />
+              <MapPage user={user}/>
           </ProtectedRoute>
         }
       />
@@ -68,7 +81,7 @@ function App() {
         path="/profile"
         element={
           <ProtectedRoute>
-              <ProfilePage />
+              <ProfilePage user={user}/>
           </ProtectedRoute>
         }
       />
@@ -76,7 +89,7 @@ function App() {
         path="/admin-panel"
         element={
           <ProtectedRoute>
-              <AdminPanel />
+              <AdminPanel user={user}/>
           </ProtectedRoute>
         }
       />

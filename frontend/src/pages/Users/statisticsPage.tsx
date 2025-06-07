@@ -18,10 +18,15 @@ import FadeInSection from "../../components/FadeInSection";
 import House from "../../context/House"
 import ScrapeHouse from "../../context/ScrapeHouse"
 
+import User from "../../context/User";
+
 import "./statisticsPage.css"
 
+interface StatisticsPageProps {
+  user?: User | null;
+}
 
-const StatisticsPage = () => {
+const StatisticsPage: React.FC<StatisticsPageProps> = ({ user }) => {
   const isDarkTheme = useState(
     typeof document !== "undefined" &&
       document.body.classList.contains("dark-theme")
@@ -29,7 +34,6 @@ const StatisticsPage = () => {
   const showOverlay = useState(false);
   const overlayTheme = useState(isDarkTheme ? "dark" : "light");
   const [showUserField, setShowUserField] = useState(false);
-  const [user, setUser] = useState(null);
   const [scrapeHouses, setScrapeHouses] = useState<ScrapeHouse[]>([]);
   const [houses, setHouses] = useState<House[]>([]);
 
@@ -55,23 +59,6 @@ const StatisticsPage = () => {
       };
       fetchHouses();
   }, []);
-  
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUser(res.data);
-      } catch (err) {
-        setUser(null);
-      }
-    };
-    fetchUser();
-  }, []);
-
-
 
   return (
     <div className="dashboard">
@@ -149,8 +136,8 @@ const StatisticsPage = () => {
           </FadeInSection>
           {/* <AskingPriceVSAIPerice houses={houses}/> */}
         </div>
-          <UserField open={showUserField} onClose={() => setShowUserField(false)} />
       </main>
+      <UserField open={showUserField} onClose={() => setShowUserField(false)} />
     </div>
   );
 };

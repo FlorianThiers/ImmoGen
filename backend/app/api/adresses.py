@@ -82,7 +82,7 @@ def geocode_address(address: str, max_retries: int = 3) -> Optional[Dict]:
 
 
 @router.get("/immogen_addresses")
-def get_immogen_addresses(db: Session = Depends(get_db), limit: int = 100):
+def get_immogen_addresses(db: Session = Depends(get_db), limit: int = 1000):
     try:
         logger.info("⏳ Fetching addresses from database...")
 

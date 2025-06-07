@@ -7,6 +7,11 @@ router = APIRouter()
 
 @router.post("/scrape")
 async def start_scraping(request: Request, db: Session = Depends(get_db)):
+    # if not current_user.is_admin:
+    #     raise HTTPException(status_code=403, detail="Forbidden")
+    # if limit < 1 or limit > 1000:
+    #     raise HTTPException(status_code=400, detail="Limit out of range")
+    # ...rest van je code...
     """
     Start het scrapen van woningdata en sla deze op in de database.
     """

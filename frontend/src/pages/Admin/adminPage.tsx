@@ -4,13 +4,17 @@ import { useState, useEffect } from "react";
 import Sidebar from "../../components/SideNavbar";
 import Header from "../../components/Header";
 import UserField from "../../components/UserField";
+import User from "../../context/User";
 
 import MandelbrotZoom from "./MandelbrotZoom";
 
 import "../Users/dashboard.css"
+interface AdminPanelProps {
+  user?: User | null;
+}
 
 
-const AdminPanel = () => {
+const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
   const [scrapingStatus, setScrapingStatus] = useState<string | null>(null);
   const [trainingStatus, setTrainingStatus] = useState<string | null>(null);
   const [scrapePages, setScrapePages] = useState<number>(1);
@@ -21,23 +25,6 @@ const AdminPanel = () => {
   const showOverlay = useState(false);
   const overlayTheme = useState(isDarkTheme ? "dark" : "light");
   const [showUserField, setShowUserField] = useState(false);
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUser(res.data);
-      } catch (err) {
-        setUser(null);
-      }
-    };
-    fetchUser();
-  }, []);
-
 
   // Functie om scraping te starten
   const handleScrape = async () => {

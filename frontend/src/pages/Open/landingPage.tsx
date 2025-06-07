@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Navbar from '../../components/Navbar';
 import './landingPage.css'; // Assuming you have a CSS file for styles
 
 const LandingPage = () => {
@@ -59,9 +60,9 @@ const LandingPage = () => {
   };
 
   return (
-    <div>
-      {/* Hero Section */}
-      {/* Hero Section */}
+    <div className='landingpage'>
+      <Navbar />
+
       <section className="hero">
         <div className="container">
          <h1>
@@ -72,7 +73,12 @@ const LandingPage = () => {
             ImmoGen is hét AI-platform om snel, eenvoudig en betrouwbaar de waarde van je huis te schatten.<br />
             Ontdek marktinzichten, vergelijk woningen en krijg direct een nauwkeurige prijsindicatie.
           </p>
-          <a href="/login" className="btn-primary">Log in en probeer het nu</a>
+
+            {localStorage.getItem('token') ? (
+            <a href="/dashboard" className="btn-primary">Start met schatten</a>
+            ) : (
+            <a href="/login" className="btn-primary">Log in en probeer het nu</a>
+            )}
 
           <div className="hero-image">
             <div className="ai-figure">

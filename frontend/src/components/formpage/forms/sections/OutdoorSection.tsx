@@ -13,7 +13,6 @@ interface GeneralInfoSectionProps {
 
 const OutdoorSection: React.FC<GeneralInfoSectionProps> = ({ formData, handleChange }) => {
 
-
     return (
         <div className="grid-container">
             <FormField label="Aantal Gevels:">

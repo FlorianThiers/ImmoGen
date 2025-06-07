@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import Sidebar from "../../components/SideNavbar";
 import Header from "../../components/Header";
@@ -9,9 +8,14 @@ import RecentEstimations from "../../components/dashboard/RecentEstimations";
 import TopMunicipalities from "../../components/dashboard/TopMunicipalities";
 import AverageEstimate from "../../components/dashboard/AverageEstimate";
 
-import "./dashboard.css"; // Assuming you have a CSS file for styling
+import User from "../../context/User";
 
-const dashboard = () => {
+import "./dashboard.css";
+interface DashboardProps {
+  user?: User | null;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ user }) => {
   const isDarkTheme = useState(
     typeof document !== "undefined" &&
       document.body.classList.contains("dark-theme")
@@ -19,22 +23,7 @@ const dashboard = () => {
   const showOverlay = useState(false);
   const overlayTheme = useState(isDarkTheme ? "dark" : "light");
   const [showUserField, setShowUserField] = useState(false);
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUser(res.data);
-      } catch (err) {
-        setUser(null);
-      }
-    };
-    fetchUser();
-  }, []);
 
   return (
     <div className="dashboard">
@@ -66,4 +55,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Dashboard;
