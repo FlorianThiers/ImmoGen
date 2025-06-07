@@ -137,7 +137,7 @@ const StatisticsPage: React.FC<StatisticsPageProps> = ({ user }) => {
           {/* <AskingPriceVSAIPerice houses={houses}/> */}
         </div>
       </main>
-      <UserField open={showUserField} onClose={() => setShowUserField(false)} />
+      <UserField open={showUserField} user={user || undefined} onClose={() => setShowUserField(false)} />
     </div>
   );
 };

@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Sidebar from "../../components/SideNavbar";
 import Header from "../../components/Header";
 
@@ -38,7 +37,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
               <ProfileStats />
             </div>
             <div className="right-panel">
-              <ProfileMap/>
+              <ProfileMap user={user || undefined}/>
               <UserEstimates />
             </div>
           </div>

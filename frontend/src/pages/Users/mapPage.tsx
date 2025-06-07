@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import Sidebar from "../../components/SideNavbar";
 import Header from "../../components/Header";
@@ -43,7 +42,7 @@ const MapPage: React.FC<ProfilePageProps> = ({ user }) => {
           <div className="bottom-section">
             <section className="map-main-section">
               <div className="map-content-wrapper">
-                <HouseMapLandingPage />
+                <HouseMapLandingPage user={user || undefined}/>
               </div>
             </section>
 
@@ -91,7 +90,7 @@ const MapPage: React.FC<ProfilePageProps> = ({ user }) => {
           </div>
         </div>
       </main>
-      <UserField open={showUserField} onClose={() => setShowUserField(false)} />
+      <UserField open={showUserField} user={user || undefined} onClose={() => setShowUserField(false)} />
     </div>
   );
 };

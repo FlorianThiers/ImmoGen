@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import "../index.css"; // Zorg ervoor dat je de juiste CSS-bestanden hebt
@@ -42,10 +42,10 @@ const Navbar = () => {
       
       <ul className={`nav-links ${isMenuOpen ? "open" : ""}`}>
         <li onClick={closeMenu} className="close-icon">X</li>
-        <li><Link to="/price-calculator" onClick={closeMenu}>Home</Link></li>
-        <li><Link to="/statistics" onClick={closeMenu}>About</Link></li>
-        <li><Link to="/profile" onClick={closeMenu}>Features</Link></li>
-        <li><Link to="/admin-panel" onClick={closeMenu}>Contact Us</Link></li>
+        <li><Link to="/" onClick={closeMenu}>Home</Link></li>
+        <li><Link to="/aboutPage" onClick={closeMenu}>About</Link></li>
+        <li><Link to="/featuresPage" onClick={closeMenu}>Features</Link></li>
+        <li><Link to="/ContactPage" onClick={closeMenu}>Contact Us</Link></li>
         
         <li>
           <button className="btn-primary" onClick={() => window.location.href = "/login"}>

@@ -393,7 +393,7 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
       <div className={`dashboard-bg-fade ${isDarkTheme ? "dark" : "light"}`}></div>
       <Sidebar />
       <main className="main-content">
-        <Header title="Calculator" user={user || undefined} onUserClick={() => setShowUserField(true)}/>
+        <Header title="Prijsberekening" user={user || undefined} onUserClick={() => setShowUserField(true)}/>
 
         <div className="content-wrapper">
           <div className="bottom-section">
@@ -419,7 +419,7 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
           </div>
         </div>
       </main>
-        <UserField open={showUserField}  onClose={() => setShowUserField(false)} />
+        <UserField open={showUserField} user={user || undefined} onClose={() => setShowUserField(false)} />
     </div>
   );
 };

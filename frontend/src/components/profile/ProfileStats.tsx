@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { set } from "react-hook-form";
 
 type User = {
   id: number;
@@ -99,10 +98,11 @@ const ProfileStats = () => {
 
           // totaal waarde user scatchtingen
           const totalValue = houses.reduce((acc, house) => {
-            const price = parseFloat(house.title) || 0; // Assuming title contains price, adjust as needed
+            // Assuming house.price exists and is a number or string
+            const price = parseFloat((house as any).price) || 0;
             return acc + price;
           }, 0);
-          setTotalValue((totalValue / 1000000).toFixed(2)); // Assuming you want to show in millions
+          setTotalValue((totalValue / 1000000).toFixed(2)); 
         }
       } catch (error) {
         console.error("Error fetching ImmoGen houses:", error);

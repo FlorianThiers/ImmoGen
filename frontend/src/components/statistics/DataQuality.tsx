@@ -153,7 +153,7 @@ const DataQuality = (props: { houses: StatisticsHouse[], color: string }) => {
   if (loading) {
     return (
       <div className="bg-white p-6 rounded-lg shadow mb-8">
-        <h2 className="text-xl font-semibold mb-4">Data Quality & Completeness</h2>
+        <h2 className="text-xl font-semibold mb-4">Data kwaliteit & Compleetheid</h2>
         <div className="flex justify-center items-center h-64">
           <div className="text-gray-500">Analyzing data quality...</div>
         </div>
@@ -164,7 +164,7 @@ const DataQuality = (props: { houses: StatisticsHouse[], color: string }) => {
   if (houses.length === 0) {
     return (
       <div className="bg-white p-6 rounded-lg shadow mb-8">
-        <h2 className="text-xl font-semibold mb-4">Data Quality & Completeness</h2>
+        <h2 className="text-xl font-semibold mb-4">Data kwaliteit & Compleetheid</h2>
         <div className="text-gray-500 text-center py-8">
           Geen data beschikbaar voor kwaliteitsanalyse
         </div>
@@ -174,7 +174,7 @@ const DataQuality = (props: { houses: StatisticsHouse[], color: string }) => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow mb-8">
-      <h2 className="text-xl font-semibold mb-4">Data Quality & Completeness</h2>
+      <h2 className="text-xl font-semibold mb-4">Data kwaliteit & Compleetheid</h2>
       
       {/* Overall Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">

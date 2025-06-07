@@ -1,5 +1,3 @@
-import axios from 'axios';
-import React, { useEffect, useState} from 'react';
 import "../pages/Users/dashboard.css";
 
 type UserFieldProps = {
@@ -9,8 +7,6 @@ type UserFieldProps = {
 };
 
 const UserField = ({ open, user, onClose }: UserFieldProps) => {
-  const [userInfo, setUserInfo] = useState<{ name: string; email: string } | null>(null); 
-
   if (!open) return null;
 
   return (

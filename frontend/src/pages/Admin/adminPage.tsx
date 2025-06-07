@@ -116,10 +116,10 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
 
 
           
-        {/* <MandelbrotZoom /> */}
         </div>
       </main>
-        <UserField open={showUserField} onClose={() => setShowUserField(false)} />
+          {/* <MandelbrotZoom /> */}
+        <UserField open={showUserField} user={user || undefined} onClose={() => setShowUserField(false)} />
     </div>
   );
 };

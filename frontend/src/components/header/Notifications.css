@@ -1,0 +1,404 @@
+.notification-system {
+    position: relative;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.notification-trigger {
+    position: relative;
+}
+
+.notification-bell {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.notification-bell:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.notification-count {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #ef4444;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+}
+
+.notification-panel {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 400px;
+    max-height: 600px;
+    background: var(--backgroundcolor-fields);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.notification-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: var();
+}
+
+.notification-header h3 {
+    color: white;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.notification-header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.mark-all-read {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.mark-all-read:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.close-btn-notification {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.notification-filters {
+    display: flex;
+    padding: 12px 20px;
+    gap: 8px;
+    background: var(--backgroundcolor-fields);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.notification-filters button {
+    background: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--text-color-dashboard);
+    padding: 6px 12px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.notification-filters button.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.notification-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.notification-item:hover {
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.notification-item.unread {
+    background: rgba(102, 126, 234, 0.02);
+    border-left: 3px solid #667eea;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.notification-mini-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 5px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.notification-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.notification-time {
+    font-size: 12px;
+    color: white;
+}
+
+.unread-dot {
+    width: 8px;
+    height: 8px;
+    background: #667eea;
+    border-radius: 50%;
+}
+
+.notification-title {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-color-dashboard);
+}
+
+.notification-message {
+    margin: 0 0 8px 0;
+    font-size: 13px;
+    color: var(--text-color-dashboard-gray);
+    line-height: 1.4;
+}
+
+.notification-data {
+    margin-top: 8px;
+}
+
+.value-change {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+.value-change.positive {
+    background: var(--backgroundcolor-fields);
+    color: #16a34a;
+}
+
+.notification-actions {
+    display: flex;
+    gap: 4px;
+    margin-left: 12px;
+}
+
+.mark-read-btn, .delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    opacity: 0.5;
+}
+
+.mark-read-btn:hover {
+    background: var(--backgroundcolor-fields);
+    color: #16a34a;
+    opacity: 1;
+}
+
+.delete-btn:hover {
+    background: #fee2e2;
+    color: #dc2626;
+    opacity: 1;
+}
+
+.no-notifications {
+    padding: 40px 20px;
+    text-align: center;
+    color: #6b7280;
+}
+
+.no-notifications svg {
+    opacity: 0.3;
+    margin-bottom: 12px;
+}
+
+.notification-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.notification-modal {
+    background: var(--backgroundcolor-fields);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.modal-header button {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.modal-header button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.modal-content {
+    padding: 20px;
+}
+
+.modal-content p {
+    margin: 0 0 16px 0;
+    line-height: 1.6;
+}
+
+.notification-details {
+    background: var(--backgroundcolor-fields-border);
+    padding: 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+}
+
+.notification-details h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.notification-details p {
+    margin: 4px 0;
+    font-size: 13px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+}
+
+.btn-secondary {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.btn-secondary:hover {
+    background: #d1d5db;
+}
+
+.notification-settings {
+    margin-top: 20px;
+    padding: 16px;
+    background: var(--backgroundcolor-fields-border);
+    border-radius: 8px;
+}
+
+.notification-settings h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.setting-item {
+    margin-bottom: 8px;
+}
+
+.setting-item label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.setting-item input[type="checkbox"] {
+    margin: 0;
+}

@@ -29,7 +29,7 @@ const PriseComparison = (props: { houses: House[] }) => {
   return (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">Price Status Distribution</h2>
+            <h2 className="text-xl font-semibold mb-4">Verdeling prijsstatus</h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -55,7 +55,7 @@ const PriseComparison = (props: { houses: House[] }) => {
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">Asking Price vs AI Price</h2>
+            <h2 className="text-xl font-semibold mb-4">Berekende prijs vs AI-prijs</h2>
           <ResponsiveContainer width="100%" height={300}>
             <ScatterChart data={priceComparison.slice(0, 50)}>
               <CartesianGrid />

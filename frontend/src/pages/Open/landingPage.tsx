@@ -97,55 +97,9 @@ const LandingPage = () => {
               </div>
 
               {/* Feature Labels */}
-              <div 
-                className="feature-label label-crm"
-                onMouseEnter={(e) => handleLabelHover(e, true)}
-                onMouseLeave={(e) => handleLabelHover(e, false)}
-              >
-                Snel & Betrouwbaar
-              </div>
-              <div 
-                className="feature-label label-wms"
-                onMouseEnter={(e) => handleLabelHover(e, true)}
-                onMouseLeave={(e) => handleLabelHover(e, false)}
-              >
-                AI-gestuurd
-              </div>
-              <div 
-                className="feature-label label-project"
-                onMouseEnter={(e) => handleLabelHover(e, true)}
-                onMouseLeave={(e) => handleLabelHover(e, false)}
-              >
-                Marktinzichten
-              </div>
-              <div 
-                className="feature-label label-hris"
-                onMouseEnter={(e) => handleLabelHover(e, true)}
-                onMouseLeave={(e) => handleLabelHover(e, false)}
-              >
-                Vergelijk woningen
-              </div>
-              <div 
-                className="feature-label label-workflow"
-                onMouseEnter={(e) => handleLabelHover(e, true)}
-                onMouseLeave={(e) => handleLabelHover(e, false)}
-              >
-                Direct resultaat
-              </div>
-              <div 
-                className="feature-label label-custom"
-                onMouseEnter={(e) => handleLabelHover(e, true)}
-                onMouseLeave={(e) => handleLabelHover(e, false)}
-              >
-                Gebruiksvriendelijk
-              </div>
-              <div 
-                className="feature-label label-procurement"
-                onMouseEnter={(e) => handleLabelHover(e, true)}
-                onMouseLeave={(e) => handleLabelHover(e, false)}
-              >
-                Gratis te proberen
-              </div>
+              {["Snel & Betrouwbaar", "AI-gestuurd", "Marktinzichten", "Vergelijk woningen", "Direct resultaat", "Gebruiksvriendelijk", "Gratis te proberen"].map((text, i) => (
+                <div key={i} className={`feature-label label-${i}`} onMouseEnter={(e) => handleLabelHover(e, true)} onMouseLeave={(e) => handleLabelHover(e, false)}>{text}</div>
+              ))}
             </div>
           </div>
         </div>
@@ -155,12 +109,9 @@ const LandingPage = () => {
       <section className="companies">
         <div className="container">
           <div className="company-logos">
-            <div className="company-logo">ImmoWeb</div>
-            <div className="company-logo">Zimmo</div>
-            <div className="company-logo">Vastgoed</div>
-            <div className="company-logo">AI Vlaanderen</div>
-            <div className="company-logo">Bouwunie</div>
-            <div className="company-logo">Statbel</div>
+            {["ImmoWeb", "Zimmo", "Vastgoed", "AI Vlaanderen", "Bouwunie", "Statbel"].map((name, i) => (
+              <div key={i} className="company-logo">{name}</div>
+            ))}
           </div>
         </div>
       </section>

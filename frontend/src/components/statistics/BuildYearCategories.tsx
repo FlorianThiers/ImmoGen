@@ -33,7 +33,7 @@ const BuildYearCategories = (props: { houses: House[], color: string }) => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow mb-8">
-        <h2 className="text-xl font-semibold mb-4">Houses per Build Year Category</h2>
+        <h2 className="text-xl font-semibold mb-4">Huizen per Categorie</h2>
         <ResponsiveContainer width="100%" height={300}>
             <BarChart data={buildYearCategories}>
             <CartesianGrid strokeDasharray="3 3" />

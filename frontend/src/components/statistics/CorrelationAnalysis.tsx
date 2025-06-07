@@ -229,9 +229,9 @@ const CorrelationAnalysis = (props: { houses: StatisticsHouse[] }) => {
   if (loading) {
     return (
       <div className="bg-white p-6 rounded-lg shadow mb-8">
-        <h2 className="text-xl font-semibold mb-4">Feature Correlations</h2>
+        <h2 className="text-xl font-semibold mb-4">Feature Correlatie</h2>
         <div className="flex justify-center items-center h-32">
-          <div className="text-gray-500">Calculating correlations...</div>
+          <div className="text-gray-500">Calculatie correlatie...</div>
         </div>
       </div>
     );
@@ -240,7 +240,7 @@ const CorrelationAnalysis = (props: { houses: StatisticsHouse[] }) => {
   if (correlationData.length === 0) {
     return (
       <div className="bg-white p-6 rounded-lg shadow mb-8">
-        <h2 className="text-xl font-semibold mb-4">Feature Correlations</h2>
+        <h2 className="text-xl font-semibold mb-4">Feature Correlatie</h2>
         <div className="text-gray-500 text-center py-8">
           Niet genoeg data beschikbaar voor correlatie analyse
         </div>
@@ -250,7 +250,7 @@ const CorrelationAnalysis = (props: { houses: StatisticsHouse[] }) => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow mb-8">
-      <h2 className="text-xl font-semibold mb-4">Feature Correlations</h2>
+      <h2 className="text-xl font-semibold mb-4">Feature Correlatie</h2>
       <div className="mb-4 text-sm text-gray-600">
         Correlaties tussen kenmerken en prijzen (gebaseerd op {houses.length} huizen)
       </div>

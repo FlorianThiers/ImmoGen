@@ -2,9 +2,13 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
+import User from "../../../context/User";
 
 import "../../../index.css";
 
+interface MapProps {
+  user?: User | null;
+}
 
 const MAP_TILER_KEY = import.meta.env.VITE_MAP_TILER_KEY;
 
@@ -21,8 +25,7 @@ const BaseMaps = {
 
 type BaseMapKey = keyof typeof BaseMaps;
 
-const HouseMapLandingPage: React.FC = () => {
-  const [currentUser, setCurrentUser] = useState<{ id: number } | null>(null);  
+const HouseMapLandingPage: React.FC<MapProps> = ({ user }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maptilersdk.Map | null>(null);
   const markersRef = useRef<maptilersdk.Marker[]>([]);
@@ -33,22 +36,6 @@ const HouseMapLandingPage: React.FC = () => {
   const [scrapeHouses, setScrapeHouses] = useState<any[]>([]);
   const [immoGenHouses, setImmoGenHouses] = useState<any[]>([]);
   const [mapLoaded, setMapLoaded] = useState(false); // Nieuwe state
-
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-        const token = localStorage.getItem("token");
-        try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/me`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            setCurrentUser(res.data);
-        } catch (error) {
-            console.error("Error fetching current user:", error);
-            setCurrentUser(null);
-        }
-    };
-    fetchCurrentUser();
-  }, []);
   
   useEffect(() => {
     if (navigator.geolocation) {
@@ -138,7 +125,7 @@ const HouseMapLandingPage: React.FC = () => {
       container: mapContainer.current,
       style: BaseMaps[selectedBaseMap].style,
       center: userLocation,
-      zoom: 9,
+      zoom: 6,
     });
 
     // Wacht tot de map volledig geladen is
@@ -172,7 +159,7 @@ const HouseMapLandingPage: React.FC = () => {
     markersRef.current = [];
 
     // Voeg scrapeHouses toe (altijd paarse markere)
-    scrapeHouses.forEach((house, index) => {
+    scrapeHouses.forEach((house) => {
       if (!house.lat || !house.lon) return;
       const el = document.createElement("div");
       el.style.width = "22px";
@@ -195,14 +182,14 @@ const HouseMapLandingPage: React.FC = () => {
     });
 
     // Voeg ImmoGenHouses toe ( blauwe of rode marker afhankelijk van ownEstimat)
-    immoGenHouses.forEach((house, index) => {
+    immoGenHouses.forEach((house) => {
       console.log(immoGenHouses[0]);
-      console.log("Current user:", currentUser);
+      console.log("Current user:", user);
       if (!house.lat || !house.lon) return;
       const el = document.createElement("div");
       el.style.width = "32px";
       el.style.height = "32px";
-      el.style.backgroundImage = currentUser && Number(house.user_id) === Number(currentUser.id) ? "url('/red-marker.png')" : "url('/blue-marker.png')";
+      el.style.backgroundImage = user && Number(house.user_id) === Number(user.id) ? "url('/red-marker.png')" : "url('/blue-marker.png')";
       el.style.backgroundSize = "contain";
       el.style.backgroundRepeat = "no-repeat";
       el.style.cursor = "pointer";
@@ -227,28 +214,6 @@ const HouseMapLandingPage: React.FC = () => {
     if (mapRef.current) {
       mapRef.current.setStyle(BaseMaps[key].style);
     }
-  };
-
-  const addTestMarkers = () => {
-    const testHouses = [
-      {
-        id: 1,
-        address: "Test Address 1, Amsterdam",
-        lat: 52.3676,
-        lon: 4.9041,
-        ai_price: 500000
-      },
-      {
-        id: 2, 
-        address: "Test Address 2, Rotterdam",
-        lat: 51.9244,
-        lon: 4.4777,
-        ai_price: 350000
-      }
-    ];
-    
-    console.log('🧪 Adding test markers');
-    setScrapeHouses(testHouses);
   };
 
   const handleSearch = async (e: React.FormEvent) => {

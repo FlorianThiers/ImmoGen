@@ -24,7 +24,7 @@ const DataOverview = (props: { houses: House[], scrapehouses: ScrapeHouse[] }) =
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-4">Data Volume Overview</h2>
+            <h2 className="text-xl font-semibold mb-4">Data Volume Overzicht</h2>
             <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie

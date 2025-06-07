@@ -4,9 +4,12 @@ import axios from "axios";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Navbar from "./components/Navbar";
+import LandingPage from "./pages/Open/landingPage";
+import AboutPage from "./pages/Open/aboutPage";
+import FeaturesPage from "./pages/Open/featuresPage";
+import ContactPage from "./pages/Open/contactPage";
 import LoginPage from "./pages/Open/loginPage";
 import RegisterPage from "./pages/Open/registerPage";
-import LandingPage from "./pages/Open/landingPage";
 import LandingPage3 from "./pages/Open/landingPage3";
 import Dashboard from "./pages/Users/dashboard";
 import PriceCalculator from "./pages/Users/priceCalculator";
@@ -39,6 +42,10 @@ function App() {
     <Routes>
       {/* Landing page met alleen Navbar */}
       <Route path="/" element={<LandingPage />} />
+      <Route path="/aboutPage" element={<AboutPage />} />
+      <Route path="/featuresPage" element={<FeaturesPage />} />
+      <Route path="/contactPage" element={<ContactPage />} />
+      
       
       {/* Login/Register zonder navbar */}
       <Route path="/login" element={<LoginPage />} />

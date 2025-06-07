@@ -23,7 +23,7 @@ const DataOverview = (props: { houses: House[], color: string }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-4">Houses per City</h2>
+            <h2 className="text-xl font-semibold mb-4">Huizen per Stad</h2>
             <ResponsiveContainer width="100%" height={300}>
             <BarChart data={housesPerCity}>
                 <CartesianGrid strokeDasharray="3 3" />
