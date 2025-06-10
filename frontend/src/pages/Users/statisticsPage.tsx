@@ -66,7 +66,7 @@ const StatisticsPage: React.FC<StatisticsPageProps> = ({ user }) => {
           <div className={`dashboard-bg-fade ${overlayTheme}`}></div>
       )}
       <div className={`dashboard-bg-fade ${isDarkTheme ? "dark" : "light"}`}></div>
-      <Sidebar user={user || undefined}  />
+      <Sidebar user={user || undefined} activePage="/statistics" />
       <main className="main-content">
         <Header title="Statistieken" user={user || undefined} onUserClick={() => setShowUserField(true)}/>
         <div className="content-wrapper">

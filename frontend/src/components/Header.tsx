@@ -29,7 +29,7 @@ const Header = ({ title, user, onUserClick }: HeaderProps) => {
                         <NotificationCenter/>
                         <div
                             className="user-profile"
-                            onClick={onUserClick}
+                            // onClick={onUserClick}
                             style={{ cursor: "pointer" }}
                         >
                             <span className="user-avatar">{initials}</span>

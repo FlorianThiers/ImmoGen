@@ -25,6 +25,7 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
   const overlayTheme = useState(isDarkTheme ? "dark" : "light");
   const [showUserField, setShowUserField] = useState(false);
 
+  const [isCalculating, setIsCalculating] = useState(false); // Nieuwe state
 
   const [result, setResult] = useState(null);
   const [selectedType, setSelectedType] = useState<string>("");
@@ -391,7 +392,7 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
     <div className="dashboard">
       {showOverlay && (<div className={`dashboard-bg-fade ${overlayTheme}`}></div>)}
       <div className={`dashboard-bg-fade ${isDarkTheme ? "dark" : "light"}`}></div>
-      <Sidebar user={user || undefined}  />
+      <Sidebar user={user || undefined}  activePage="/price-calculator" />
       <main className="main-content">
         <Header title="Prijsberekening" user={user || undefined} onUserClick={() => setShowUserField(true)}/>
 
@@ -407,6 +408,7 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
               formulaResult={formulaResult}
               setFormulaResult={setFormulaResult}
               handleChange={handleChange}
+              setIsCalculating={setIsCalculating}
               />
             <div className="right-panel">
               <CalculationFields
@@ -414,6 +416,7 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
                 formulaPrice={formulaPrice}
                 result={result}
                 formData={formData}
+                isLoading={isCalculating}
               />
             </div>
           </div>

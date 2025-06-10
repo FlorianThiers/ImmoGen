@@ -6,9 +6,10 @@ import "../pages/Users/dashboard.css"; // Zorg ervoor dat je de juiste CSS-besta
 
 type Props = {
   user?: User | null;
+  activePage?: string;
 };
 
-const Sidebar = ({ user }: Props) => {
+const Sidebar = ({ user, activePage }: Props) => {
   const [isDarkTheme, setIsDarkTheme] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -43,12 +44,15 @@ const Sidebar = ({ user }: Props) => {
 
   const logout = () => {
       localStorage.removeItem('token');
-      localStorage.removeItem('role');
       localStorage.removeItem('user'); // als je nog extra user info opslaat
       window.location.href = '/login'; // harde redirect, zeker dat alles herlaadt
   };
 
-  return (
+  const isActivePath = (path: string) => {
+    return activePage === path;
+  };
+
+ return (
     <nav
       className={`sidebar${isExpanded ? " expanded" : ""}`}
     >
@@ -63,7 +67,7 @@ const Sidebar = ({ user }: Props) => {
       {/* <span>{isExpanded ? "<" : ">"}</span> */}
       <ul className="nav-menu">
         <Link to="/dashboard">
-          <li className="nav-item sidebar-animate delay-2">
+          <li className={`nav-item sidebar-animate delay-2 ${isActivePath('/dashboard') ? 'active' : ''}`}>
             <span className="nav-icon dashboard-icon">
               <img
                 src="/dashboard.png"
@@ -75,7 +79,7 @@ const Sidebar = ({ user }: Props) => {
           </li>
         </Link>
         <Link to="/price-calculator">
-          <li className="nav-item sidebar-animate delay-3">
+          <li className={`nav-item sidebar-animate delay-3 ${isActivePath('/price-calculator') ? 'active' : ''}`}>
             <span className="nav-icon calculator-icon">
               <img
                 src="/calculator.png"
@@ -87,7 +91,7 @@ const Sidebar = ({ user }: Props) => {
           </li>
         </Link>
         <Link to="/statistics">
-          <li className="nav-item sidebar-animate delay-4">
+          <li className={`nav-item sidebar-animate delay-4 ${isActivePath('/statistics') ? 'active' : ''}`}>
             <span className="nav-icon transactions-icon">
               <img
                 src="/layout.png"
@@ -99,7 +103,7 @@ const Sidebar = ({ user }: Props) => {
           </li>
         </Link>
         <Link to="/map">
-          <li className="nav-item sidebar-animate delay-5">
+          <li className={`nav-item sidebar-animate delay-5 ${isActivePath('/map') ? 'active' : ''}`}>
             <span className="nav-icon map-icon">
               <img src="/map.png" alt="map" className="sidebar-icon" />
             </span>
@@ -107,7 +111,7 @@ const Sidebar = ({ user }: Props) => {
           </li>
         </Link>
         <Link to="/profile">
-          <li className="nav-item sidebar-animate delay-6">
+          <li className={`nav-item sidebar-animate delay-6 ${isActivePath('/profile') ? 'active' : ''}`}>
             <span className="nav-icon exchange-icon">
               <img src="/user.png" alt="Exchange" className="sidebar-icon" />
             </span>
@@ -117,7 +121,7 @@ const Sidebar = ({ user }: Props) => {
 
         {user?.is_admin === true && (
           <Link to="/admin-panel">
-            <li className="nav-item sidebar-animate delay-7">
+            <li className={`nav-item sidebar-animate delay-7 ${isActivePath('/admin-panel') ? 'active' : ''}`}>
               <span className="nav-icon analytics-icon">
                 <img src="/admin.png" alt="Analytics" className="sidebar-icon" />
               </span>

@@ -187,7 +187,7 @@ body.theme-switching .dashboard-bg-fade {
 }
 
 .nav-item.active {
-    background-color: #667eea;
+    background-color: var(--primair-blue);
 }
 
 .nav-icon {
@@ -253,10 +253,6 @@ body.theme-switching .dashboard-bg-fade {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.nav-item.active .nav-icon {
-    background-color: white;
 }
 
 /* Basis animatie */
@@ -457,10 +453,6 @@ body:not(.theme-switching) .exit-item {
     cursor: pointer;
 }
 
-.user-profile:hover {
-    background: linear-gradient(135deg, #160700 0%, #000000 50%, #00103a 100%);
-}
-
 .user-avatar {
     font-size: 14px;
     font-weight: 600;
@@ -562,6 +554,7 @@ body:not(.theme-switching) .exit-item {
 
 .types-button {
     width: 3rem;
+    height: 3rem;
     background-color: rgba(51, 51, 51, 0.2);
     /* cursor: page === 0 ? "not-allowed" : "pointer"; */
 }
@@ -1123,22 +1116,6 @@ body:not(.theme-switching) .exit-item {
     justify-content: space-between;
     align-items: center;
 } 
-
-.convert-btn {
-    background: var(--primair-blue);
-    color: var(--text-color-dashboard);
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.convert-btn:hover {
-    background-color: #5a6fd8;
-}
 
 .last-updated {
     display: flex;

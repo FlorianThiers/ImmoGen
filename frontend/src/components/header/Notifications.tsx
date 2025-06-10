@@ -237,7 +237,7 @@ const handleNotificationClick = (notification: Notification): void => {
         >
           <Bell size={24} />
           {unreadCount > 0 && (
-            <span className="notification-count">{unreadCount}</span>
+            <span className="notification-count combo">{unreadCount}</span>
           )}
         </button>
       </div>

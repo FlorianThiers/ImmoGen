@@ -85,7 +85,6 @@ const TopMunicipalities = () => {
         
         <div className="estimate-footer">
             <button
-                className="convert-btn"
                 onClick={() => setShowAiPrice((prev) => !prev)}
             >
                 {showAiPrice ? "Switch back" : "Switch to AI"}

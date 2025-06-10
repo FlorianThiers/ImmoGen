@@ -88,14 +88,11 @@ const Admins: React.FC<AdminsProps> = ({ user }) => {
             <ul className="search-suggestions">
                 {filteredUsers.slice(0, 8).map(user => (
                 <li
+                    className="admin-users"
                     key={user.id}
-                    style={{
-                    cursor: "pointer",
-                    background: user.is_admin ? "#e0e7ff" : "#fff"
-                    }}
                     onMouseDown={() => setSearchTerm(user.username || "")}
                 >
-                    {user.username} {user.is_admin && <span style={{color: "#2563eb"}}>(admin)</span>}
+                    {user.username} {user.is_admin && <span className="admin-user-names">(admin)</span>}
                 </li>
                 ))}
             </ul>

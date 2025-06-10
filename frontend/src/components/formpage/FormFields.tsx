@@ -28,9 +28,10 @@ type FormFieldProps = {
   formulaResult: any;
   setFormulaResult: React.Dispatch<React.SetStateAction<any>>;
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  setIsCalculating: React.Dispatch<React.SetStateAction<boolean>>; // Nieuwe prop
 };
 
-const FormField: React.FC<FormFieldProps> = ({ formData, setFormData, result, setResult, formulaPrice, setFormulaPrice, formulaResult, setFormulaResult, handleChange }) => {
+const FormField: React.FC<FormFieldProps> = ({ formData, setFormData, result, setResult, formulaPrice, setFormulaPrice, formulaResult, setFormulaResult, handleChange, setIsCalculating }) => {
   const [selectedType, setSelectedType] = useState<string>("");
 
   function calculateCorrectionPercentage(formData: FormDataType): number {
@@ -77,6 +78,8 @@ const FormField: React.FC<FormFieldProps> = ({ formData, setFormData, result, se
         // eventueel een melding tonen
         return;
       }
+
+      setIsCalculating(true);
     try {
       const correctionPercentage = calculateCorrectionPercentage(formData);
       
@@ -107,19 +110,26 @@ const FormField: React.FC<FormFieldProps> = ({ formData, setFormData, result, se
       formData.price = formulaResult.totalCorrected;
 
       const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/calculate-price`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setResult(response.data);
+      // Wacht minimaal 7 seconden voor een mooie loading ervaring
+      const [apiResponse] = await Promise.all([
+        axios.post(
+          `${import.meta.env.VITE_API_URL}/calculate-price`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        ),
+        new Promise(resolve => setTimeout(resolve, 7000)) // Minimaal 7 seconden
+      ]);
+      
+      setResult(apiResponse.data);
     } catch (error) {
       console.error("Fout bij het berekenen van de prijs:", error);
+    } finally {
+      setIsCalculating(false); // Stop loading
     }
   };
 
@@ -254,18 +264,6 @@ const FormField: React.FC<FormFieldProps> = ({ formData, setFormData, result, se
                 ));
             })()}
             </div>
-            {/* <button
-              type="button"
-              onClick={() => {
-                setShowErrors(true);
-                if (isFormValid(formData)) {
-                  // Bereken prijs uitvoeren
-                }
-              }}
-              disabled={!isFormValid(formData)}
-            >
-              Bereken prijs
-            </button> */}
             <button
                 type="submit"
                 className={`bg-blue-500 text-white p-2 rounded mt-4${!selectedType ? " opacity-50 cursor-not-allowed" : ""}`}

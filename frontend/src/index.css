@@ -10,7 +10,7 @@
 
 
   --primair-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --primair-gradient-hover: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --primair-gradient-hover: linear-gradient(135deg, #2a3876 0%, #3d1b5e 100%);
   --primair-blue: #6662d0;
   
   /* --primair-gradient: linear-gradient(135deg, #296dff 0%, #f7931e 100%);
@@ -184,6 +184,10 @@ button:focus-visible {
 .logo-text {
     color: var(--text-color);
     font-weight: 700;
+}
+
+.logo-text:hover{
+  color: var(--primair-orange);
 }
 
 .logo::before {
