@@ -8,6 +8,8 @@
 }
 
 .notification-bell {
+    height: 40px;
+    width: 40px;
     background: none;
     border: none;
     cursor: pointer;
@@ -15,10 +17,11 @@
     border-radius: 50%;
     transition: all 0.2s ease;
     position: relative;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .notification-bell:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: linear-gradient(135deg, #160700 0%, #000000 50%, #00103a 100%);
 }
 
 .notification-count {
@@ -344,25 +347,6 @@
     display: flex;
     gap: 12px;
     margin-top: 20px;
-}
-
-.btn-primary, .btn-secondary {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-.btn-primary {
-    background: #667eea;
-    color: white;
-}
-
-.btn-primary:hover {
-    background: #5a67d8;
 }
 
 .btn-secondary {

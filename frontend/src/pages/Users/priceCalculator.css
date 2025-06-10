@@ -137,6 +137,7 @@ option:hover {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .sype-select-container h2 {
@@ -546,4 +547,16 @@ select[name="epc"] {
     align-items: flex-end;
     font-size: 11px;
     gap: 2px;
+    color: white;
+}
+
+.tab-error-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
+  margin-left: 8px;
+  vertical-align: middle;
+  box-shadow: 0 0 2px #900;
 }

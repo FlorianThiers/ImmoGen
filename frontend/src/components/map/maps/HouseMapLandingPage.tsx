@@ -173,7 +173,10 @@ const HouseMapLandingPage: React.FC<MapProps> = ({ user }) => {
         .setLngLat([house.lon, house.lat])
         .setPopup(
           new maptilersdk.Popup().setHTML(
-            `<strong>${house.address || "Onbekend adres"}</strong><br/>Geschatte waarde: €${house.ai_price?.toLocaleString() || "?"}`
+        `<div style="color: black;">
+          <strong>${house.address || "Onbekend adres"}</strong><br/>
+          Geschatte waarde: €${house.price?.toLocaleString() || "?"}
+        </div>`
           )
         )
         .addTo(mapRef.current!);
@@ -197,8 +200,15 @@ const HouseMapLandingPage: React.FC<MapProps> = ({ user }) => {
       const marker = new maptilersdk.Marker({ element: el })
         .setLngLat([house.lon, house.lat])
         .setPopup(
-          new maptilersdk.Popup().setHTML(
-            `<strong>${house.address || "Onbekend adres"}</strong><br/>Geschatte waarde: €${house.ai_price?.toLocaleString() || "?"}`
+          new maptilersdk.Popup({
+        closeButton: true,
+        closeOnClick: true,
+        className: "custom-popup"
+          }).setHTML(
+        `<div style="color: black;">
+          <strong>${house.address || "Onbekend adres"}</strong><br/>
+          Geschatte waarde: €${house.price?.toLocaleString() || "?"}
+        </div>`
           )
         )
         .addTo(mapRef.current!);

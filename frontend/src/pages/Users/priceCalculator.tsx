@@ -391,7 +391,7 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
     <div className="dashboard">
       {showOverlay && (<div className={`dashboard-bg-fade ${overlayTheme}`}></div>)}
       <div className={`dashboard-bg-fade ${isDarkTheme ? "dark" : "light"}`}></div>
-      <Sidebar />
+      <Sidebar user={user || undefined}  />
       <main className="main-content">
         <Header title="Prijsberekening" user={user || undefined} onUserClick={() => setShowUserField(true)}/>
 

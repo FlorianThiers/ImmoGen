@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
+import User from "../../../context/User";
 
 
 const MAP_TILER_KEY = import.meta.env.VITE_MAP_TILER_KEY;
@@ -20,6 +21,7 @@ type BaseMapKey = keyof typeof BaseMaps;
 
 
 interface HouseMapFormProps {
+  user?: User | null;
   centerAddress: string;
 }
 
@@ -34,46 +36,18 @@ async function geocodeAddress(address: string): Promise<[number, number] | null>
   return null;
 }
 
-const HouseMapForm: React.FC<HouseMapFormProps> = ({ centerAddress }) => {
-  const [currentUser, setCurrentUser] = useState<{ id: number } | null>(null);  
+const HouseMapForm: React.FC<HouseMapFormProps> = ({ user, centerAddress }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maptilersdk.Map | null>(null);
   const markersRef = useRef<maptilersdk.Marker[]>([]);
-  const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
+  const [center, setCenter] = useState<[number, number] | null>(null);
   const [selectedBaseMap, setSelectedBaseMap] = useState<BaseMapKey>("STREETS");
   const [scrapeHouses, setScrapeHouses] = useState<any[]>([]);
   const [immoGenHouses, setImmoGenHouses] = useState<any[]>([]);
   const [mapLoaded, setMapLoaded] = useState(false); // Nieuwe state
-
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-        const token = localStorage.getItem("token");
-        try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/me`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            setCurrentUser(res.data);
-        } catch (error) {
-            console.error("Error fetching current user:", error);
-            setCurrentUser(null);
-        }
-    };
-    fetchCurrentUser();
-  }, []);
   
 
-    useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setUserLocation([longitude, latitude]);
-        },
-        () => setUserLocation([3.7, 51.06])
-      );
-    } else {
-      setUserLocation([4.4, 51.2]);
-    }
+  useEffect(() => {
 
     const fetchScrapeHouses = async () => {
       try {
@@ -138,38 +112,38 @@ const HouseMapForm: React.FC<HouseMapFormProps> = ({ centerAddress }) => {
 
   useEffect(() => {
     let cancelled = false;
+    async function fetchCenter() {
+      if (!centerAddress) return;
+      const geo = await geocodeAddress(centerAddress);
+      if (!cancelled) setCenter(geo);
+    }
+    fetchCenter();
+    return () => { cancelled = true; };
+  }, [centerAddress]);
 
-    async function setupMap() {
-      if (!mapContainer.current || !centerAddress) return;
-      maptilersdk.config.apiKey = MAP_TILER_KEY;
-      const center = await geocodeAddress(centerAddress);
-      if (!center || cancelled) return;
+  useEffect(() => {
+    if (!mapContainer.current || !center) return;
+    maptilersdk.config.apiKey = MAP_TILER_KEY;
 
-      // Verwijder oude map instance
-      if (mapRef.current) {
-        mapRef.current.remove();
-      }
-
-      mapRef.current = new maptilersdk.Map({
-        container: mapContainer.current,
-        style: BaseMaps[selectedBaseMap].style,
-        center: center,
-        zoom: 9,
-      });
-
-      // Wacht tot de map volledig geladen is
-      mapRef.current.on('load', () => {
-        console.log('Map loaded');
-        setMapLoaded(true);
-      });
-
-      // Reset mapLoaded bij style change
-      mapRef.current.on('styledata', () => {
-        setMapLoaded(true);
-      });
+    // Verwijder oude map instance
+    if (mapRef.current) {
+      mapRef.current.remove();
     }
 
-    setupMap();
+    mapRef.current = new maptilersdk.Map({
+      container: mapContainer.current,
+      style: BaseMaps[selectedBaseMap].style,
+      center: center,
+      zoom: 9,
+    });
+
+    mapRef.current.on('load', () => {
+      setMapLoaded(true);
+    });
+
+    mapRef.current.on('styledata', () => {
+      setMapLoaded(true);
+    });
 
     return () => {
       if (mapRef.current) {
@@ -178,7 +152,7 @@ const HouseMapForm: React.FC<HouseMapFormProps> = ({ centerAddress }) => {
       }
       setMapLoaded(false);
     };
-  }, [centerAddress, selectedBaseMap]);
+  }, [center, selectedBaseMap]);
 
   
   useEffect(() => {
@@ -205,7 +179,9 @@ const HouseMapForm: React.FC<HouseMapFormProps> = ({ centerAddress }) => {
         .setLngLat([house.lon, house.lat])
         .setPopup(
           new maptilersdk.Popup().setHTML(
-            `<strong>${house.address || "Onbekend adres"}</strong><br/>Geschatte waarde: €${house.ai_price?.toLocaleString() || "?"}`
+            `<div style="color: black;">
+            <strong>${house.address || "Onbekend adres"}</strong><br/>Geschatte waarde: €${house.price?.toLocaleString() || "?"}
+            </div>`
           )
         )
         .addTo(mapRef.current!);
@@ -216,12 +192,12 @@ const HouseMapForm: React.FC<HouseMapFormProps> = ({ centerAddress }) => {
     // Voeg ImmoGenHouses toe ( blauwe of rode marker afhankelijk van ownEstimat)
     immoGenHouses.forEach((house, index) => {
       console.log(immoGenHouses[0]);
-      console.log("Current user:", currentUser);
+      console.log("Current user:", user);
       if (!house.lat || !house.lon) return;
       const el = document.createElement("div");
       el.style.width = "32px";
       el.style.height = "32px";
-      el.style.backgroundImage = currentUser && Number(house.user_id) === Number(currentUser.id) ? "url('/red-marker.png')" : "url('/blue-marker.png')";
+      el.style.backgroundImage = user && Number(house.user_id) === Number(user.id) ? "url('/red-marker.png')" : "url('/blue-marker.png')";
       el.style.backgroundSize = "contain";
       el.style.backgroundRepeat = "no-repeat";
       el.style.cursor = "pointer";
@@ -230,7 +206,9 @@ const HouseMapForm: React.FC<HouseMapFormProps> = ({ centerAddress }) => {
         .setLngLat([house.lon, house.lat])
         .setPopup(
           new maptilersdk.Popup().setHTML(
-            `<strong>${house.address || "Onbekend adres"}</strong><br/>Geschatte waarde: €${house.ai_price?.toLocaleString() || "?"}`
+            `<div style="color: black;">
+            <strong>${house.address || "Onbekend adres"}</strong><br/>Geschatte waarde: €${house.price?.toLocaleString() || "?"}
+            </div>`
           )
         )
         .addTo(mapRef.current!);
@@ -238,7 +216,7 @@ const HouseMapForm: React.FC<HouseMapFormProps> = ({ centerAddress }) => {
       markersRef.current.push(marker);
     });
 
-  }, [scrapeHouses, immoGenHouses, mapLoaded]);
+  }, [scrapeHouses, immoGenHouses, mapLoaded, centerAddress]);
     
   const handleBaseMapSwitch = (key: keyof typeof BaseMaps) => {
     setSelectedBaseMap(key);
@@ -250,7 +228,7 @@ const HouseMapForm: React.FC<HouseMapFormProps> = ({ centerAddress }) => {
 
    return (
     <div className="map-container">
-        <div className="map-buttons">
+        <div className="map-buttons-form">
           {Object.entries(BaseMaps).map(([key, value]) => (
             <button
               className="map-button"

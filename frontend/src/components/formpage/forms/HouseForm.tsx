@@ -14,18 +14,11 @@ import "../../../pages/Users/priceCalculator.css"; // Import the CSS for styling
 interface HouseFormProps {
   formData: FormDataType;
   handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  categories: { key: string; label: string }[];
+  hasCategoryErrors: (category: string, formData: FormDataType) => boolean;
 }
 
-const HouseForm: React.FC<HouseFormProps> = ({ formData, handleChange }) => {
-  const categories = [
-    { key: "generalInfo", label: "Algemeen" },
-    { key: "location", label: "Locatie" },
-    { key: "interior", label: "Interieur" },
-    { key: "kitchen", label: "Sanitair" },
-    { key: "energy", label: "Energie" },
-    { key: "outdoor", label: "Buitenruimte" },
-    { key: "extras", label: "Extra's" },
-  ];
+const HouseForm: React.FC<HouseFormProps> = ({ formData, handleChange, categories, hasCategoryErrors  }) => {
   const [activeCategory, setActiveCategory] = useState("generalInfo");
 
   return (
@@ -37,8 +30,12 @@ const HouseForm: React.FC<HouseFormProps> = ({ formData, handleChange }) => {
             className={`category-tab${activeCategory === cat.key ? " active" : ""}`}
             onClick={() => setActiveCategory(cat.key)}
             type="button"
+            style={{ position: "relative" }}
           >
             {cat.label}
+            {hasCategoryErrors(cat.key, formData) && (
+              <span className="tab-error-dot" />
+            )}
           </button>
         ))}
       </div>

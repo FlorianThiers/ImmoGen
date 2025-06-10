@@ -1,9 +1,9 @@
 // In App.tsx of in een AuthProvider
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import Navbar from "./components/Navbar";
+import AdminRoute from "./routes/AdminRoute";
 import LandingPage from "./pages/Open/landingPage";
 import AboutPage from "./pages/Open/aboutPage";
 import FeaturesPage from "./pages/Open/featuresPage";
@@ -22,6 +22,7 @@ import './App.css'
 
 function App() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -31,10 +32,12 @@ function App() {
       })
       .then(res => setUser(res.data))
       .catch(() => {
-        // Token ongeldig, verwijder hem
         localStorage.removeItem("token");
         setUser(null);
-      });
+      })
+      .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
   }, []);
 
@@ -55,7 +58,7 @@ function App() {
       <Route
         path="/dashboard"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute loading={loading}>
               <Dashboard user={user}/>
           </ProtectedRoute>
         }
@@ -63,7 +66,7 @@ function App() {
       <Route
         path="/price-calculator"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute loading={loading}>
               <PriceCalculator user={user}/>
           </ProtectedRoute>
         }
@@ -71,7 +74,7 @@ function App() {
       <Route
         path="/statistics"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute loading={loading}>
               <StatisticsPage user={user}/>
           </ProtectedRoute>
         }
@@ -79,7 +82,7 @@ function App() {
       <Route
         path="/map"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute loading={loading}>
               <MapPage user={user}/>
           </ProtectedRoute>
         }
@@ -87,7 +90,7 @@ function App() {
       <Route
         path="/profile"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute loading={loading}>
               <ProfilePage user={user}/>
           </ProtectedRoute>
         }
@@ -95,9 +98,9 @@ function App() {
       <Route
         path="/admin-panel"
         element={
-          <ProtectedRoute>
+          <AdminRoute loading={loading} user={user}>
               <AdminPanel user={user}/>
-          </ProtectedRoute>
+          </AdminRoute>
         }
       />
     </Routes>

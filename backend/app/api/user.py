@@ -43,7 +43,45 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     access_token = create_access_token(data={"sub": str(user.id)})
     return {"access_token": access_token, "token_type": "bearer"}
 
+@router.post("/logout")
+def logout(current_user: dict = Depends(get_current_user)):
+    """
+    Dummy logout endpoint for client-side token removal.
+    """
+    return {"message": "Logout successful"}
 
 @router.get("/me", response_model=UserOut)
 def get_me(current_user: User = Depends(get_current_user)):
     return current_user
+
+@router.get("/users", response_model=list[UserOut])
+def get_all_users(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if not getattr(current_user, "is_admin", False):
+        raise HTTPException(status_code=403, detail="Not authorized to see all users")
+    users = db.query(User).all()
+    return users
+
+@router.post("/make-admin/{user_id}", response_model=UserOut)
+def make_user_admin(user_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if not getattr(current_user, "is_admin", False):
+        raise HTTPException(status_code=403, detail="Not authorized to make users admin")
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    user.is_admin = True
+    db.commit()
+    db.refresh(user)
+    return user
+
+@router.post("/remove-admin/{user_id}", response_model=UserOut)
+def remove_user_admin(user_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if not getattr(current_user, "is_admin", False):
+        raise HTTPException(status_code=403, detail="Not authorized to remove admin rights")
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    user.is_admin = False
+    db.commit()
+    db.refresh(user)
+    return user
+

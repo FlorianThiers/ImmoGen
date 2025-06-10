@@ -30,7 +30,7 @@ const MapPage: React.FC<ProfilePageProps> = ({ user }) => {
       <div
         className={`dashboard-bg-fade ${isDarkTheme ? "dark" : "light"}`}
       ></div>
-      <Sidebar />
+      <Sidebar  user={user || undefined} />
       <main className="main-content">
         <Header
           title="Kaart"

@@ -29,7 +29,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
     <div className="dashboard">
       {showOverlay && (<div className={`dashboard-bg-fade ${overlayTheme}`}></div>)}
       <div className={`dashboard-bg-fade ${isDarkTheme ? "dark" : "light"}`}></div>
-      <Sidebar />
+      <Sidebar user={user || undefined} />
       <main className="main-content">
         <Header
           title="Dashboard"

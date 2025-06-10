@@ -35,7 +35,8 @@ export function calculateRenovationValue(
   
   // Afschrijving van renovatie (levensduur ~25 jaar)
   const renovationAge = currentYear - renovationYear;
-  const renovationWear = Math.min(renovationAge / 25, 0.8); // Max 80% afschrijving
+  const effectiveWearYears = Math.max(0, renovationAge - 10); // Eerste 10 jaar geen slijtage
+  const renovationWear = Math.min(effectiveWearYears / 50, 0.5); // Max 80% afschrijving
   
   return {
     estimatedRenovationCost: estimatedRenovationCost * (1 - renovationWear),
@@ -82,9 +83,21 @@ export function calculateStructuralValue(
 
 export function calculatePrice(input: PriceInput) {
   console.log("Input: ", input);
-
-  const landValue = input.landArea * input.landPricePerM2;
   console.log("Land Area: ", input.landArea);
+
+  // const landValue = input.landArea * input.landPricePerM2;
+  const totalArea = input.landArea
+  const pricePerM2 = input.landPricePerM2
+  // Eerste 750 m² tegen volle prijs
+  const fullPriceArea = Math.min(totalArea, 750);
+  const fullPriceValue = fullPriceArea * pricePerM2;
+  
+  // Rest tegen 1/3 prijs
+  const reducedPriceArea = Math.max(0, totalArea - 750);
+  const reducedPriceValue = reducedPriceArea * (pricePerM2 / 3);
+  
+  const landValue = fullPriceValue + reducedPriceValue;
+
 
 
   let houseValue = 0;
@@ -98,7 +111,6 @@ export function calculatePrice(input: PriceInput) {
   if (input.houseUnusable) {
     houseValue = -25000; // demolition cost
   } else {
-    // Bereken nieuwbouwwaarde naar huidige prijzen (zonder ABEX verwarring)
     newBuildCost = input.livingArea * input.buildCostPerM2 * input.finishQuality;
     console.log("New Build Cost (current prices): ", newBuildCost);
 
@@ -124,8 +136,8 @@ export function calculatePrice(input: PriceInput) {
       renovationValue = renoCost;
       renovationWear = renoWear;
 
-      
-      houseValue = structuralValue + renovationValue;
+      console.log("renovation wear:", renoWear)
+      houseValue = newBuildCost * (1- renoWear);
       console.log("Structural Value: ", structuralValue);
       console.log("Renovation Value: ", renovationValue);
     } else {

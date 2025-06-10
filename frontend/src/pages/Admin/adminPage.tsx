@@ -6,7 +6,8 @@ import Header from "../../components/Header";
 import UserField from "../../components/UserField";
 import User from "../../context/User";
 
-import MandelbrotZoom from "./MandelbrotZoom";
+import Admins from "../../components/admin/Admins";
+import MandelbrotZoom from "../../components/admin/MandelbrotZoom";
 
 import "../Users/dashboard.css"
 interface AdminPanelProps {
@@ -30,9 +31,16 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
   const handleScrape = async () => {
     setScrapingStatus("Bezig met scrapen...");
     try {
+      const token = localStorage.getItem("token");
+      console.log(token)
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/scrape`,
-        { max_pages: scrapePages }
+        { max_pages: scrapePages },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
       );
       setScrapingStatus(`✅ Scraping voltooid: ${response.data.message}`);
     } catch (error) {
@@ -57,7 +65,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
     <div className="dashboard">
       {showOverlay && (<div className={`dashboard-bg-fade ${overlayTheme}`}></div>)}
       <div className={`dashboard-bg-fade ${isDarkTheme ? "dark" : "light"}`}></div>
-      <Sidebar/>
+      <Sidebar user={user || undefined} />
       <main className="main-content">
         <Header title="Admin Panel" 
           user={user || undefined}
@@ -113,7 +121,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
             Bekijk logs
           </button>
         
-
+          <Admins user={user || undefined}/>
 
           
         </div>

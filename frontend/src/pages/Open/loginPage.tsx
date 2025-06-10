@@ -25,6 +25,8 @@ const LoginPage: React.FC = () => {
       params.append('username', username);
       params.append('password', password);
 
+      localStorage.removeItem('token');
+
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/login`,
         params,
@@ -33,6 +35,7 @@ const LoginPage: React.FC = () => {
 
       localStorage.setItem('token', response.data.access_token);
       navigate('/dashboard');
+      window.location.reload(); 
     } catch (err: any) {
       setError('Invalid credentials');
     }

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import User from "../../context/User";
 
 type Props = {
-  user?: { username: string; email: string };
+  user?: User | null;
 };
 
 type House = {
@@ -103,22 +104,25 @@ const RecentTypes = ({ user }: Props) => {
             <div className="house-price">€ 300.500,00</div>
             <div className="house-city">Gent</div>
             </div> */}
-      <button
-        className="types-button back"
-        onClick={() => setPage((p) => Math.max(0, p - 1))}
-        disabled={page === 0}
-        aria-label="Vorige"
-      >
-        &lt;
-      </button>
-      <button
-        className="types-button more"
-        onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
-        disabled={page >= pageCount - 1}
-        aria-label="Volgende"
-        >
-        &gt;
-      </button>
+            <div>
+                    <button
+                className="types-button back"
+                onClick={() => setPage((p) => Math.max(0, p - 1))}
+                disabled={page === 0}
+                aria-label="Vorige"
+              >
+                &lt;
+              </button>
+              <button
+                className="types-button more"
+                onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
+                disabled={page >= pageCount - 1}
+                aria-label="Volgende"
+                >
+                &gt;
+              </button>
+            </div>
+
     </section>
   );
 };

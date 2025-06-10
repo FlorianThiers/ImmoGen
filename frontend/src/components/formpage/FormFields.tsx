@@ -32,7 +32,7 @@ type FormFieldProps = {
 
 const FormField: React.FC<FormFieldProps> = ({ formData, setFormData, result, setResult, formulaPrice, setFormulaPrice, formulaResult, setFormulaResult, handleChange }) => {
   const [selectedType, setSelectedType] = useState<string>("");
-  
+
   function calculateCorrectionPercentage(formData: FormDataType): number {
     let correction = 0;
 
@@ -73,6 +73,10 @@ const FormField: React.FC<FormFieldProps> = ({ formData, setFormData, result, se
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+      if (!selectedType || !isFormValid(formData)) {
+        // eventueel een melding tonen
+        return;
+      }
     try {
       const correctionPercentage = calculateCorrectionPercentage(formData);
       
@@ -130,15 +134,15 @@ const FormField: React.FC<FormFieldProps> = ({ formData, setFormData, result, se
       case "Handelspand":
         return <CommercialPropertyForm formData={formData} handleChange={handleChange} />;
       case "Huis":
-        return <HouseForm formData={formData} handleChange={handleChange} />;
+        return <HouseForm formData={formData} handleChange={handleChange} categories={categories} hasCategoryErrors={hasCategoryErrors}/>;
       case "Kantoor":
         return <OfficeForm formData={formData} handleChange={handleChange} />;
       case "Villa":
-        return <VillaForm formData={formData} handleChange={handleChange} />;
+        return <VillaForm formData={formData} handleChange={handleChange} categories={categories} hasCategoryErrors={hasCategoryErrors}/>;
       case "Garage":
         return <GarageForm formData={formData} handleChange={handleChange} />;
       case "Hut":
-        return <CabinForm formData={formData} handleChange={handleChange} />;
+        return <CabinForm formData={formData} handleChange={handleChange} categories={categories} hasCategoryErrors={hasCategoryErrors} />;
       case "Grond":
         return <GroundForm formData={formData} handleChange={handleChange} />;
              
@@ -167,6 +171,40 @@ const FormField: React.FC<FormFieldProps> = ({ formData, setFormData, result, se
   const filteredHouseTypes = houseTypes.filter(type =>
     type.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+    const categories = [
+    { key: "generalInfo", label: "Algemeen" },
+    { key: "location", label: "Locatie" },
+    { key: "interior", label: "Interieur" },
+    { key: "kitchen", label: "Sanitair" },
+    { key: "energy", label: "Energie" },
+    { key: "outdoor", label: "Buitenruimte" },
+    { key: "extras", label: "Extra's" },
+  ];
+
+  function hasCategoryErrors(category: string, formData: FormDataType) {
+    switch (category) {
+      case "generalInfo":
+        return !formData.property_condition || !formData.construction_year || !formData.area || !formData.livable_area;
+      case "location":
+        return !formData.country || !formData.city || !formData.postal_code || !formData.street;
+      case "interior":
+        return !formData.bedrooms;
+      case "kitchen":
+        return !formData.kitchen_area || !formData.bathrooms;
+      case "energy":
+        return !formData.epc || !formData.heating_type;
+      case "outdoor":
+        return !formData.facade_width || !formData.plot_depth;
+      case "extras":
+        return false;
+      default:
+        return false;
+    }
+  }
+  function isFormValid(formData: FormDataType) {
+    return !categories.some(cat => hasCategoryErrors(cat.key, formData));
+  }
 
   return (
     <div className="form">
@@ -216,6 +254,18 @@ const FormField: React.FC<FormFieldProps> = ({ formData, setFormData, result, se
                 ));
             })()}
             </div>
+            {/* <button
+              type="button"
+              onClick={() => {
+                setShowErrors(true);
+                if (isFormValid(formData)) {
+                  // Bereken prijs uitvoeren
+                }
+              }}
+              disabled={!isFormValid(formData)}
+            >
+              Bereken prijs
+            </button> */}
             <button
                 type="submit"
                 className={`bg-blue-500 text-white p-2 rounded mt-4${!selectedType ? " opacity-50 cursor-not-allowed" : ""}`}

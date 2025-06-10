@@ -63,7 +63,9 @@
   
 
   
-} 
+}
+
+
 
 /* components */
 a {
@@ -298,6 +300,16 @@ button:focus-visible {
 .map-buttons {
   position: absolute;
   top: 22rem;
+  left: 1.5rem;
+  margin: 0; /* Verwijder de huidige margin */
+  z-index: 10; /* Zorg dat de knoppen boven de kaart liggen */
+  display: flex;
+  gap: 1rem;
+}
+
+.map-buttons-form {
+  position: absolute;
+  top: 4rem;
   left: 1.5rem;
   margin: 0; /* Verwijder de huidige margin */
   z-index: 10; /* Zorg dat de knoppen boven de kaart liggen */

@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import User from "../context/User";
 // import "../index.css"; // Zorg ervoor dat je de juiste CSS-bestanden hebt
 import "../pages/Users/dashboard.css"; // Zorg ervoor dat je de juiste CSS-bestanden hebt
 
-const Navbar = () => {
+type Props = {
+  user?: User | null;
+};
+
+const Sidebar = ({ user }: Props) => {
   const [isDarkTheme, setIsDarkTheme] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -36,6 +40,13 @@ const Navbar = () => {
       setIsDarkTheme(true);
     }
   }, []);
+
+  const logout = () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      localStorage.removeItem('user'); // als je nog extra user info opslaat
+      window.location.href = '/login'; // harde redirect, zeker dat alles herlaadt
+  };
 
   return (
     <nav
@@ -103,14 +114,17 @@ const Navbar = () => {
             <span className="nav-label">Profile</span>
           </li>
         </Link>
-        <Link to="/admin-panel">
-          <li className="nav-item sidebar-animate delay-7">
-            <span className="nav-icon analytics-icon">
-              <img src="/admin.png" alt="Analytics" className="sidebar-icon" />
-            </span>
-            <span className="nav-label">Admin Panel</span>
-          </li>
-        </Link>
+
+        {user?.is_admin === true && (
+          <Link to="/admin-panel">
+            <li className="nav-item sidebar-animate delay-7">
+              <span className="nav-icon analytics-icon">
+                <img src="/admin.png" alt="Analytics" className="sidebar-icon" />
+              </span>
+              <span className="nav-label">Admin Panel</span>
+            </li>
+          </Link>
+        )}
       </ul>
       <div className="sidebar-toggle" onClick={handleSidebarToggle}>
         <img
@@ -133,7 +147,7 @@ const Navbar = () => {
           // style={{ width: 24, height: 24 }}
         />
       </button>
-      <div className="sidebar-bottom">
+      <div className="sidebar-bottom" onClick={logout}>
         <li className="exit-item">
           <span className="exit-icon logout-icon">
             <img src="/exit.png" alt="Logout" className="sidebar-icon" />
@@ -144,4 +158,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Sidebar;
