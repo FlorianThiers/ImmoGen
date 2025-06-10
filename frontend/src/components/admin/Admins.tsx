@@ -50,7 +50,7 @@ const Admins: React.FC<AdminsProps> = ({ user }) => {
           onChange={e => setSearchTerm(e.target.value)}
         />
         <button
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        className="action-button"
         onClick={async () => {
             const userToPromote = users.find(
             (u) => u.username?.toLowerCase() === searchTerm.toLowerCase()

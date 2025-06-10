@@ -6,6 +6,7 @@ from app.api import scraper
 from app.api import trainer
 from app.api import price
 from app.api import user
+from app.api import admin
 
 
 app = FastAPI()
@@ -26,6 +27,8 @@ app.include_router(adresses.router)
 app.include_router(scraper.router)
 app.include_router(trainer.router)
 app.include_router(price.router)
+app.include_router(admin.router)
+
 
 
 @app.get("/")
