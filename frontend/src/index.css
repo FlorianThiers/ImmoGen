@@ -8,7 +8,14 @@
   --text-colot-gray: #666;
   --text-colot-white: #ffffff;
 
-  --primair-blue: #296dff;
+
+  --primair-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --primair-gradient-hover: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --primair-blue: #6662d0;
+  
+  /* --primair-gradient: linear-gradient(135deg, #296dff 0%, #f7931e 100%);
+  --primair-gradient-hover: linear-gradient(135deg, #163d93 0%, #a26117 100%);
+    --primair-blue: #296dff; */
   --primair-orange: #f7931e;
   --inputfield-bg-color: #7ba5ff;
   --button-border-hover-color: #000dff;
@@ -121,8 +128,6 @@ body {
   background-color: var(--background-color);
 }
 
-
-
 /* buttons */
 button {
   border-radius: 8px;
@@ -138,10 +143,10 @@ button {
 button:hover {
   border-color: var(--button-border-hover-color);
 }
-button:focus,
+/* button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
+} */
 
 .calculate-button {
   background-color: #296dff;

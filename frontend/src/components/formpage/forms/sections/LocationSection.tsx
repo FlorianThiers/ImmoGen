@@ -25,7 +25,7 @@ const LocationSection: React.FC<GeneralInfoSectionProps> = ({
 
   return (
     <div className="grid-container">
-      <div>
+      <div className="location-container">
         <FormField label="Land">
           <InputField
             type="text"
@@ -102,23 +102,6 @@ const LocationSection: React.FC<GeneralInfoSectionProps> = ({
       </div>
       <HouseMapForm
         centerAddress={`${formData.street} ${formData.street_number}, ${formData.city}, ${formData.province}, ${formData.country}`}
-        houses={[
-          // Dummy data of echte huizen uit je database
-          {
-            lat: 51.0543,
-            lon: 3.7174,
-            address: "Dummylaan 2, Gent",
-            value: 450000,
-            ownEstimate: true,
-          },
-          {
-            lat: 51.2194,
-            lon: 4.4025,
-            address: "Dummystraat 1, Antwerpen",
-            value: 350000,
-            ownEstimate: false,
-          },
-        ]}
       />
     </div>
   );

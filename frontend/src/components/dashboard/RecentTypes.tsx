@@ -61,6 +61,15 @@ const RecentTypes = ({ user }: Props) => {
           <strong>{name}</strong>
         </div>
       </div>
+      <div className="type-houses">
+        <button
+          className="types-button back"
+          onClick={() => setPage((p) => Math.max(0, p - 1))}
+          disabled={page === 0}
+          aria-label="Vorige"
+        >
+          &lt;
+        </button>
         <div className="houses-grid">
           {paginatedTypes.map((house) => (
             <div
@@ -86,43 +95,15 @@ const RecentTypes = ({ user }: Props) => {
             </div>
           ))}
         </div>
-
-        {/* <div className="house villa">
-            <div className="house-header">
-              <span className="house-type">Villa</span>
-              <span className="house-menu">⋯</span>
-            </div>
-            <div className="house-price">€ 900.450,00</div>
-            <div className="house-city">Knokke</div>
-            </div>
-            
-            <div className="house appartement">
-            <div className="house-header">
-            <span className="house-type">Appartement</span>
-            <span className="house-menu">⋯</span>
-            </div>
-            <div className="house-price">€ 300.500,00</div>
-            <div className="house-city">Gent</div>
-            </div> */}
-            <div>
-                    <button
-                className="types-button back"
-                onClick={() => setPage((p) => Math.max(0, p - 1))}
-                disabled={page === 0}
-                aria-label="Vorige"
-              >
-                &lt;
-              </button>
-              <button
-                className="types-button more"
-                onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
-                disabled={page >= pageCount - 1}
-                aria-label="Volgende"
-                >
-                &gt;
-              </button>
-            </div>
-
+        <button
+          className="types-button more"
+          onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
+          disabled={page >= pageCount - 1}
+          aria-label="Volgende"
+        >
+          &gt;
+        </button>
+      </div>
     </section>
   );
 };

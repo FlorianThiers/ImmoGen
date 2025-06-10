@@ -224,20 +224,26 @@ const DataQuality = (props: { houses: StatisticsHouse[], color: string }) => {
               if (active && payload && payload.length) {
                 const data = payload[0].payload as DataQualityItem;
                 return (
-                  <div className="bg-white p-3 border rounded shadow">
-                    <p className="font-semibold">{label}</p>
-                    <p className="text-sm">
-                      <span className="text-green-600">Compleet: {data.total - data.missing}</span>
-                    </p>
-                    <p className="text-sm">
-                      <span className="text-red-600">Ontbrekend: {data.missing}</span>
-                    </p>
-                    <p className="text-sm">
-                      <span className="font-medium">Volledigheid: {data.percentage}%</span>
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      Status: {getQualityStatus(data.completeness)}
-                    </p>
+                  <div className="p-3 border border-gray-300 rounded shadow-lg" style={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      backdropFilter: 'blur(8px)',
+                      WebkitBackdropFilter: 'blur(8px)'
+                  }}>
+                    <div className="bg-white p-3 border rounded shadow">
+                      <p className="font-semibold">{label}</p>
+                      <p className="text-sm">
+                        <span className="text-green-600">Compleet: {data.total - data.missing}</span>
+                      </p>
+                      <p className="text-sm">
+                        <span className="text-red-600">Ontbrekend: {data.missing}</span>
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-medium">Volledigheid: {data.percentage}%</span>
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Status: {getQualityStatus(data.completeness)}
+                      </p>
+                    </div>
                   </div>
                 );
               }

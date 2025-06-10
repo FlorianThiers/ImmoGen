@@ -67,7 +67,8 @@
     position: relative;
     width: 400px;
     height: 500px;
-    background: linear-gradient(135deg, #296dff 0%, #f7931e 90%, #333 100%);
+    background: var(--primair-gradient);
+        /* background: linear-gradient(135deg, #296dff 0%, #f7931e 90%, #333 100%); */
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);

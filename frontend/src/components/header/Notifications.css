@@ -17,7 +17,7 @@
     border-radius: 50%;
     transition: all 0.2s ease;
     position: relative;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--primair-gradient);
 }
 
 .notification-bell:hover {
@@ -58,7 +58,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--primair-gradient);
     color: var();
 }
 
@@ -173,7 +173,7 @@
     align-items: center;
     margin-bottom: 8px;
     padding: 5px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--primair-gradient);
 }
 
 .notification-meta {
@@ -291,7 +291,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--primair-gradient);
     color: white;
 }
 

@@ -29,7 +29,25 @@ const DataOverview = (props: { houses: House[], color: string }) => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="city" />
                 <YAxis />
-                <Tooltip />
+                <Tooltip 
+                    content={({ active, payload, label }) => {
+                        if (active && payload && payload.length) {
+                            return (
+                                <div className="p-3 border border-gray-300 rounded shadow-lg" style={{
+                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                    backdropFilter: 'blur(8px)',
+                                    WebkitBackdropFilter: 'blur(8px)'
+                                }}>
+                                    <p className="font-semibold">{label}</p>
+                                    <p className="text-blue-600">
+                                        Aantal huizen: {payload[0].value}
+                                    </p>
+                                </div>
+                            );
+                        }
+                        return null;
+                    }}
+                />
                 <Bar dataKey="count" fill={color} />
             </BarChart>
             </ResponsiveContainer>
