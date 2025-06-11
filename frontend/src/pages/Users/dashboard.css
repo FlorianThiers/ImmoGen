@@ -538,6 +538,7 @@ body:not(.theme-switching) .exit-item {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    align-items: center;
     gap: 10px;
 }
 
