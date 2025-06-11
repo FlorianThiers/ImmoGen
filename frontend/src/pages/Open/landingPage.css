@@ -163,23 +163,23 @@
 
 /* Specifieke posities voor elke label */
 .feature-label.label-0 {
-    top: 15%;
-    left: -10%;
+    top: 5%;
+    left: 11%;
 }
 
 .feature-label.label-1 {
-    top: 25%;
-    right: -15%;
+    top: 10%;
+    right: 10%;
 }
 
 .feature-label.label-2 {
-    top: 45%;
-    right: -5%;
+    top: 31%;
+    right: 5%;
 }
 
 .feature-label.label-3 {
-    bottom: 55%;
-    left: -15%;
+    bottom: 65%;
+    left: 5%;
 }
 
 .feature-label.label-4 {
@@ -188,13 +188,13 @@
 }
 
 .feature-label.label-5 {
-    bottom: 20%;
+    bottom: 40%;
     right: 5%;
 }
 
 .feature-label.label-6 {
-    bottom: 5%;
-    right: 45%;
+    bottom: 22%;
+    right: 25%;
 }
 
 @keyframes pulse {
