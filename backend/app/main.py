@@ -19,9 +19,9 @@ allowed_origins = [
     "https://immo-gen-olive.vercel.app",  # Vervang dit met je echte Vercel URL
 ]
 
-# Voor development kun je ook wildcard gebruiken (minder veilig)
-if os.getenv("ENVIRONMENT") == "development":
-    allowed_origins.append("*")
+# # Voor development kun je ook wildcard gebruiken (minder veilig)
+# if os.getenv("ENVIRONMENT") == "development":
+#     allowed_origins.append("*")
 
 # CORS Configuratie (voor React)
 app.add_middleware(
