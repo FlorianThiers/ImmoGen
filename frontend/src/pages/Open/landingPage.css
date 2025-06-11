@@ -148,52 +148,53 @@
     right: 20%;
 }
 
-/* Feature Labels */
+/* Feature Labels - Gecorrigeerde positionering */
 .feature-label {
     position: absolute;
     background: rgba(255, 255, 255, 0.9);
-    /* backdrop-filter: blur(10px); */
     padding: 8px 16px;
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 600;
     color: #333;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
 
-.label-crm {
+/* Specifieke posities voor elke label */
+.feature-label.label-0 {
     top: 15%;
-    left: 5%;
+    left: -10%;
 }
 
-.label-wms {
-    top: 20%;
+.feature-label.label-1 {
+    top: 25%;
+    right: -15%;
+}
+
+.feature-label.label-2 {
+    top: 45%;
+    right: -5%;
+}
+
+.feature-label.label-3 {
+    bottom: 55%;
+    left: -15%;
+}
+
+.feature-label.label-4 {
+    bottom: 35%;
+    left: 10%;
+}
+
+.feature-label.label-5 {
+    bottom: 20%;
     right: 5%;
 }
 
-.label-project {
-    top: 45%;
-    right: 2%;
-}
-
-.label-hris {
-    bottom: 60%;
-    left: 2%;
-}
-
-.label-workflow {
-    bottom: 40%;
-    left: 20%;
-}
-
-.label-custom {
-    bottom: 25%;
-    right: 15%;
-}
-
-.label-procurement {
-    bottom: 15%;
-    right: 55%;
+.feature-label.label-6 {
+    bottom: 5%;
+    right: 45%;
 }
 
 @keyframes pulse {

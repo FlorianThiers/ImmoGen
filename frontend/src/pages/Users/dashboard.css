@@ -537,6 +537,7 @@ body:not(.theme-switching) .exit-item {
 .type-houses {
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
     gap: 10px;
 }
 
@@ -557,17 +558,6 @@ body:not(.theme-switching) .exit-item {
     height: 3rem;
     background-color: rgba(51, 51, 51, 0.2);
     /* cursor: page === 0 ? "not-allowed" : "pointer"; */
-}
-
-.back {
-    position: sticky;
-    right: 90%;
-}
-
-.more {
-    position: sticky;
-    left: 63%;
-
 }
 
 .house {

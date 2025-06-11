@@ -7,21 +7,28 @@ const RegisterPage: React.FC = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [repassword, setRepassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/register`, {
-        username,
-        email,
-        password,
-      });
-      navigate("/login");
-    } catch (err: any) {
-        setError(err?.response?.data?.detail || "Registratie mislukt. Probeer een andere gebruikersnaam of e-mail.");
+    if (password == repassword) {
+      e.preventDefault();
+      setError("");
+      try {
+        await axios.post(`${import.meta.env.VITE_API_URL}/register`, {
+          username,
+          email,
+          password,
+        });
+        navigate("/login");
+      } catch (err: any) {
+          setError(err?.response?.data?.detail || "Registratie mislukt. Probeer een andere gebruikersnaam of e-mail.");
+      }
+      
+    } else {
+      alert('Passwoord is niet gelijk')
     }
   };
 
@@ -103,8 +110,8 @@ const RegisterPage: React.FC = () => {
               id="herhaal-password"
               placeholder="Herhaal Password"
               className="with-icon"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={repassword}
+              onChange={(e) => setRepassword(e.target.value)}
               required
             />
           </div>
