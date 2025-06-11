@@ -212,11 +212,11 @@ const FormField: React.FC<FormFieldProps> = ({
     { value: "Duplex", label: "Duplex", img: "/duplex.png" },
     { value: "Kantoor", label: "Kantoor", img: "/office.png" },
     { value: "Handelspand", label: "Handelspand", img: "/office2.png" },
-    { value: "Bouwgrond", label: "Bouwgrond", img: "/shovel.png" },
+    // { value: "Bouwgrond", label: "Bouwgrond", img: "/shovel.png" },
     { value: "Hut", label: "Hut", img: "/cabin.png" },
     { value: "Garage", label: "Garage", img: "/garage.png" },
-    { value: "Grond", label: "Grond", img: "/ground.png" },
-    { value: "Overig", label: "Overig", img: "/more.png" }, // Voeg een 'Overig' type toe
+    // { value: "Grond", label: "Grond", img: "/ground.png" },
+    // { value: "Overig", label: "Overig", img: "/more.png" },
     // Voeg meer types toe indien gewenst
   ];
 
@@ -238,10 +238,7 @@ const FormField: React.FC<FormFieldProps> = ({
     switch (category) {
       case "generalInfo":
         return (
-          !formData.property_condition ||
-          !formData.construction_year ||
-          !formData.area ||
-          !formData.livable_area
+          !formData.area
         );
       case "location":
         return (
@@ -251,13 +248,13 @@ const FormField: React.FC<FormFieldProps> = ({
           !formData.street
         );
       case "interior":
-        return !formData.bedrooms;
+        return false;
       case "kitchen":
-        return !formData.kitchen_area || !formData.bathrooms;
+        return false;
       case "energy":
-        return !formData.epc || !formData.heating_type;
+        return false;
       case "outdoor":
-        return !formData.facade_width || !formData.plot_depth;
+        return false;
       case "extras":
         return false;
       default:

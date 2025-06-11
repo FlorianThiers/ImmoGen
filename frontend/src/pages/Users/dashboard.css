@@ -165,22 +165,13 @@ body.theme-switching .dashboard-bg-fade {
 .sidebar.expanded .nav-item {
     width: 100%;
     height: 50px;
-    padding: 16px;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 15px;
 }
 
-
-/* Toon label bij hover */
-.nav-item:hover .nav-label,
-.nav-item:focus-within .nav-label {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
-    visibility: visible;
-    pointer-events: auto;
-}
 
 .nav-item:hover {
     background-color: var(--primair-blue);

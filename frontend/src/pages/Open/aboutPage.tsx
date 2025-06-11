@@ -16,7 +16,7 @@ const AboutPage = () => {
           </p>
           <p>
             Oprichter <strong>Florian Thiers</strong> combineert zijn passie voor technologie, data-analyse en menselijke dynamiek
-            in dit innovatieve project. Naast ontwikkelaar is hij ook muzikant en natuurliefhebber.
+            in dit innovatieve project.
           </p>
         </div>
       </section>

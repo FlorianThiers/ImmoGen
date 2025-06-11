@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import { useTheme } from "../../context/ThemeContext";
 import FormDataType from "../../context/formDataType";
 import Sidebar from "../../components/SideNavbar";
 import Header from "../../components/Header";
@@ -17,12 +17,9 @@ interface PriceCalculatorProps {
 }
 
 const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
-  const isDarkTheme = useState(
-    typeof document !== "undefined" &&
-      document.body.classList.contains("dark-theme")
-  );
+  const { isDarkTheme } = useTheme();
   const showOverlay = useState(false);
-  const overlayTheme = useState(isDarkTheme ? "dark" : "light");
+  const [overlayTheme, setOverlayTheme] = useState(isDarkTheme ? "dark" : "light");
   const [showUserField, setShowUserField] = useState(false);
 
   const [isCalculating, setIsCalculating] = useState(false); // Nieuwe state
@@ -32,6 +29,11 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
   const [formulaPrice, setFormulaPrice] = useState<number | null>(null);
   const [formulaResult, setFormulaResult] = useState<any>(null);
 
+  // Update overlay theme when isDarkTheme changes
+  useEffect(() => {
+    setOverlayTheme(isDarkTheme ? "dark" : "light");
+  }, [isDarkTheme]);
+  
   // const [formData, setFormData] = useState<FormDataType>({
   //   title: "",
   //   price: 0,
@@ -153,6 +155,7 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
     renovation_year: new Date().getFullYear(),
     renovation_price: 0,
     area: 0,
+    building_area: 0,
     price_per_m2: 0,
     build_price: 0,
     demolition_price: 0,
@@ -364,6 +367,8 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
 
   //   source: "ImmoGen",
   // });
+
+
 
   const handleChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

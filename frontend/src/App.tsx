@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "./context/ThemeContext";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AdminRoute from "./routes/AdminRoute";
 import LandingPage from "./pages/Open/landingPage";
@@ -41,68 +42,70 @@ function App() {
   }, []);
 
   return (
-    <Routes>
-      {/* Landing page met alleen Navbar */}
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/aboutPage" element={<AboutPage />} />
-      <Route path="/featuresPage" element={<FeaturesPage />} />
-      <Route path="/contactPage" element={<ContactPage />} />
-      
-      
-      {/* Login/Register zonder navbar */}
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+    <ThemeProvider>
+      <Routes>
+        {/* Landing page met alleen Navbar */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/aboutPage" element={<AboutPage />} />
+        <Route path="/featuresPage" element={<FeaturesPage />} />
+        <Route path="/contactPage" element={<ContactPage />} />
+        
+        
+        {/* Login/Register zonder navbar */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
-      {/* Alle andere pagina's met SideNavbar */}
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute loading={loading}>
-              <Dashboard user={user}/>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/price-calculator"
-        element={
-          <ProtectedRoute loading={loading}>
-              <PriceCalculator user={user}/>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/statistics"
-        element={
-          <ProtectedRoute loading={loading}>
-              <StatisticsPage user={user}/>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/map"
-        element={
-          <ProtectedRoute loading={loading}>
-              <MapPage user={user}/>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/profile"
-        element={
-          <ProtectedRoute loading={loading}>
-              <ProfilePage user={user}/>
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/admin-panel"
-        element={
-          <AdminRoute loading={loading} user={user}>
-              <AdminPanel user={user}/>
-          </AdminRoute>
-        }
-      />
-    </Routes>
+        {/* Alle andere pagina's met SideNavbar */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute loading={loading}>
+                <Dashboard user={user}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/price-calculator"
+          element={
+            <ProtectedRoute loading={loading}>
+                <PriceCalculator user={user}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/statistics"
+          element={
+            <ProtectedRoute loading={loading}>
+                <StatisticsPage user={user}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/map"
+          element={
+            <ProtectedRoute loading={loading}>
+                <MapPage user={user}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute loading={loading}>
+                <ProfilePage user={user}/>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin-panel"
+          element={
+            <AdminRoute loading={loading} user={user}>
+                <AdminPanel user={user}/>
+            </AdminRoute>
+          }
+        />
+      </Routes>
+    </ThemeProvider>
   );
 }
 

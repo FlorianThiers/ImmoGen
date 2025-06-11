@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import User from "../context/User";
 // import "../index.css"; // Zorg ervoor dat je de juiste CSS-bestanden hebt
 import "../pages/Users/dashboard.css"; // Zorg ervoor dat je de juiste CSS-bestanden hebt
+import { useTheme } from "../context/ThemeContext";
 
 type Props = {
   user?: User | null;
@@ -10,37 +11,21 @@ type Props = {
 };
 
 const Sidebar = ({ user, activePage }: Props) => {
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
+  const { isDarkTheme, toggleTheme } = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleSidebarToggle = () => {
     setIsExpanded((prev) => !prev);
   };
 
-  const toggleTheme = () => {
-    setIsDarkTheme((prevTheme) => !prevTheme);
+  const handleThemeToggle = () => {
+    toggleTheme();
 
     document.body.classList.add("theme-switching");
     setTimeout(() => {
       document.body.classList.remove("theme-switching");
-    }, 800); // tijd in ms, gelijk aan de langste delay
-    if (document.body.classList.contains("dark-theme")) {
-      document.body.classList.remove("dark-theme");
-    } else {
-      document.body.classList.add("dark-theme");
-    }
+    }, 800);
   };
-
-  useEffect(() => {
-    // Detect system preference for light mode
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    if (prefersDark) {
-      document.body.classList.add("dark-theme");
-      setIsDarkTheme(true);
-    }
-  }, []);
 
   const logout = () => {
       localStorage.removeItem('token');
@@ -139,7 +124,7 @@ const Sidebar = ({ user, activePage }: Props) => {
       </div>
       <button
         id="theme-toggle"
-        onClick={toggleTheme}
+        onClick={handleThemeToggle}
         className={`theme-toggle-button ${
           isDarkTheme ? "dark" : "light"
         }`}

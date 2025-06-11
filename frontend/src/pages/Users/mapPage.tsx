@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useTheme } from "../../context/ThemeContext";
 import Sidebar from "../../components/SideNavbar";
 import Header from "../../components/Header";
 import UserField from "../../components/UserField";
@@ -13,13 +13,16 @@ interface ProfilePageProps {
 }
 
 const MapPage: React.FC<ProfilePageProps> = ({ user }) => {
-  const isDarkTheme = useState(
-    typeof document !== "undefined" &&
-      document.body.classList.contains("dark-theme")
-  );
+  const { isDarkTheme } = useTheme();
   const showOverlay = useState(false);
-  const overlayTheme = useState(isDarkTheme ? "dark" : "light");
+  const [overlayTheme, setOverlayTheme] = useState(isDarkTheme ? "dark" : "light");
   const [showUserField, setShowUserField] = useState(false);
+
+  // Update overlay theme when isDarkTheme changes
+  useEffect(() => {
+    setOverlayTheme(isDarkTheme ? "dark" : "light");
+  }, [isDarkTheme]);
+
 
   return (
     <div className="mappage">

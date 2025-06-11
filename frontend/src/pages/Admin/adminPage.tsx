@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useTheme } from "../../context/ThemeContext";
 
 import Sidebar from "../../components/SideNavbar";
 import Header from "../../components/Header";
@@ -37,13 +38,15 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ user }) => {
   const [isTrainingActive, setIsTrainingActive] = useState(false);
   const [showMandelbrot, setShowMandelbrot] = useState(false);
   
-  const isDarkTheme = useState(
-    typeof document !== "undefined" &&
-      document.body.classList.contains("dark-theme")
-  );
+  const { isDarkTheme } = useTheme();
   const showOverlay = useState(false);
-  const overlayTheme = useState(isDarkTheme ? "dark" : "light");
+  const [overlayTheme, setOverlayTheme] = useState(isDarkTheme ? "dark" : "light");
   const [showUserField, setShowUserField] = useState(false);
+
+  // Update overlay theme when isDarkTheme changes
+  useEffect(() => {
+    setOverlayTheme(isDarkTheme ? "dark" : "light");
+  }, [isDarkTheme]);
 
   // Systeem statistieken ophalen
   useEffect(() => {

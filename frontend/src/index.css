@@ -137,6 +137,7 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: var(--primair-blue);
+  color: var(--text-colot-white);
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -149,11 +150,11 @@ button:focus-visible {
 } */
 
 .calculate-button {
-  background-color: #296dff;
+  background-color: var(--primair-blue);
 }
 
 .calculate-button:hover{
-  background-color: #000dff ;
+  background-color: var(--primair-blue) ;
   transition: 350ms ease-in-out;
 }
 
