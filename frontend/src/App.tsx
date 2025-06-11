@@ -10,7 +10,6 @@ import FeaturesPage from "./pages/Open/featuresPage";
 import ContactPage from "./pages/Open/contactPage";
 import LoginPage from "./pages/Open/loginPage";
 import RegisterPage from "./pages/Open/registerPage";
-import LandingPage3 from "./pages/Open/landingPage3";
 import Dashboard from "./pages/Users/dashboard";
 import PriceCalculator from "./pages/Users/priceCalculator";
 import StatisticsPage from "./pages/Users/statisticsPage";

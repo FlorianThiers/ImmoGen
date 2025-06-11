@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 type House = {
@@ -29,9 +29,9 @@ const TopMunicipalities = () => {
     }, []);
 
     //bereken gemiddelde prijs
-    const averagePrice = houses.reduce((acc, house) => acc + house.price, 0) / houses.length || 0;
+    // const averagePrice = houses.reduce((acc, house) => acc + house.price, 0) / houses.length || 0;
     //bereken gemiddelde AI prijs
-    const averageAiPrice = houses.reduce((acc, house) => acc + house.ai_price, 0) / houses.length || 0;
+    // const averageAiPrice = houses.reduce((acc, house) => acc + house.ai_price, 0) / houses.length || 0;
     //bereken gemiddelde prijs vandaag
     const today = new Date();
     const todayHouses = houses.filter(house => new Date(house.created_at).toDateString() === today.toDateString());
@@ -40,8 +40,8 @@ const TopMunicipalities = () => {
     const averageAiPriceToday = todayHouses.reduce((acc, house) => acc + house.ai_price, 0) / todayHouses.length || 0;
 
     //bereken verschil tussen gemiddelde prijs en gemiddelde AI prijs
-    const priceDifference = averagePrice - averageAiPrice;
-    const priceDifferenceToday = averagePriceToday - averageAiPriceToday;
+    // const priceDifference = averagePrice - averageAiPrice;
+    // const priceDifferenceToday = averagePriceToday - averageAiPriceToday;
 
     //bereken gemiddelde prijs deze week
     const startOfWeek = new Date();
@@ -50,7 +50,7 @@ const TopMunicipalities = () => {
     const averagePriceWeek = weekHouses.reduce((acc, house) => acc + house.price, 0) / weekHouses.length || 0;
     //bereken gemiddelde AI prijs deze week
     const averageAiPriceWeek = weekHouses.reduce((acc, house) => acc + house.ai_price, 0) / weekHouses.length || 0;
-    const priceDifferenceWeek = averagePriceWeek - averageAiPriceWeek;
+    // const priceDifferenceWeek = averagePriceWeek - averageAiPriceWeek;
 
   // Hier later je fetch/useEffect voor backend data
   return (

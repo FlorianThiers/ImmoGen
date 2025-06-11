@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FormDataType from "../../formDataType";
+import FormDataType from "../../../context/formDataType";
 
 import GeneralInfoSection from "./sections/GeneralInfoSection";
 import LocationSection from "./sections/LocationSection";
@@ -13,11 +13,15 @@ import "../../../pages/Users/priceCalculator.css"; // Import the CSS for styling
 
 interface CommercialPropertyFormProps {
   formData: FormDataType;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
 }
 
-
-const CommercialPropertyForm: React.FC<CommercialPropertyFormProps> = ({ formData, handleChange }) => {
+const CommercialPropertyForm: React.FC<CommercialPropertyFormProps> = ({
+  formData,
+  handleChange,
+}) => {
   const categories = [
     { key: "generalInfo", label: "Algemeen" },
     { key: "location", label: "Locatie" },
@@ -35,7 +39,9 @@ const CommercialPropertyForm: React.FC<CommercialPropertyFormProps> = ({ formDat
         {categories.map((cat) => (
           <button
             key={cat.key}
-            className={`category-tab${activeCategory === cat.key ? " active" : ""}`}
+            className={`category-tab${
+              activeCategory === cat.key ? " active" : ""
+            }`}
             onClick={() => setActiveCategory(cat.key)}
             type="button"
           >
@@ -50,7 +56,7 @@ const CommercialPropertyForm: React.FC<CommercialPropertyFormProps> = ({ formDat
         )}
 
         {activeCategory === "location" && (
-          <LocationSection formData={formData} handleChange={handleChange}/>
+          <LocationSection formData={formData} handleChange={handleChange} />
         )}
 
         {activeCategory === "interior" && (
@@ -62,7 +68,7 @@ const CommercialPropertyForm: React.FC<CommercialPropertyFormProps> = ({ formDat
         )}
 
         {activeCategory === "energy" && (
-          <EnergySection formData={formData} handleChange={handleChange}/>
+          <EnergySection formData={formData} handleChange={handleChange} />
         )}
 
         {activeCategory === "outdoor" && (
@@ -76,6 +82,5 @@ const CommercialPropertyForm: React.FC<CommercialPropertyFormProps> = ({ formDat
     </div>
   );
 };
-
 
 export default CommercialPropertyForm;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FormDataType from "../../formDataType";
+import FormDataType from "../../../context/formDataType";
 
 import GeneralInfoSection from "./sections/GeneralInfoSection";
 import LocationSection from "./sections/LocationSection";
@@ -13,21 +13,30 @@ import "../../../pages/Users/priceCalculator.css"; // Import the CSS for styling
 
 interface VillaFormProps {
   formData: FormDataType;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   categories: { key: string; label: string }[];
   hasCategoryErrors: (category: string, formData: FormDataType) => boolean;
 }
 
-const VillaForm: React.FC<VillaFormProps> = ({ formData, handleChange, categories, hasCategoryErrors }) => {
-    const [activeCategory, setActiveCategory] = useState("generalInfo");
-   
+const VillaForm: React.FC<VillaFormProps> = ({
+  formData,
+  handleChange,
+  categories,
+  hasCategoryErrors,
+}) => {
+  const [activeCategory, setActiveCategory] = useState("generalInfo");
+
   return (
     <div className="villa-form">
       <div className="category-tabs">
         {categories.map((cat) => (
           <button
             key={cat.key}
-            className={`category-tab${activeCategory === cat.key ? " active" : ""}`}
+            className={`category-tab${
+              activeCategory === cat.key ? " active" : ""
+            }`}
             onClick={() => setActiveCategory(cat.key)}
             type="button"
             style={{ position: "relative" }}
@@ -46,7 +55,7 @@ const VillaForm: React.FC<VillaFormProps> = ({ formData, handleChange, categorie
         )}
 
         {activeCategory === "location" && (
-          <LocationSection formData={formData} handleChange={handleChange}/>
+          <LocationSection formData={formData} handleChange={handleChange} />
         )}
 
         {activeCategory === "interior" && (
@@ -58,7 +67,7 @@ const VillaForm: React.FC<VillaFormProps> = ({ formData, handleChange, categorie
         )}
 
         {activeCategory === "energy" && (
-          <EnergySection formData={formData} handleChange={handleChange}/>
+          <EnergySection formData={formData} handleChange={handleChange} />
         )}
 
         {activeCategory === "outdoor" && (
@@ -72,6 +81,5 @@ const VillaForm: React.FC<VillaFormProps> = ({ formData, handleChange, categorie
     </div>
   );
 };
-
 
 export default VillaForm;

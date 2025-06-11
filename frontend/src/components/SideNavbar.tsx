@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import User from "../context/User";
 // import "../index.css"; // Zorg ervoor dat je de juiste CSS-bestanden hebt
@@ -152,11 +152,11 @@ const Sidebar = ({ user, activePage }: Props) => {
         />
       </button>
       <div className="sidebar-bottom" onClick={logout}>
-        <li className="exit-item">
+        <div className="exit-item">
           <span className="exit-icon logout-icon">
             <img src="/exit.png" alt="Logout" className="sidebar-icon" />
           </span>
-        </li>
+        </div>
       </div>
     </nav>
   );

@@ -56,7 +56,6 @@ const CalculationNote = ({ children, delay = 0, speed = 30 }: {
     if (!displayedText) return null;
     
     // Eenvoudige benadering: check waar we zijn in de tekst en render dienovereenkomstig
-    const fullText = textContent;
     let currentPos = 0;
     const result: React.ReactNode[] = [];
     

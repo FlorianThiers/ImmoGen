@@ -7,11 +7,11 @@ import UserField from "../../components/UserField";
 import DataOverview from "../../components/statistics/DataOverview";
 import HousesPerCity from "../../components/statistics/HousesPerCity";
 import BuildYearCategories from "../../components/statistics/BuildYearCategories";
-import FeatureImportance from "../../components/statistics/FeatureImportance";
-import CorrelationAnalysis from "../../components/statistics/CorrelationAnalysis";
+// import FeatureImportance from "../../components/statistics/FeatureImportance";
+// import CorrelationAnalysis from "../../components/statistics/CorrelationAnalysis";
 import PriseComparison from "../../components/statistics/PriceComparison";
 import DataQuality from "../../components/statistics/DataQuality";
-import AskingPriceVSAIPerice from "../../components/statistics/AskingPriceVSAIPerice"
+// import AskingPriceVSAIPerice from "../../components/statistics/AskingPriceVSAIPerice"
 
 import FadeInSection from "../../components/FadeInSection";
 

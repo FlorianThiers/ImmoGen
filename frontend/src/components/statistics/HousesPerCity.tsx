@@ -1,6 +1,5 @@
-import { Color } from "@maptiler/sdk";
-import React, { useEffect, useState, useMemo } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, ScatterChart, Scatter, Line } from "recharts";
+import { useMemo } from "react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 type House = {
   id: number;

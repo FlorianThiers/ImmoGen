@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FormDataType from "../../formDataType";
+import FormDataType from "../../../context/formDataType";
 
 import GeneralInfoSection from "./sections/GeneralInfoSection";
 import LocationSection from "./sections/LocationSection";

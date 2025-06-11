@@ -215,7 +215,7 @@ const DataQuality = (props: { houses: StatisticsHouse[], color: string }) => {
             label={{ value: 'Volledigheid (%)', angle: -90, position: 'insideLeft' }}
           />
           <Tooltip 
-            formatter={(value, name, props) => [
+            formatter={(value) => [
               `${value}%`,
               "Volledigheid"
             ]}

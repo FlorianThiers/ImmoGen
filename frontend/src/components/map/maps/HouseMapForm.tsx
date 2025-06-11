@@ -165,7 +165,7 @@ const HouseMapForm: React.FC<HouseMapFormProps> = ({ user, centerAddress }) => {
     markersRef.current = [];
 
     // Voeg scrapeHouses toe (altijd paarse markere)
-    scrapeHouses.forEach((house, index) => {
+    scrapeHouses.forEach((house) => {
       if (!house.lat || !house.lon) return;
       const el = document.createElement("div");
       el.style.width = "22px";
@@ -190,7 +190,7 @@ const HouseMapForm: React.FC<HouseMapFormProps> = ({ user, centerAddress }) => {
     });
 
     // Voeg ImmoGenHouses toe ( blauwe of rode marker afhankelijk van ownEstimat)
-    immoGenHouses.forEach((house, index) => {
+    immoGenHouses.forEach((house) => {
       console.log(immoGenHouses[0]);
       console.log("Current user:", user);
       if (!house.lat || !house.lon) return;

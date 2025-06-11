@@ -9,7 +9,7 @@ type HeaderProps = {
 
 };
 
-const Header = ({ title, user, onUserClick }: HeaderProps) => {
+const Header = ({ title, user }: HeaderProps) => {
     const initials = user
         ? (() => {
             const parts = user.username.trim().split(" ");

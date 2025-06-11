@@ -129,7 +129,7 @@ const FeatureImportance = (props: { houses: StatisticsHouse[] }) => {
       .sort((a, b) => Math.abs(b.correlation) - Math.abs(a.correlation))
       .slice(0, 10);
 
-    return allCorrelations.map((item, index) => ({
+    return allCorrelations.map((item) => ({
       feature: item.feature,
       importance: item.correlation,
       impact: item.correlation > 0 ? "positive" : "negative",
@@ -249,7 +249,7 @@ const FeatureImportance = (props: { houses: StatisticsHouse[] }) => {
           <XAxis type="number" />
           <YAxis dataKey="displayName" type="category" width={100} />
           <Tooltip 
-            formatter={(value, name) => {
+            formatter={(value) => {
               const numValue = typeof value === "number" ? value : parseFloat(value as string);
               return [
                 `${Math.abs(numValue).toFixed(3)}`,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FormDataType from "../../formDataType";
+import FormDataType from "../../../context/formDataType";
 
 import GeneralInfoSectionGarage from "./sections/garage/GeneralInfoSectionGarage";
 import LocationSection from "./sections/LocationSection";
@@ -13,7 +13,9 @@ import "../../../pages/Users/priceCalculator.css"; // Import the CSS for styling
 
 interface OfficeFormProps {
   formData: FormDataType;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
 }
 
 const OfficeForm: React.FC<OfficeFormProps> = ({ formData, handleChange }) => {
@@ -34,7 +36,9 @@ const OfficeForm: React.FC<OfficeFormProps> = ({ formData, handleChange }) => {
         {categories.map((cat) => (
           <button
             key={cat.key}
-            className={`category-tab${activeCategory === cat.key ? " active" : ""}`}
+            className={`category-tab${
+              activeCategory === cat.key ? " active" : ""
+            }`}
             onClick={() => setActiveCategory(cat.key)}
             type="button"
           >
@@ -45,15 +49,21 @@ const OfficeForm: React.FC<OfficeFormProps> = ({ formData, handleChange }) => {
 
       <div className="category-content">
         {activeCategory === "generalInfo" && (
-          <GeneralInfoSectionGarage formData={formData} handleChange={handleChange} />
+          <GeneralInfoSectionGarage
+            formData={formData}
+            handleChange={handleChange}
+          />
         )}
 
         {activeCategory === "location" && (
-          <LocationSection formData={formData} handleChange={handleChange}/>
+          <LocationSection formData={formData} handleChange={handleChange} />
         )}
 
         {activeCategory === "interior" && (
-          <InteriorSectionOffice formData={formData} handleChange={handleChange} />
+          <InteriorSectionOffice
+            formData={formData}
+            handleChange={handleChange}
+          />
         )}
 
         {activeCategory === "kitchen" && (
@@ -61,7 +71,7 @@ const OfficeForm: React.FC<OfficeFormProps> = ({ formData, handleChange }) => {
         )}
 
         {activeCategory === "energy" && (
-          <EnergySection formData={formData} handleChange={handleChange}/>
+          <EnergySection formData={formData} handleChange={handleChange} />
         )}
 
         {activeCategory === "outdoor" && (

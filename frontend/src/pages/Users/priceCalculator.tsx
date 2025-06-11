@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 
-import FormDataType from "../../components/formDataType";
+import FormDataType from "../../context/formDataType";
 import Sidebar from "../../components/SideNavbar";
 import Header from "../../components/Header";
-import UserField from '../../components/UserField';
+import UserField from "../../components/UserField";
 import FormField from "../../components/formpage/FormFields";
 import CalculationFields from "../../components/formpage/CalculationFields";
 
 import User from "../../context/User";
 
-import "./dashboard.css"; 
-import "./priceCalculator.css"; 
+import "./dashboard.css";
+import "./priceCalculator.css";
 
 interface PriceCalculatorProps {
   user?: User | null;
@@ -28,7 +28,7 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
   const [isCalculating, setIsCalculating] = useState(false); // Nieuwe state
 
   const [result, setResult] = useState(null);
-  const [selectedType, setSelectedType] = useState<string>("");
+  const [, setSelectedType] = useState<string>("");
   const [formulaPrice, setFormulaPrice] = useState<number | null>(null);
   const [formulaResult, setFormulaResult] = useState<any>(null);
 
@@ -390,11 +390,19 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
 
   return (
     <div className="dashboard">
-      {showOverlay && (<div className={`dashboard-bg-fade ${overlayTheme}`}></div>)}
-      <div className={`dashboard-bg-fade ${isDarkTheme ? "dark" : "light"}`}></div>
-      <Sidebar user={user || undefined}  activePage="/price-calculator" />
+      {showOverlay && (
+        <div className={`dashboard-bg-fade ${overlayTheme}`}></div>
+      )}
+      <div
+        className={`dashboard-bg-fade ${isDarkTheme ? "dark" : "light"}`}
+      ></div>
+      <Sidebar user={user || undefined} activePage="/price-calculator" />
       <main className="main-content">
-        <Header title="Prijsberekening" user={user || undefined} onUserClick={() => setShowUserField(true)}/>
+        <Header
+          title="Prijsberekening"
+          user={user || undefined}
+          onUserClick={() => setShowUserField(true)}
+        />
 
         <div className="content-wrapper">
           <div className="bottom-section">
@@ -409,10 +417,10 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
               setFormulaResult={setFormulaResult}
               handleChange={handleChange}
               setIsCalculating={setIsCalculating}
-              />
+            />
             <div className="right-panel">
               <CalculationFields
-                formulaResult={formulaResult} 
+                formulaResult={formulaResult}
                 formulaPrice={formulaPrice}
                 result={result}
                 formData={formData}
@@ -422,7 +430,11 @@ const PriceCalculator: React.FC<PriceCalculatorProps> = ({ user }) => {
           </div>
         </div>
       </main>
-        <UserField open={showUserField} user={user || undefined} onClose={() => setShowUserField(false)} />
+      <UserField
+        open={showUserField}
+        user={user || undefined}
+        onClose={() => setShowUserField(false)}
+      />
     </div>
   );
 };

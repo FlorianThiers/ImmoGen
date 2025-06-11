@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, ScatterChart, Scatter, Line } from "recharts";
+import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ScatterChart, Scatter, Line } from "recharts";
 
 type House = {
   id: number;

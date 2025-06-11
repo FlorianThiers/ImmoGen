@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FormDataType from "../../formDataType";
+import FormDataType from "../../../context/formDataType";
 
 import GeneralInfoSectionGarage from "./sections/garage/GeneralInfoSectionGarage";
 import LocationSection from "./sections/LocationSection";
@@ -9,9 +9,10 @@ import "../../../pages/Users/priceCalculator.css"; // Import the CSS for styling
 
 interface GarageFormProps {
   formData: FormDataType;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
 }
-
 
 const GarageForm: React.FC<GarageFormProps> = ({ formData, handleChange }) => {
   const categories = [
@@ -27,7 +28,9 @@ const GarageForm: React.FC<GarageFormProps> = ({ formData, handleChange }) => {
         {categories.map((cat) => (
           <button
             key={cat.key}
-            className={`category-tab${activeCategory === cat.key ? " active" : ""}`}
+            className={`category-tab${
+              activeCategory === cat.key ? " active" : ""
+            }`}
             onClick={() => setActiveCategory(cat.key)}
             type="button"
           >
@@ -38,11 +41,14 @@ const GarageForm: React.FC<GarageFormProps> = ({ formData, handleChange }) => {
 
       <div className="category-content">
         {activeCategory === "generalInfo" && (
-          <GeneralInfoSectionGarage formData={formData} handleChange={handleChange} />
+          <GeneralInfoSectionGarage
+            formData={formData}
+            handleChange={handleChange}
+          />
         )}
 
         {activeCategory === "location" && (
-          <LocationSection formData={formData} handleChange={handleChange}/>
+          <LocationSection formData={formData} handleChange={handleChange} />
         )}
 
         {activeCategory === "extras" && (
@@ -52,6 +58,5 @@ const GarageForm: React.FC<GarageFormProps> = ({ formData, handleChange }) => {
     </div>
   );
 };
-
 
 export default GarageForm;

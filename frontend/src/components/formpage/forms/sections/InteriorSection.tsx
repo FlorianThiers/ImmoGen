@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-import FormDataType from "../../../formDataType";
+import FormDataType from "../../../../context/formDataType";
 import FormField from "./fields/FormField";
 import InputField from "./fields/InputField";
 import BooleanField from "./fields/BooleanField";
@@ -16,13 +16,6 @@ const InteriorSection: React.FC<GeneralInfoSectionProps> = ({
   formData,
   handleChange,
 }) => {
-  const [location, setLocation] = useState(formData.location || "");
-
-  const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLocation(event.target.value);
-    handleChange(event);
-  };
-
   return (
     <div className="grid-container">
       <FormField label="Oppervlakte Woonkamer:">

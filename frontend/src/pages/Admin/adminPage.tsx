@@ -6,7 +6,6 @@ import Header from "../../components/Header";
 import UserField from "../../components/UserField";
 import User from "../../context/User";
 
-import Admins from "../../components/admin/Admins";
 import MandelbrotZoom from "../../components/admin/MandelbrotZoom";
 
 import "./AdminPanel.css" // Nieuwe CSS file voor admin panel styles

@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
-import FormDataType from "../../../../formDataType";
+import FormDataType from "../../../../../context/formDataType";
 
 import FormField from "../fields/FormField";
 import InputField from "../fields/InputField";
-import SelectField from "../fields/SelectField";
-import BooleanField from "../fields/BooleanField";
 
 interface GeneralInfoSectionProps {
   formData: FormDataType;

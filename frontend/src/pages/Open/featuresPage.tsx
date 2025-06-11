@@ -13,7 +13,7 @@ type FeatureCardProps = {
   index: number;
 };
 
-const FeatureCard: React.FC<FeatureCardProps> = ({ icon: Icon, title, description, example, imagePosition = 'left', index }) => (
+const FeatureCard: React.FC<FeatureCardProps> = ({ icon: Icon, title, description, imagePosition = 'left', index }) => (
   <div className={`feature-card ${imagePosition === 'right' ? 'reverse' : ''}`}>
     <div className="feature-content">
       <div className="feature-icon">

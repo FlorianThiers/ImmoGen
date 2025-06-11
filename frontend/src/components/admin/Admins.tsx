@@ -7,10 +7,9 @@ interface AdminsProps {
   user?: User | null;
 }
 
-const Admins: React.FC<AdminsProps> = ({ user }) => {
+const Admins: React.FC<AdminsProps> = () => {
 
     const [users, setUsers] = useState<User[]>([]);
-    const [admins, setAdmins] = useState<User[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
