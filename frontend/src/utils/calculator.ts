@@ -105,7 +105,7 @@ export function calculatePrice(input: PriceInput) {
   let wear = 0;
   let structuralValue = 0;
   let renovationValue = 0;
-  let structuralWear = 0;
+  // let structuralWear = 0;
   let renovationWear = 0;
 
   if (input.houseUnusable) {
@@ -116,7 +116,7 @@ export function calculatePrice(input: PriceInput) {
 
     if (input.hasRenovation && input.renovationYear) {
       // Voor gerenoveerde gebouwen: splits structuur en renovatie
-      const { structuralValue: structValue, structuralWear: structWear} = calculateStructuralValue(
+      const { structuralValue: structValue} = calculateStructuralValue(
         input.livingArea,
         input.buildCostPerM2,
         input.finishQuality,
@@ -124,7 +124,7 @@ export function calculatePrice(input: PriceInput) {
         input.currentYear
       );
       structuralValue = structValue;
-      structuralWear = structWear;
+      // structuralWear = structWear;
       
       const { estimatedRenovationCost: renoCost, renovationWear: renoWear,} = calculateRenovationValue(
         input.livingArea,
