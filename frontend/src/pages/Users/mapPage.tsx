@@ -7,7 +7,7 @@ import MapStatistic from "../../components/map/MapStatistic";
 import HouseMapLandingPage from "../../components/map/maps/HouseMapLandingPage";
 import User from "../../context/User";
 
-import "./mappage.css";
+import "./mapPage.css";
 interface ProfilePageProps {
   user?: User | null;
 }
