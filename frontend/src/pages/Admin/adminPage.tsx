@@ -8,7 +8,7 @@ import User from "../../context/User";
 
 import MandelbrotZoom from "../../components/admin/MandelbrotZoom";
 
-import "./AdminPanel.css" // Nieuwe CSS file voor admin panel styles
+import "./adminPanel.css" // Nieuwe CSS file voor admin panel styles
 
 interface AdminPanelProps {
   user?: User | null;
