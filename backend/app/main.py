@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api import houses
@@ -11,10 +12,21 @@ from app.api import admin
 
 app = FastAPI()
 
+# CORS Configuratie - voeg je Vercel URL toe
+allowed_origins = [
+    "http://localhost:5173", 
+    "http://localhost:5174",
+    "https://immo-gen-olive.vercel.app",  # Vervang dit met je echte Vercel URL
+]
+
+# Voor development kun je ook wildcard gebruiken (minder veilig)
+if os.getenv("ENVIRONMENT") == "development":
+    allowed_origins.append("*")
+
 # CORS Configuratie (voor React)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5174"],  # Zet hier "http://localhost:5173" voor veiligheid
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
