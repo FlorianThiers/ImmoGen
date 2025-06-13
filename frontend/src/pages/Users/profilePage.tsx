@@ -36,11 +36,11 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ user }) => {
         <div className="content-wrapper">
           <div className="bottom-section-profile">
             <div className="left-panel">
-              <UserInfo/>
+              <UserInfo user={user}/>
               <ProfileStats />
             </div>
             <div className="right-panel">
-              <ProfileMap user={user || undefined}/>
+              <ProfileMap user={user}/>
               <UserEstimates />
             </div>
           </div>
