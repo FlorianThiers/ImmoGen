@@ -1,65 +1,83 @@
-Docker
-in immoGen0.3:
-sart: docker-compose up --build
+immoGen – Project Setup & Opstartgids
+immoGen is een webapplicatie waarmee gebruikers vastgoed kunnen beheren en doorzoeken.
+Het project bestaat uit:
+
+Backend: Python, FastAPI, Uvicorn
+
+Frontend: React, Vite
+
+📦 Vereisten
+Docker & Docker Compose geïnstalleerd
+
+Node.js geïnstalleerd (voor de frontend)
+
+Python 3.x geïnstalleerd (indien lokaal zonder Docker)
+
+⚙️ Project Setup
+📂 Projectstructuur
+text
+Kopiëren
+Bewerken
+immoGen/
+├── backend/           # FastAPI backend
+├── frontend/          # React + Vite frontend
+├── docker-compose.yml # Docker configuratie
+├── .gitignore         # Bestanden die genegeerd worden
+└── README.md          # Documentatie
 
 
-fontend:
-npm run dev
+🚀 Project opstarten
+1. Backend starten met Docker
+Ga naar de root van je project:
 
-stop Ctrl C
+bash
+Kopiëren
+Bewerken
+docker-compose up --build
+👉 Dit bouwt en start de FastAPI backend.
 
+Stoppen:
+Gebruik Ctrl + C in de terminal.
 
-# React + TypeScript + Vite
+2. Frontend starten
+Ga naar de frontend map:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+bash
+Kopiëren
+Bewerken
+cd frontend
+npm install    # Eenmalig nodig om node_modules opnieuw te installeren
+npm run dev    # Start Vite dev server op http://localhost:5173
+Stoppen:
+Gebruik Ctrl + C in de terminal.
 
-Currently, two official plugins are available:
+3. (Optioneel) Backend lokaal zonder Docker
+bash
+Kopiëren
+Bewerken
+cd backend
+python -m venv venv               # Virtuele omgeving aanmaken
+source venv/bin/activate          # Virtuele omgeving activeren
+pip install -r requirements.txt   # Vereisten installeren
+uvicorn app.main:app --reload     # Start FastAPI server
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🗑️ Git Ignore Bestanden
+Deze mappen en bestanden worden niet mee gepusht naar Git:
 
-## Expanding the ESLint configuration
+node_modules/
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+venv/
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+.env bestanden (lokaal te beheren)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+🌐 Belangrijke URLs
+Service	URL
+Frontend	http://localhost:5173
+Backend API	http://localhost:8000
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+✅ Samenvatting
+Stap	Command
+Backend starten (Docker)	docker-compose up --build
+Frontend starten	npm run dev
+Backend lokaal (zonder Docker)	uvicorn app.main:app --reload
+Stoppen	Ctrl + C
