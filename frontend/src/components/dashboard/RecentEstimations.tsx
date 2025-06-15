@@ -37,7 +37,7 @@ const RecentEstimations = () => {
     <section className="recent-astimations-section">
       <div className="section-header">
         <h2>Recente schattingen</h2>
-        <span className="sort-icon"></span>
+        {/* <span className="sort-icon"></span> */}
       </div>
       <div className="recent-astimations-table">
         <div className="table-header">
