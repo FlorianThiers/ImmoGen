@@ -87,6 +87,7 @@ body.theme-switching .dashboard-bg-fade {
     border-right: 1px solid var(--backgroundcolor-fields-border);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     padding: 20px 0;
     transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
@@ -1240,4 +1241,415 @@ body:not(.theme-switching) .exit-item {
         color: rgba(255, 255, 255, 0.8);
         margin-bottom: 16px;
     }
+}
+
+/* Mobile optimalisatie voor schermen 420px en kleiner */
+@media (max-width: 420px) {
+    /* Dashboard layout aanpassingen */
+    .dashboard {
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    
+     /* Mobile top bar met logo en header */
+    .mobile-top-bar {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--backgroundcolor-fields-border);
+        background: var(--backgroundcolor-dashboard);
+        position: relative;
+        z-index: 100;
+    }
+    
+    
+    /* Header in top bar */
+    .mobile-top-bar .header {
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        border-bottom: none;
+        margin: 0;
+    }
+
+    .header-top {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30%;
+        
+    }
+    
+    /* Logo in top bar */
+    .mobile-top-bar .sidebar-logo {
+        width: 40px;
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+    .mobile-top-bar .header .page-title {
+        font-size: 18px;
+        text-align: left;
+        margin: 0;
+    }
+    
+    .mobile-top-bar .header .header-right {
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+        margin-top: 8px;
+    }
+    
+    .mobile-top-bar .header .header-user {
+        gap: 8px;
+    }
+    
+    /* Sidebar wordt horizontal navigation bar */
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        border-right: none;
+        border-bottom: 1px solid var(--backgroundcolor-fields-border);
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        padding: 0px 0;
+    }
+    
+    /* Hide original logo in sidebar */
+    .sidebar .sidebar-logo {
+        display: none;
+    }
+    
+    /* Navigation menu horizontal layout */
+    .nav-menu {
+        flex-direction: row;
+        margin: 0;
+        gap: 8px;
+        flex: 1;
+        justify-content: center;
+        overflow-x: auto;
+        padding: 0 8px;
+        order: 1;
+    }
+    
+    .nav-item {
+        min-width: 35px;
+        width: 35px;
+        height: 35px;
+        flex-shrink: 0;
+    }
+    
+    /* Mobile bottom controls container */
+    .mobile-bottom-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        background: none;
+        border-top: 1px solid var(--backgroundcolor-fields-border);
+        padding: 8px 16px;
+    }
+    
+    .mobile-bottom-controls .nav {
+        z-index: 9999;
+    }
+    /* Hide sidebar toggle on mobile */
+    .sidebar-toggle {
+        display: none;
+    }
+    
+    /* Theme and exit buttons in bottom bar */
+    .theme-toggle-button {
+        width: 35px;
+        height: 35px;
+        margin: 0;
+        position: static;
+    }
+    
+    .exit-item {
+        width: 35px;
+        height: 35px;
+        position: static;
+    }
+    
+    /* Hide original sidebar bottom */
+    .sidebar-bottom {
+        display: none;
+    }
+    
+    /* Adjust main content to account for bottom bar */
+    .main-content {
+        height: calc(100vh - 60px - 50px); /* sidebar height + bottom bar height */
+        margin-bottom: 50px;
+    }
+    
+    /* Main content aanpassingen */
+    .main-content {
+        height: calc(100vh - 60px);
+    }
+    
+    /* Header mobile layout */
+    .header {
+        padding: 12px 16px;
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+    
+    .page-title {
+        font-size: 20px;
+        text-align: center;
+    }
+    
+    .header-right {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+    
+    .header-user {
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .search-bar input {
+        width: 100%;
+        min-width: 0;
+        padding: 0;
+    }
+    
+    /* Content wrapper */
+    .content-wrapper {
+        padding: 16px 12px;
+    }
+    
+    /* Top section aanpassingen */
+    .top-section {
+        margin-bottom: 24px;
+    }
+    
+    .welcome-text {
+        text-align: center;
+        font-size: 13px;
+    }
+    
+    /* Type houses section */
+    .type-houses {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .types-button {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    
+    /* Houses grid mobile layout */
+    .houses-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        max-width: 100%;
+        justify-items: center;
+    }
+    
+    .house {
+        width: 100%;
+        max-width: 160px;
+        height: auto;
+        min-height: 120px;
+        padding: 16px 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .house-header {
+        margin-bottom: 8px;
+    }
+    
+    .house-type {
+        font-size: 9px;
+        font-weight: 600;
+    }
+    
+    .house-menu {
+        font-size: 14px;
+    }
+    
+    .house-price {
+        font-size: 16px;
+        margin-bottom: 4px;
+        line-height: 1.2;
+    }
+    
+    .house-city {
+        font-size: 9px;
+        margin-bottom: 8px;
+    }
+    
+    /* Bottom section wordt stacked */
+    .bottom-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    /* Recent estimations mobile */
+    .recent-astimations-section {
+        padding: 16px 12px;
+    }
+    
+    .recent-astimations-section .section-header h2 {
+        font-size: 16px;
+    }
+    
+    .table-header {
+        display: none; /* Hide header op mobile */
+    }
+    
+    .recent-astimation-row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px;
+        border: 1px solid var(--backgroundcolor-fields-border);
+        border-radius: 8px;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+    
+    .recent-astimation-name {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .recent-astimation-icon {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .name {
+        font-size: 13px;
+    }
+    
+    .date {
+        font-size: 11px;
+    }
+    
+    .category,
+    .cashback,
+    .amount {
+        font-size: 12px;
+        align-self: flex-end;
+    }
+    
+    /* Right panel mobile */
+    .right-panel {
+        gap: 16px;
+    }
+    
+    .right-top-section,
+    .right-bottom-section {
+        padding: 16px 12px;
+    }
+    
+    .right-top-section h2,
+    .right-bottom-section h2 {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+    
+    /* Average estimate mobile */
+    .estimate-today .value,
+    .estimate-week .value {
+        font-size: 1.2rem;
+    }
+    
+    .estimate-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .last-updated {
+        align-items: flex-start;
+        font-size: 10px;
+    }
+    
+    /* Municipality list mobile */
+    .municipality-row {
+        font-size: 13px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .municipality-name {
+        min-width: auto;
+        font-size: 14px;
+    }
+    
+    .municipality-count,
+    .municipality-avg {
+        font-size: 12px;
+    }
+    
+    /* User panel mobile */
+    .user-panel-slide {
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+    }
+    
+    .user-panel-content {
+        padding: 20px 16px;
+        margin-top: 2rem;
+    }
+    
+    /* Search suggestions mobile */
+    .search-suggestions {
+        position: fixed;
+        top: auto;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    
+    /* Pagination mobile */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 16px;
+    }
+    
+    .pagination span {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    /* Utility: scroll behavior */
+    .nav-menu {
+        /* scrollbar-width: none; */
+        -ms-overflow-style: none;
+    }
+    
+    .nav-menu::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@media (max-width: 365px) {
+
 }
