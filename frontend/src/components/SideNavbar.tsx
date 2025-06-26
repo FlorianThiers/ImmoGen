@@ -129,7 +129,7 @@ const Sidebar = ({ user, activePage }: Props) => {
         )}
         
         {isMobile && (
-          <div className="mobile-bottom-controls nav">
+          <div className="mobile-bottom-controls">
             <ul className="nav-menu">
               <Link to="/dashboard">
                 <li className={`nav-item sidebar-animate delay-2 ${isActivePath('/dashboard') ? 'active' : ''}`}>
@@ -232,7 +232,7 @@ const Sidebar = ({ user, activePage }: Props) => {
       </nav>
 
       {isMobile && (
-        <div className="mobile-bottom-controls">
+        <div className="mobile-exit-theme-controls top">
           <div className="exit-item" onClick={logout}>
             <span className="exit-icon logout-icon">
               <img src="/exit.png" alt="Logout" className="sidebar-icon" />

@@ -1326,7 +1326,7 @@ body:not(.theme-switching) .exit-item {
         margin: 0;
         gap: 8px;
         flex: 1;
-        justify-content: center;
+        justify-content: space-between;
         overflow-x: auto;
         padding: 0 8px;
         order: 1;
@@ -1352,11 +1352,23 @@ body:not(.theme-switching) .exit-item {
         background: none;
         border-top: 1px solid var(--backgroundcolor-fields-border);
         padding: 8px 16px;
+        z-index: 1000;
     }
     
-    .mobile-bottom-controls .nav {
-        z-index: 9999;
+    .mobile-exit-theme-controls  {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        bottom: 2.7rem;
+        left: 0.51rem;
+        right: 0.51rem;
+        height: 50px;
+        background: none;
+        padding: 8px 16px;
+        z-index: 1000;
     }
+
     /* Hide sidebar toggle on mobile */
     .sidebar-toggle {
         display: none;
